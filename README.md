@@ -53,4 +53,4 @@ npm run test
 
 ## License
 
-This project is licensed under the [MIT licensed](#).. See the LICENSE file for details.
+This project is licensed under the [MIT licensed](#). See the LICENSE file for details.
