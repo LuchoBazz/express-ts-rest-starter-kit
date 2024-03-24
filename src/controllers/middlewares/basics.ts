@@ -20,11 +20,9 @@ export const notFound = (_: Request, response: Response, __: NextFunction) => {
   response.status(HttpStatusCode.NOT_FOUND).json({ error: ErrorMessage.NOT_FOUND });
 };
 
-export const logError = (error: any, _: Request, response: Response, __: NextFunction) => {
-  let httpCode = (error.httpCode as number) ?? HttpStatusCode.INTERNAL_ERROR;
-  if (error.name === "UnauthorizedError") {
-    httpCode = HttpStatusCode.UNAUTHORIZED;
-  }
-  log.error("ERROR", {}, error);
-  response.status(httpCode).json({ error: error.message });
+export const logError = (error: any, _: Request, res: Response, __: NextFunction) => {
+  const httpCode = (error?.status ?? HttpStatusCode.INTERNAL_ERROR) as number;
+  const message = error?.message ?? ErrorMessage.INTERNAL_SERVER_ERROR;
+  const errors = error?.errors?.length ? error.errors : undefined;
+  res.status(httpCode).json({ message, errors });
 };

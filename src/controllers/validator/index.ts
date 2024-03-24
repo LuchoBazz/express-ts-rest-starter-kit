@@ -4,6 +4,9 @@ import { ValidationChain, validationResult } from "express-validator";
 import { ErrorMessage } from "../../errors/errors.enum";
 import { UnprocessableEntityError } from "../../errors/unprocessable_entity.error";
 
+// import { ErrorMessage } from "../../errors/errors.enum";
+// import { UnprocessableEntityError } from "../../errors/unprocessable_entity.error";
+
 export const validateSchema = (validations: ValidationChain[]) => {
   return async (request: Request, _: Response, next: NextFunction) => {
     const validationPromises = validations.map((validation: ValidationChain) => {
@@ -13,6 +16,9 @@ export const validateSchema = (validations: ValidationChain[]) => {
     await Promise.all(validationPromises);
 
     const errors = validationResult(request);
+
+    console.log(JSON.stringify(errors, undefined, 2));
+
     if (errors.isEmpty()) {
       return next();
     }
