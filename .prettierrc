@@ -6,9 +6,7 @@
   "useTabs": false,
   "overrides": [
     {
-      "files": [
-        ".github/**/*.yml"
-      ],
+      "files": [".github/**/*.yml"],
       "options": {
         "singleQuote": true
       }

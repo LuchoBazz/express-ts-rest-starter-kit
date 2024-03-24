@@ -17,12 +17,7 @@
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "unused-imports",
-    "eslint-plugin-prettier",
-    "simple-import-sort"
-  ],
+  "plugins": ["@typescript-eslint", "unused-imports", "eslint-plugin-prettier", "simple-import-sort"],
   "rules": {
     "@typescript-eslint/adjacent-overload-signatures": "error",
     "@typescript-eslint/array-type": [
@@ -108,10 +103,7 @@
     "@typescript-eslint/require-await": "error",
     "@typescript-eslint/restrict-plus-operands": "off",
     "@typescript-eslint/quotes": "off",
-    "@typescript-eslint/semi": [
-      "off",
-      null
-    ],
+    "@typescript-eslint/semi": ["off", null],
     "@typescript-eslint/triple-slash-reference": [
       "error",
       {
@@ -123,40 +115,18 @@
     "@typescript-eslint/type-annotation-spacing": "off",
     "@typescript-eslint/unified-signatures": "error",
     "@typescript-eslint/unbound-method": "off",
-    "arrow-body-style": [
-      "error",
-      "always"
-    ],
-    "arrow-parens": [
-      "off",
-      "always"
-    ],
-    "brace-style": [
-      "off",
-      "off"
-    ],
+    "arrow-body-style": ["error", "always"],
+    "arrow-parens": ["off", "always"],
+    "brace-style": ["off", "off"],
     "camelcase": "off",
     "comma-dangle": "off",
     "complexity": "off",
     "constructor-super": "error",
     "curly": "error",
     "eol-last": "off",
-    "eqeqeq": [
-      "error",
-      "smart"
-    ],
+    "eqeqeq": ["error", "smart"],
     "guard-for-in": "error",
-    "id-denylist": [
-      "error",
-      "any",
-      "Number",
-      "String",
-      "string",
-      "Boolean",
-      "boolean",
-      "Undefined",
-      "undefined"
-    ],
+    "id-denylist": ["error", "any", "Number", "String", "string", "Boolean", "boolean", "Undefined", "undefined"],
     "id-match": "error",
     "import/order": "error",
     "import/no-duplicates": "error",
@@ -164,10 +134,7 @@
     "jsdoc/check-indentation": "off",
     "jsdoc/newline-after-description": "off",
     "linebreak-style": "off",
-    "max-classes-per-file": [
-      "error",
-      2
-    ],
+    "max-classes-per-file": ["error", 2],
     "max-len": "off",
     "new-parens": "off",
     "newline-per-chained-call": "off",
@@ -200,26 +167,18 @@
     "no-unused-labels": "error",
     "no-var": "error",
     "object-shorthand": "error",
-    "one-var": [
-      "error",
-      "never"
-    ],
+    "one-var": ["error", "never"],
     "prefer-arrow/prefer-arrow-functions": "off",
     "prefer-const": "error",
     "quote-props": "off",
     "radix": "error",
     "space-before-function-paren": "off",
-    "space-in-parens": [
-      "off",
-      "never"
-    ],
+    "space-in-parens": ["off", "never"],
     "spaced-comment": [
       "error",
       "always",
       {
-        "markers": [
-          "/"
-        ]
+        "markers": ["/"]
       }
     ],
     "use-isnan": "error",
