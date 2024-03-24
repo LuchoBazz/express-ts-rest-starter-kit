@@ -7,7 +7,7 @@ import { HttpStatusCode } from "../../gateways/basics";
 const log = logger("EXPRESS_STARTER_KIT");
 
 export const healthCheck = (_: Request, response: Response) => {
-  response.status(HttpStatusCode.OK).json({ status: "SPIRAL_IS_HEALTHY" });
+  response.status(HttpStatusCode.OK).json({ status: "APP_IS_HEALTHY" });
 };
 
 export const logRequest = (request: Request, _: Response, next: NextFunction) => {

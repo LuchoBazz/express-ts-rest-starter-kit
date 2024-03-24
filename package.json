@@ -36,6 +36,10 @@
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.2"
   },
+  "overrides": {
+    "minimatch": "5.1.2",
+    "glob": "8.1.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LuchoBazz/express-ts-rest-starter-kit.git"

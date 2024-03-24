@@ -10,11 +10,11 @@ export const createFeatureFlagController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const { client_id } = request.params;
-      const { key } = request.body;
+      const { key, percentage, is_experimental } = request.body;
 
       await Promise.resolve();
 
-      response.status(HttpStatusCode.OK).json({ client_id, key });
+      response.status(HttpStatusCode.OK).json({ client_id, key, percentage, is_experimental });
     } catch (error) {
       next(error);
     }

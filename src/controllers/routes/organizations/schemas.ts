@@ -42,7 +42,6 @@ export const createFeatureFlagSchema = checkSchema({
   },
   percentage: {
     in: ["body"],
-    exists: true,
     isInt: {
       errorMessage: "percentage is not a integer.",
     },
