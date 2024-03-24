@@ -6,8 +6,8 @@ import { HttpStatusCode } from "../../gateways/basics";
 
 const log = logger("EXPRESS_STARTER_KIT");
 
-export const healthCheck = (_: Request, res: Response) => {
-  res.status(HttpStatusCode.OK).json({ status: "SPIRAL_IS_HEALTHY" });
+export const healthCheck = (_: Request, response: Response) => {
+  response.status(HttpStatusCode.OK).json({ status: "SPIRAL_IS_HEALTHY" });
 };
 
 export const logRequest = (request: Request, _: Response, next: NextFunction) => {
@@ -16,8 +16,8 @@ export const logRequest = (request: Request, _: Response, next: NextFunction) =>
   next();
 };
 
-export const notFound = (_: Request, res: Response, __: NextFunction) => {
-  res.status(HttpStatusCode.NOT_FOUND).json({ error: ErrorMessage.NOT_FOUND });
+export const notFound = (_: Request, response: Response, __: NextFunction) => {
+  response.status(HttpStatusCode.NOT_FOUND).json({ error: ErrorMessage.NOT_FOUND });
 };
 
 export const logError = (error: any, _: Request, response: Response, __: NextFunction) => {
