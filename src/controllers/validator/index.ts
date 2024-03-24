@@ -14,8 +14,6 @@ export const validateSchema = (validations: ValidationChain[]) => {
 
     const errors = validationResult(request);
 
-    console.log(JSON.stringify(errors, undefined, 2));
-
     if (errors.isEmpty()) {
       return next();
     }
