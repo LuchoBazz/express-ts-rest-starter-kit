@@ -2,7 +2,7 @@ import logger from "@open-syk/common/logger";
 import { NextFunction, Request, Response } from "express";
 
 import { ErrorMessage } from "../../errors/errors.enum";
-import { HttpStatusCode } from "../../gateways/basic";
+import { HttpStatusCode } from "../../gateways/basics";
 
 const log = logger("EXPRESS_STARTER_KIT");
 

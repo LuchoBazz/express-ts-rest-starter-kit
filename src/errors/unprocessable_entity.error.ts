@@ -1,4 +1,4 @@
-import { HttpStatusCode } from "../gateways/basic";
+import { HttpStatusCode } from "../gateways/basics";
 import { ServerError } from "./server.error";
 
 export class UnprocessableEntityError extends ServerError {

@@ -1,4 +1,4 @@
-import { HttpStatusCode } from "../gateways/basic";
+import { HttpStatusCode } from "../gateways/basics";
 
 export class ServerError extends Error {
   status: number;
