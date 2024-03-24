@@ -1,0 +1,26 @@
+{
+  "name": "express-ts-rest-starter-kit",
+  "version": "1.0.0",
+  "description": "Express.js + Typescript Rest Starter Kit",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "rm -rf ./build && ./node_modules/typescript/bin/tsc",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet && prettier --check '{src,test}/**/*.ts' && prettier --check '**/*.{yml,yaml}'",
+    "linter-fix": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix && npm run prettier",
+    "prettier": "./node_modules/prettier/bin/prettier.cjs --write .",
+    "start:dev": "node ./build/src/server.js",
+    "start:prod": "node ./build/src/server.js",
+    "test": "LOG_SILENT=true jest --coverage --logHeapUsage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuchoBazz/express-ts-rest-starter-kit.git"
+  },
+  "keywords": [],
+  "author": "LuchoBazz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LuchoBazz/express-ts-rest-starter-kit/issues"
+  },
+  "homepage": "https://github.com/LuchoBazz/express-ts-rest-starter-kit#readme"
+}
