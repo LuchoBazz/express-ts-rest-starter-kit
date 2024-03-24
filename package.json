@@ -13,6 +13,14 @@
     "test": "LOG_SILENT=true jest --coverage --logHeapUsage"
   },
   "dependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "axios": "^1.6.8",
+    "cors": "^2.8.5",
+    "express": "^4.19.1",
+    "express-validator": "^7.0.1",
+    "morgan": "^1.10.0",
     "typescript": "^5.4.3"
   },
   "devDependencies": {
