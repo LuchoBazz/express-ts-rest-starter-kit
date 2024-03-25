@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "core.organizations" (
-    "organization_id" TEXT NOT NULL,
+    "organization_id" UUID NOT NULL,
     "organization_name" VARCHAR(127) NOT NULL,
     "organization_client_id" VARCHAR(63) NOT NULL,
     "organization_created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
