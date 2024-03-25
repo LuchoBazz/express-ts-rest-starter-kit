@@ -3,7 +3,7 @@ CREATE SCHEMA IF NOT EXISTS "org";
 
 -- CreateTable
 CREATE TABLE "org"."organizations" (
-    "organization_id" UUID NOT NULL,
+    "organization_id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "organization_name" VARCHAR(127) NOT NULL,
     "organization_client_id" VARCHAR(63) NOT NULL,
     "organization_created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,

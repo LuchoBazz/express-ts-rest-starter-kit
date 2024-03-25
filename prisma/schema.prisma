@@ -17,7 +17,7 @@ datasource db {
 
 // Organizations
 model Organization {
-  organization_id            String    @id @default(uuid())
+  organization_id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   organization_name          String    @db.VarChar(127)
   organization_client_id     String    @db.VarChar(63)
   organization_created_at    DateTime  @default(now()) @db.Timestamptz
@@ -46,7 +46,7 @@ enum AuthType {
 
 // Definición del modelo de usuario
 model User {
-  user_id                      String       @id @default(uuid())
+  user_id                      String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   user_username                String       @db.VarChar(63)
   user_first_name              String       @db.VarChar(63)
   user_last_name               String       @db.VarChar(63)

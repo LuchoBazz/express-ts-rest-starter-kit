@@ -9,7 +9,7 @@ CREATE TYPE "users"."AuthType" AS ENUM ('EMAIL_AND_PASSWORD', 'FACEBOOK_AUTH', '
 
 -- CreateTable
 CREATE TABLE "users"."users" (
-    "user_id" UUID NOT NULL,
+    "user_id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "user_username" VARCHAR(63) NOT NULL,
     "user_first_name" VARCHAR(63) NOT NULL,
     "user_last_name" VARCHAR(63) NOT NULL,
