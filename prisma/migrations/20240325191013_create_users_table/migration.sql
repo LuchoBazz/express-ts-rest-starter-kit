@@ -1,9 +1,3 @@
-/*
-  Warnings:
-
-  - The primary key for the `organizations` table will be changed. If it partially fails, the table could be left without primary key constraint.
-
-*/
 -- CreateSchema
 CREATE SCHEMA IF NOT EXISTS "users";
 
@@ -15,7 +9,7 @@ CREATE TYPE "users"."AuthType" AS ENUM ('EMAIL_AND_PASSWORD', 'FACEBOOK_AUTH', '
 
 -- CreateTable
 CREATE TABLE "users"."users" (
-    "user_id" TEXT NOT NULL,
+    "user_id" UUID NOT NULL,
     "user_username" VARCHAR(63) NOT NULL,
     "user_first_name" VARCHAR(63) NOT NULL,
     "user_last_name" VARCHAR(63) NOT NULL,
