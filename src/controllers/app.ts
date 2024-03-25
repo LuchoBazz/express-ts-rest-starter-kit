@@ -20,6 +20,7 @@ router.use(express.urlencoded({ extended: false }));
 router.get("/", healthCheck);
 router.get("/health", healthCheck);
 router.use("/organizations", organizationRouter);
+
 router.use(morgan(logFormat));
 router.use(logRequest);
 
