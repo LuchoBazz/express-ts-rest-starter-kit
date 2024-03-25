@@ -4,6 +4,7 @@
 
 <p align="center">
   <a href="https://expressjs.com/" target="blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLA972a1NXwGHTIpgjxpRdu1DD5te1evggDgjNvM_FcbtGxaPYrHbV27RNzJSA_ZhrY28&usqp=CAU" height="100" width="100" alt="Express.js logo" /></a>
+  <a href="https://www.prisma.io/" target="blank"><img src="https://www.datocms-assets.com/58377/1688031395-logo_on_light.svg" height="100" width="100" alt="Prisma logo" /></a>
   <a href="https://www.postgresql.org/" target="blank"><img src="https://www.postgresql.org/media/img/about/press/elephant.png" height="100" width="100" alt="PostgreSQL logo" /></a>
   <a href="https://www.docker.com/" target="blank"><img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" height="100" width="100" alt="Docker logo" /></a>
   <a href="https://jestjs.io/" target="blank"><img src="https://raw.githubusercontent.com/jestjs/jest/main/website/static/img/jest.png" height="100" width="100" alt="Jest logo" /></a>
