@@ -30,6 +30,7 @@ model Organization {
   @@unique([organization_client_id], name: "organization_client_id_unique")
 }
 
+// User
 enum AuthProvider {
   FIREBASE
   SUPABASE
@@ -44,7 +45,6 @@ enum AuthType {
   @@schema("users")
 }
 
-// Definición del modelo de usuario
 model User {
   user_id                      String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   user_username                String       @db.VarChar(63)
