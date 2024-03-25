@@ -12,18 +12,59 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["public", "org"]
+  schemas  = ["public", "org", "users"]
 }
 
+// Organizations
 model Organization {
-  organization_id            String @id @default(uuid())
-  organization_name          String      @db.VarChar(127)
+  organization_id            String    @id @default(uuid())
+  organization_name          String    @db.VarChar(127)
   organization_client_id     String    @db.VarChar(63)
   organization_created_at    DateTime  @default(now()) @db.Timestamptz
   organization_updated_at    DateTime  @default(now()) @db.Timestamptz
+  organization_users         User[]    @relation("users_organizations_fk")
   
   @@schema("org")
   @@map(name: "organizations")
   @@unique([organization_id], name: "organization_pk") 
   @@unique([organization_client_id], name: "organization_client_id_unique")
+}
+
+enum AuthProvider {
+  FIREBASE
+  SUPABASE
+  @@schema("users")
+}
+
+enum AuthType {
+  EMAIL_AND_PASSWORD
+  FACEBOOK_AUTH
+  GOOGLE_AUTH
+  GITHUB_AUTH
+  @@schema("users")
+}
+
+// Definición del modelo de usuario
+model User {
+  user_id                      String       @id @default(uuid())
+  user_username                String       @db.VarChar(63)
+  user_first_name              String       @db.VarChar(63)
+  user_last_name               String       @db.VarChar(63)
+  user_email                   String       @db.VarChar(63)
+  user_identification_number   String?      @db.VarChar(63)
+  user_phone_number            String?      @db.VarChar(31)
+  user_terms                   Boolean      @default(false)
+  user_notifications           Boolean      @default(false)
+  user_is_active               Boolean      @default(true)
+  user_uid                     String       @db.VarChar(255)
+  user_role                    String       @db.VarChar(63)
+  user_auth_provider           AuthProvider
+  user_auth_type               AuthType
+  user_organization_client_id  String       @db.VarChar(63)
+  user_organization            Organization @relation(fields: [user_organization_client_id], references: [organization_client_id], onDelete: Cascade,  name: "users_organizations_fk")
+  user_created_at              DateTime     @default(now()) @db.Timestamptz
+  user_updated_at              DateTime     @default(now()) @db.Timestamptz
+
+  @@schema("users")
+  @@map(name: "users")
 }
