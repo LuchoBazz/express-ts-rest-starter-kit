@@ -1,4 +1,4 @@
-<h1 align="center">Express.js + Typescript Rest Starter Kit</h1>
+<h1 align="center">Express.js + Postgresql + Prisma + Typescript Starter Kit</h1>
 
 <p align="center">A starter kit for creating Express.js projects for Rest API.</p>
 
