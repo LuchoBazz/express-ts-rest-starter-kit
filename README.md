@@ -38,6 +38,7 @@ npm run start:prod
 npx prisma migrate dev
 
 # Run Migrations
+npx prisma migrate deploy
 ```
 
 ## Test

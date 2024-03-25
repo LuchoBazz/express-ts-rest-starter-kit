@@ -6,13 +6,14 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["public", "org"]
 }
-
 
 model Organization {
   organization_id            String @id @default(uuid())
@@ -20,8 +21,9 @@ model Organization {
   organization_client_id     String    @db.VarChar(63)
   organization_created_at    DateTime  @default(now()) @db.Timestamptz
   organization_updated_at    DateTime  @default(now()) @db.Timestamptz
-
-  @@map(name: "core.organizations")
+  
+  @@schema("org")
+  @@map(name: "organizations")
   @@unique([organization_id], name: "organization_pk") 
   @@unique([organization_client_id], name: "organization_client_id_unique")
 }
