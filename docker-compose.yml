@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:alpine
+    container_name: express_ts_pg
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=express_ts_pg
+      - POSTGRES_PASSWORD=0c80139e6e6349eebc99fe7fcfc901e7
+      - POSTGRES_DB=express_ts_pg
+      - DATABASE_URL=postgres://express_ts_pg:0c80139e6e6349eebc99fe7fcfc901e7@postgres:5432/express_ts_pg?sslmode=disable
+    volumes:
+      - "express_ts_pg:/var/lib/postgresql"
+
+volumes:
+  express_ts_pg:
