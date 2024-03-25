@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { PermissionsValues } from "../../entities/authentication.entity";
+import { PermissionsValues } from "../../entities/users/authentication.entity";
 import { permissionChecker } from "../../middlewares/permitions";
 import { createFeatureFlagController } from "./feature_flag.controller";
 

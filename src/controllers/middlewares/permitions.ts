@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { ErrorMessage } from "../../errors/errors.enum";
 import { UnauthorizedError } from "../../errors/unauthorized.error";
-import { PermissionsValues } from "../entities/authentication.entity";
+import { PermissionsValues } from "../entities/users/authentication.entity";
 
 export const permissionChecker = (requiredPermissions: PermissionsValues[]) => {
   return (request: Request, _: Response, next: NextFunction): void => {
