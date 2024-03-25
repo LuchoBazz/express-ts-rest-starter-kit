@@ -35,6 +35,7 @@ npm run start:prod
 
 ```bash
 # Create new Migration
+npx prisma migrate dev
 
 # Run Migrations
 ```

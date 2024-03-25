@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@open-syk/common": "^0.4.0",
+    "@prisma/client": "^5.11.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
@@ -35,6 +36,7 @@
     "jest": "^29.7.0",
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
+    "prisma": "^5.11.0",
     "ts-jest": "^29.1.2"
   },
   "overrides": {
