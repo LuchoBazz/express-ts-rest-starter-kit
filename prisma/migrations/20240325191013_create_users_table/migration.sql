@@ -31,4 +31,4 @@ CREATE TABLE "users"."users" (
 );
 
 -- AddForeignKey
-ALTER TABLE "users"."users" ADD CONSTRAINT "users_user_organization_client_id_fkey" FOREIGN KEY ("user_organization_client_id") REFERENCES "organization"."organizations"("organization_client_id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "users"."users" ADD CONSTRAINT "users_user_organization_client_id_fkey" FOREIGN KEY ("user_organization_client_id") REFERENCES "organizations"."organizations"("organization_client_id") ON DELETE CASCADE ON UPDATE CASCADE;
