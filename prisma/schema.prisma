@@ -12,7 +12,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["public", "org", "users"]
+  schemas  = ["public", "organization", "users"]
 }
 
 // Organizations
@@ -25,7 +25,7 @@ model Organization {
   organization_users         User[]    @relation("users_organizations_fk")
   feature_flags              FeatureFlag[] @relation("feature_flags_organizations_fk")
   
-  @@schema("org")
+  @@schema("organization")
   @@map(name: "organizations")
   @@unique([organization_id], name: "organization_pk") 
   @@unique([organization_client_id], name: "organization_client_id_unique")
@@ -82,6 +82,6 @@ model FeatureFlag {
   feature_flag_updated_at                DateTime     @default(now()) @db.Timestamptz
   organization                           Organization @relation(fields: [feature_flag_organization_client_id], references: [organization_client_id], name: "feature_flags_organizations_fk")
 
-  @@schema("org")
+  @@schema("organization")
   @@map(name: "feature_flags")
 }

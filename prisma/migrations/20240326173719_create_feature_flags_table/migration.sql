@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "org"."feature_flags" (
+CREATE TABLE "organization"."feature_flags" (
     "feature_flag_id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "feature_flag_key" VARCHAR(255) NOT NULL,
     "feature_flag_percentage" INTEGER NOT NULL DEFAULT 0,
@@ -13,5 +13,5 @@ CREATE TABLE "org"."feature_flags" (
 );
 
 -- AddForeignKey
-ALTER TABLE "org"."feature_flags" ADD CONSTRAINT "feature_flags_feature_flag_organization_client_id_fkey" FOREIGN KEY ("feature_flag_organization_client_id") REFERENCES "org"."organizations"("organization_client_id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "org"."feature_flags" ADD CONSTRAINT "feature_flags_percentage_check" CHECK (0 <= "feature_flag_percentage" AND "feature_flag_percentage" <= 100);
+ALTER TABLE "organization"."feature_flags" ADD CONSTRAINT "feature_flags_feature_flag_organization_client_id_fkey" FOREIGN KEY ("feature_flag_organization_client_id") REFERENCES "organization"."organizations"("organization_client_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "organization"."feature_flags" ADD CONSTRAINT "feature_flags_percentage_check" CHECK (0 <= "feature_flag_percentage" AND "feature_flag_percentage" <= 100);

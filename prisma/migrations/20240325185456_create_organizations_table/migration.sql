@@ -1,8 +1,8 @@
 -- CreateSchema
-CREATE SCHEMA IF NOT EXISTS "org";
+CREATE SCHEMA IF NOT EXISTS "organization";
 
 -- CreateTable
-CREATE TABLE "org"."organizations" (
+CREATE TABLE "organization"."organizations" (
     "organization_id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "organization_name" VARCHAR(127) NOT NULL,
     "organization_client_id" VARCHAR(63) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE "org"."organizations" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "organizations_organization_id_key" ON "org"."organizations"("organization_id");
+CREATE UNIQUE INDEX "organizations_organization_id_key" ON "organization"."organizations"("organization_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "organizations_organization_client_id_key" ON "org"."organizations"("organization_client_id");
+CREATE UNIQUE INDEX "organizations_organization_client_id_key" ON "organization"."organizations"("organization_client_id");
