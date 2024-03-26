@@ -2,10 +2,10 @@
 CREATE SCHEMA IF NOT EXISTS "users";
 
 -- CreateEnum
-CREATE TYPE "users"."AuthProvider" AS ENUM ('FIREBASE', 'SUPABASE');
+CREATE TYPE "users"."auth_provider_enum" AS ENUM ('FIREBASE', 'SUPABASE');
 
 -- CreateEnum
-CREATE TYPE "users"."AuthType" AS ENUM ('EMAIL_AND_PASSWORD', 'FACEBOOK_AUTH', 'GOOGLE_AUTH', 'GITHUB_AUTH');
+CREATE TYPE "users"."auth_type_enum" AS ENUM ('EMAIL_AND_PASSWORD', 'FACEBOOK_AUTH', 'GOOGLE_AUTH', 'GITHUB_AUTH');
 
 -- CreateTable
 CREATE TABLE "users"."users" (
@@ -21,8 +21,8 @@ CREATE TABLE "users"."users" (
     "user_is_active" BOOLEAN NOT NULL DEFAULT true,
     "user_uid" VARCHAR(255) NOT NULL,
     "user_role" VARCHAR(63) NOT NULL,
-    "user_auth_provider" "users"."AuthProvider" NOT NULL,
-    "user_auth_type" "users"."AuthType" NOT NULL,
+    "user_auth_provider" "users"."auth_provider_enum" NOT NULL,
+    "user_auth_type" "users"."auth_type_enum" NOT NULL,
     "user_organization_client_id" VARCHAR(63) NOT NULL,
     "user_created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "user_updated_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,

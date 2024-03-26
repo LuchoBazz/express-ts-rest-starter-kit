@@ -36,6 +36,8 @@ model Organization {
 enum AuthProvider {
   FIREBASE
   SUPABASE
+
+  @@map(name: "auth_provider_enum")
   @@schema("users")
 }
 
@@ -44,6 +46,8 @@ enum AuthType {
   FACEBOOK_AUTH
   GOOGLE_AUTH
   GITHUB_AUTH
+
+  @@map(name: "auth_type_enum")
   @@schema("users")
 }
 
