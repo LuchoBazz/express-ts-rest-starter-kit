@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-export const onSession = async <T>(callback: (manager: PrismaClient) => Promise<T>): Promise<T> => {
+export const onSession = async <T>(callback: (client: PrismaClient) => Promise<T>): Promise<T> => {
   const prisma = new PrismaClient();
   try {
     const response = await callback(prisma);

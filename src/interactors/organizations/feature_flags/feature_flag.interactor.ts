@@ -4,8 +4,8 @@ import { FeatureFlagEntity } from "../../../controllers/entities/organizations/f
 import { onSession } from "../../../utils/prisma";
 
 export const createFeatureFlagInteractor = async (featureFlag: FeatureFlagEntity): Promise<FeatureFlagEntity> => {
-  const [featureFlagCreated] = await onSession((manager: PrismaClient) => {
-    const createFeatureFlagTransaction = manager.featureFlag.create({
+  const [featureFlagCreated] = await onSession((client: PrismaClient) => {
+    const createFeatureFlagTransaction = client.featureFlag.create({
       data: {
         feature_flag_id: featureFlag.getId(),
         feature_flag_key: featureFlag.getKey(),
@@ -16,7 +16,7 @@ export const createFeatureFlagInteractor = async (featureFlag: FeatureFlagEntity
       },
     });
 
-    return manager.$transaction([createFeatureFlagTransaction]);
+    return client.$transaction([createFeatureFlagTransaction]);
   });
 
   return FeatureFlagEntity.fromPrisma(featureFlagCreated);
