@@ -7,6 +7,7 @@ export const createFeatureFlagInteractor = async (featureFlag: FeatureFlagEntity
   const [featureFlagCreated] = await onSession((manager: PrismaClient) => {
     const createFeatureFlagTransaction = manager.featureFlag.create({
       data: {
+        feature_flag_id: featureFlag.getId(),
         feature_flag_key: featureFlag.getKey(),
         feature_flag_percentage: featureFlag.getPercentage(),
         feature_flag_is_active: featureFlag.getIsActive(),

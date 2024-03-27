@@ -1,4 +1,6 @@
-export class FeatureFlagEntity {
+import { Entity } from "../entity";
+
+export class FeatureFlagEntity extends Entity {
   protected key: string;
   protected percentage: number;
   protected isExperimental: boolean;
@@ -6,6 +8,7 @@ export class FeatureFlagEntity {
   protected clientId: string;
 
   constructor(key: string, percentage: number, isExperimental: boolean, isActive: boolean, clientId: string) {
+    super();
     this.key = key;
     this.percentage = percentage;
     this.isExperimental = isExperimental;
@@ -14,13 +17,15 @@ export class FeatureFlagEntity {
   }
 
   public static fromPrisma(payload: any): FeatureFlagEntity {
-    return new FeatureFlagEntity(
+    const featureFlag = new FeatureFlagEntity(
       payload.feature_flag_key as string,
       payload.feature_flag_percentage as number,
       payload.feature_flag_is_experimental as boolean,
       payload.feature_flag_is_active as boolean,
       payload.feature_flag_organization_client_id as string,
     );
+    featureFlag.setId(payload.feature_flag_id as string);
+    return featureFlag;
   }
 
   public getKey(): string {
