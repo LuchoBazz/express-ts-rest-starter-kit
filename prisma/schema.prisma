@@ -78,11 +78,12 @@ model User {
 
 // Roles
 model Role {
-  role_id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  role_name         String    @db.VarChar(63)
-  role_created_at   DateTime  @default(now()) @db.Timestamptz
-  role_updated_at   DateTime  @default(now()) @db.Timestamptz
-  users             User[] @relation("users_roles_fk")
+  role_id           String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  role_name         String          @db.VarChar(63)
+  role_created_at   DateTime        @default(now()) @db.Timestamptz
+  role_updated_at   DateTime        @default(now()) @db.Timestamptz
+  users             User[]          @relation("users_roles_fk")
+  permissions       Permission[]    @relation("roles_permissions_fk") 
 
   @@schema("users")
   @@map(name: "roles")
@@ -127,4 +128,17 @@ enum ConfigurationTypeEnum {
   JSON
   @@schema("organizations")
   @@map(name: "configuration_type_enum")
+}
+
+// Permissions
+model Permission {
+  permission_id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  permission_role         String      @db.VarChar(63)
+  permission_name         String      @db.VarChar(63)
+  permission_created_at   DateTime    @default(now()) @db.Timestamptz
+  permission_updated_at   DateTime    @default(now()) @db.Timestamptz 
+  role                     Role       @relation(fields: [permission_role], references: [role_name], name: "roles_permissions_fk")
+
+  @@schema("users")
+  @@map(name: "permissions") 
 }
