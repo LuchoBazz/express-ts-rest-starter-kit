@@ -1,8 +1,8 @@
 import { PermissionsValues } from "./authentication.enum";
 import { UserRole } from "./role.enum";
-import { BaseUser } from "./user_base.entity";
+import { BaseUserEntity } from "./user_base.entity";
 
-export class CommonUser extends BaseUser {
+export class CommonUserEntity extends BaseUserEntity {
   constructor(firstName: string, lastName: string, email: string) {
     super(firstName, lastName, email, UserRole.COMMON_USER);
   }

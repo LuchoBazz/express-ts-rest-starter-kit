@@ -1,7 +1,7 @@
 import { PermissionsValues } from "./authentication.enum";
 import { UserRole } from "./role.enum";
 
-export abstract class BaseUser {
+export abstract class BaseUserEntity {
   protected firstName: string;
   protected lastName: string;
   protected email: string;
