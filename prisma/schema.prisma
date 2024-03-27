@@ -22,14 +22,15 @@ model Organization {
   organization_client_id     String    @db.VarChar(63)
   organization_created_at    DateTime  @default(now()) @db.Timestamptz
   organization_updated_at    DateTime  @default(now()) @db.Timestamptz
-  organization_users         User[]    @relation("users_organizations_fk")
-  feature_flags              FeatureFlag[] @relation("feature_flags_organizations_fk")
-  configurations             Configuration[] @relation("organizations_configurations_fk")
   
   @@schema("organizations")
   @@map(name: "organizations")
   @@unique([organization_id], name: "organization_pk") 
   @@unique([organization_client_id], name: "organization_client_id_unique")
+
+  organization_users         User[]    @relation("users_organizations_fk")
+  feature_flags              FeatureFlag[] @relation("feature_flags_organizations_fk")
+  configurations             Configuration[] @relation("organizations_configurations_fk")
 }
 
 // User
@@ -67,13 +68,14 @@ model User {
   user_auth_provider           AuthProvider
   user_auth_type               AuthType
   user_organization_client_id  String       @db.VarChar(63)
-  user_organization            Organization @relation(fields: [user_organization_client_id], references: [organization_client_id], onDelete: Cascade,  name: "users_organizations_fk")
-  user_role_reference          Role @relation(fields: [user_role], references: [role_name],  name: "users_roles_fk")
   user_created_at              DateTime     @default(now()) @db.Timestamptz
   user_updated_at              DateTime     @default(now()) @db.Timestamptz
 
   @@schema("users")
   @@map(name: "users")
+
+  user_organization            Organization @relation(fields: [user_organization_client_id], references: [organization_client_id], onDelete: Cascade,  name: "users_organizations_fk")
+  user_role_reference          Role @relation(fields: [user_role], references: [role_name],  name: "users_roles_fk")
   authTokens                   AuthTokenStatus[]  @relation(name: "auth_token_statuses_users_fk")
 }
 
@@ -83,12 +85,14 @@ model Role {
   role_name         String          @db.VarChar(63)
   role_created_at   DateTime        @default(now()) @db.Timestamptz
   role_updated_at   DateTime        @default(now()) @db.Timestamptz
-  users             User[]          @relation("users_roles_fk")
-  permissions       Permission[]    @relation("roles_permissions_fk") 
 
   @@schema("users")
   @@map(name: "roles")
   @@unique([role_name], name: "role_name_unique")
+
+  users             User[]          @relation("users_roles_fk")
+  permissions       Permission[]    @relation("roles_permissions_fk") 
+
 }
 
 
@@ -102,10 +106,11 @@ model FeatureFlag {
   feature_flag_organization_client_id    String       @db.VarChar(63)
   feature_flag_created_at                DateTime     @default(now()) @db.Timestamptz
   feature_flag_updated_at                DateTime     @default(now()) @db.Timestamptz
-  organization                           Organization @relation(fields: [feature_flag_organization_client_id], references: [organization_client_id], name: "feature_flags_organizations_fk")
 
   @@schema("organizations")
   @@map(name: "feature_flags")
+
+  organization                           Organization @relation(fields: [feature_flag_organization_client_id], references: [organization_client_id], name: "feature_flags_organizations_fk")
 }
 
 
@@ -118,10 +123,11 @@ model Configuration {
   configuration_organization_client_id    String                   @db.VarChar(63)
   configuration_created_at                DateTime                 @default(now()) @db.Timestamptz
   configuration_updated_at                DateTime                 @default(now()) @db.Timestamptz
-  organization                            Organization             @relation(fields: [configuration_organization_client_id], references: [organization_client_id], name: "organizations_configurations_fk")
   
   @@schema("organizations")
   @@map(name: "configurations")
+
+  organization                            Organization             @relation(fields: [configuration_organization_client_id], references: [organization_client_id], name: "organizations_configurations_fk")
 }
 
 enum ConfigurationTypeEnum {
@@ -138,10 +144,11 @@ model Permission {
   permission_name         String      @db.VarChar(63)
   permission_created_at   DateTime    @default(now()) @db.Timestamptz
   permission_updated_at   DateTime    @default(now()) @db.Timestamptz 
-  role                     Role       @relation(fields: [permission_role], references: [role_name], name: "roles_permissions_fk")
 
   @@schema("users")
   @@map(name: "permissions") 
+
+  role                     Role       @relation(fields: [permission_role], references: [role_name], name: "roles_permissions_fk")
 }
 
 // AuthTokenStatuses
