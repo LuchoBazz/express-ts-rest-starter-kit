@@ -1,5 +1,25 @@
 import { Entity } from "../entity";
 
+export interface FeatureFlagPrisma {
+  feature_flag_id: string;
+  feature_flag_key: string;
+  feature_flag_percentage: number;
+  feature_flag_is_experimental: boolean;
+  feature_flag_is_active: boolean;
+  feature_flag_organization_client_id: string;
+  feature_flag_created_at: Date;
+  feature_flag_updated_at: Date;
+}
+
+export interface FeatureFlagResponse {
+  id: string;
+  key: string;
+  percentage: number;
+  is_experimental: boolean;
+  is_active: boolean;
+  organization_client_id: string;
+}
+
 export class FeatureFlagEntity extends Entity {
   protected key: string;
   protected percentage: number;
@@ -16,16 +36,27 @@ export class FeatureFlagEntity extends Entity {
     this.clientId = clientId;
   }
 
-  public static fromPrisma(payload: any): FeatureFlagEntity {
+  public static fromPrisma(payload: FeatureFlagPrisma): FeatureFlagEntity {
     const featureFlag = new FeatureFlagEntity(
-      payload.feature_flag_key as string,
-      payload.feature_flag_percentage as number,
-      payload.feature_flag_is_experimental as boolean,
-      payload.feature_flag_is_active as boolean,
-      payload.feature_flag_organization_client_id as string,
+      payload.feature_flag_key,
+      payload.feature_flag_percentage,
+      payload.feature_flag_is_experimental,
+      payload.feature_flag_is_active,
+      payload.feature_flag_organization_client_id,
     );
-    featureFlag.setId(payload.feature_flag_id as string);
+    featureFlag.setId(payload.feature_flag_id);
     return featureFlag;
+  }
+
+  public toResponse(): FeatureFlagResponse {
+    return {
+      id: this.getId(),
+      key: this.getId(),
+      percentage: this.getPercentage(),
+      is_experimental: this.getIsExperimental(),
+      is_active: this.getIsActive(),
+      organization_client_id: this.getClientId(),
+    };
   }
 
   public getKey(): string {
