@@ -74,6 +74,7 @@ model User {
 
   @@schema("users")
   @@map(name: "users")
+  authTokens                   AuthTokenStatus[]  @relation(name: "auth_token_statuses_users_fk")
 }
 
 // Roles
@@ -141,4 +142,19 @@ model Permission {
 
   @@schema("users")
   @@map(name: "permissions") 
+}
+
+// AuthTokenStatuses
+model AuthTokenStatus {
+  auth_token_id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  auth_token_user            String      @db.Uuid
+  auth_token_issued_at       BigInt      @db.BigInt
+  auth_token_expiration_time BigInt      @db.BigInt
+  auth_token_created_at      DateTime    @default(now()) @db.Timestamptz
+  auth_token_updated_at      DateTime    @default(now()) @db.Timestamptz
+  
+  @@map(name: "auth_token_statuses")
+  @@schema("users")
+
+  user                       User        @relation(fields: [auth_token_user], references: [user_id], name: "auth_token_statuses_users_fk")
 }
