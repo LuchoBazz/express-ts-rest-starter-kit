@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { FeatureFlagPrisma } from "../../../src/controllers/entities/organizations/feature_flag.entity";
+import { FeatureFlagPrisma } from "../../../src/entities/organizations/feature_flag.entity";
 
 export const genRandomFeatureFlagPrisma = ({
   feature_flag_id = faker.string.uuid(),

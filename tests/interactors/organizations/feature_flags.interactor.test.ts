@@ -1,7 +1,4 @@
-import {
-  FeatureFlagEntity,
-  FeatureFlagPrisma,
-} from "../../../src/controllers/entities/organizations/feature_flag.entity";
+import { FeatureFlagEntity, FeatureFlagPrisma } from "../../../src/entities/organizations/feature_flag.entity";
 import { createFeatureFlagInteractor } from "../../../src/interactors/organizations/feature_flags/feature_flag.interactor";
 import { genRandomFeatureFlagPrisma } from "../../mocks/organizations/feature_flag.mock";
 
