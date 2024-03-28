@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
-import { FeatureFlagEntity } from "../../../entities/organizations/feature_flag.entity";
-import { onSession } from "../../../utils/prisma";
+import { FeatureFlagEntity } from "../../entities/organizations/feature_flag.entity";
+import { onSession } from "../../utils/prisma";
 
 export const createFeatureFlagInteractor = async (featureFlag: FeatureFlagEntity): Promise<FeatureFlagEntity> => {
   const [featureFlagCreated] = await onSession((client: PrismaClient) => {

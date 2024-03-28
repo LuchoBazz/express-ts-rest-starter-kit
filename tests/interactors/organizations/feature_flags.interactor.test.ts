@@ -1,5 +1,5 @@
 import { FeatureFlagEntity, FeatureFlagPrisma } from "../../../src/entities/organizations/feature_flag.entity";
-import { createFeatureFlagInteractor } from "../../../src/interactors/organizations/feature_flags/feature_flag.interactor";
+import { createFeatureFlagInteractor } from "../../../src/interactors/organizations/feature_flag.interactor";
 import { genRandomFeatureFlagPrisma } from "../../mocks/organizations/feature_flag.mock";
 
 const createFeatureFlagMock = jest.fn();
