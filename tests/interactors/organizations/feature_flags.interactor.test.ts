@@ -40,9 +40,9 @@ describe("Given a createFeatureFlagInteractor", () => {
   });
 
   it("should create feature flag correctly", async () => {
-    const createdFeatureFlag = await createFeatureFlagInteractor(featureFlag);
+    const featFlagCreated = await createFeatureFlagInteractor(featureFlag);
 
-    expect(createdFeatureFlag).toEqual(featureFlag);
+    expect(featFlagCreated).toEqual(featureFlag);
     expect(createFeatureFlagMock).toHaveBeenCalledTimes(1);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
