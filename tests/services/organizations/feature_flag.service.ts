@@ -57,8 +57,8 @@ describe("Given a feature flag service", () => {
   // TODO: Add test for tests nullable case
   it("should get feature flag successfully", async () => {
     const featFlagFound = await findFeatureFlagService(prismaClient, {
+      key: featureFlag.getKey(),
       clientId: featureFlag.getClientId(),
-      id: featureFlag.getId(),
     });
 
     expect(featFlagFound).toEqual(featureFlag);
@@ -76,7 +76,6 @@ describe("Given a feature flag service", () => {
 
   it("should update feature flag successfully", async () => {
     const featFlagUpdated = await updateFeatureFlagService(prismaClient, {
-      id: featureFlag.getId(),
       clientId: featureFlag.getClientId(),
       key: featureFlag.getKey(),
       percentage: featureFlag.getPercentage(),
@@ -91,8 +90,8 @@ describe("Given a feature flag service", () => {
 
   it("should delete feature flag successfully", async () => {
     const featFlagDeleted = await deleteFeatureFlagService(prismaClient, {
+      key: featureFlag.getKey(),
       clientId: featureFlag.getClientId(),
-      id: featureFlag.getId(),
     });
 
     expect(featFlagDeleted).toEqual(featureFlag);

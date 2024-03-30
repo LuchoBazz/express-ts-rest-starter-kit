@@ -2,6 +2,12 @@
 
 ### Feature Flags
 
+#### Find Feature Flag
+
+```shell
+curl --location --request GET 'http://localhost:3000/organizations/RITACUBA/feature_flag/testing'
+```
+
 #### Create Feature Flag
 
 ```shell
