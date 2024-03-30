@@ -1,6 +1,7 @@
 import { FeatureFlagEntity, FeatureFlagPrisma } from "../../../src/entities/organizations/feature_flag.entity";
 import {
   createFeatureFlagInteractor,
+  findFeatureFlagInteractor,
   updateFeatureFlagInteractor,
 } from "../../../src/interactors/organizations/feature_flag.interactor";
 import { genRandomFeatureFlagPrisma } from "../../mocks/organizations/feature_flag.mock";
@@ -14,6 +15,7 @@ jest.mock("@prisma/client", () => {
     PrismaClient: jest.fn(() => {
       return {
         featureFlag: {
+          findUnique: featureFlagMock,
           create: featureFlagMock,
           update: featureFlagMock,
         },
@@ -46,7 +48,16 @@ describe("Given a createFeatureFlagInteractor", () => {
     disconnectMock.mockClear();
   });
 
-  it("should create feature flag correctly", async () => {
+  // TODO: Add test for tests nullable case
+  it("should get feature flag successfully", async () => {
+    const featFlagFound = await findFeatureFlagInteractor(featureFlag.getClientId(), featureFlag.getId());
+
+    expect(featFlagFound).toEqual(featureFlag);
+    expect(featureFlagMock).toHaveBeenCalledTimes(1);
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should create feature flag successfully", async () => {
     const featFlagCreated = await createFeatureFlagInteractor(featureFlag);
 
     expect(featFlagCreated).toEqual(featureFlag);
@@ -54,7 +65,7 @@ describe("Given a createFeatureFlagInteractor", () => {
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 
-  it("should update feature flag correctly", async () => {
+  it("should update feature flag successfully", async () => {
     const featFlagUpdated = await updateFeatureFlagInteractor({
       id: featureFlag.getId(),
       clientId: featureFlag.getClientId(),
