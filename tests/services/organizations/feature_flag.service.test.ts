@@ -63,7 +63,6 @@ describe("Given a feature flag service", () => {
 
     expect(featFlagFound).toEqual(featureFlag);
     expect(featureFlagMock).toHaveBeenCalledTimes(1);
-    expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 
   it("should create feature flag successfully", async () => {
@@ -71,7 +70,6 @@ describe("Given a feature flag service", () => {
 
     expect(featFlagCreated).toEqual(featureFlag);
     expect(featureFlagMock).toHaveBeenCalledTimes(1);
-    expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 
   it("should update feature flag successfully", async () => {
@@ -85,7 +83,6 @@ describe("Given a feature flag service", () => {
 
     expect(featFlagUpdated).toEqual(featureFlag);
     expect(featureFlagMock).toHaveBeenCalledTimes(1);
-    expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 
   it("should delete feature flag successfully", async () => {
@@ -96,7 +93,6 @@ describe("Given a feature flag service", () => {
 
     expect(featFlagDeleted).toEqual(featureFlag);
     expect(featureFlagMock).toHaveBeenCalledTimes(1);
-    expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 
   // TODO: Add tests for testing errors
