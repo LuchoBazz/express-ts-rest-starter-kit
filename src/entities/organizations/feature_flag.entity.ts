@@ -48,17 +48,6 @@ export class FeatureFlagEntity extends Entity {
     return featureFlag;
   }
 
-  public toResponse(): FeatureFlagResponse {
-    return {
-      id: this.getId(),
-      key: this.getId(),
-      percentage: this.getPercentage(),
-      is_experimental: this.getIsExperimental(),
-      is_active: this.getIsActive(),
-      organization_client_id: this.getClientId(),
-    };
-  }
-
   public getKey(): string {
     return this.key;
   }
