@@ -1,3 +1,4 @@
+import { ConfigurationTypeEnum } from "@prisma/client";
 import { checkSchema } from "express-validator";
 
 export const organizationSchema = checkSchema({
@@ -6,7 +7,7 @@ export const organizationSchema = checkSchema({
     isEmpty: {
       options: { ignore_whitespace: true },
       negated: true,
-      errorMessage: "Missing client_id",
+      errorMessage: "Missing client_id.",
     },
     exists: {
       options: {
@@ -21,13 +22,15 @@ export const organizationSchema = checkSchema({
   },
 });
 
+// FEATURE FLAGS
+
 export const featureFlagKeyParamsSchema = checkSchema({
   key: {
     in: ["params"],
     isEmpty: {
       options: { ignore_whitespace: true },
       negated: true,
-      errorMessage: "Missing key",
+      errorMessage: "Missing key.",
     },
     exists: {
       options: {
@@ -48,7 +51,7 @@ export const createFeatureFlagSchema = checkSchema({
     isEmpty: {
       options: { ignore_whitespace: true },
       negated: true,
-      errorMessage: "Missing key",
+      errorMessage: "Missing key.",
     },
     exists: {
       options: {
@@ -124,6 +127,81 @@ export const updateFeatureFlagSchema = checkSchema({
     },
     isBoolean: {
       errorMessage: "is_experimental is not a boolean.",
+    },
+  },
+});
+
+// CONFIGURATIONS
+
+export const createOrganizationSchema = checkSchema({
+  key: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing key.",
+    },
+    optional: {
+      options: {
+        nullable: false,
+      },
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "key can not be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "key is not a string.",
+    },
+  },
+  value: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing value.",
+    },
+    optional: {
+      options: {
+        nullable: false,
+      },
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "value can not be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "value is not a string.",
+    },
+  },
+  type: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing type.",
+    },
+    optional: {
+      options: {
+        nullable: false,
+      },
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "type can not be null.",
+      bail: true,
+    },
+    isIn: {
+      options: [Object.keys(ConfigurationTypeEnum)],
+      errorMessage: "Not an valid type.",
     },
   },
 });
