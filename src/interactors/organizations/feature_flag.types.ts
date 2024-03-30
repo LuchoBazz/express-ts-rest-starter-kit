@@ -6,3 +6,8 @@ export interface UpdateFeatureFlagInput {
   isExperimental?: boolean;
   isActive?: boolean;
 }
+
+export interface FeatureFlagSearchCriteriaInput {
+  id: string;
+  clientId: string;
+}

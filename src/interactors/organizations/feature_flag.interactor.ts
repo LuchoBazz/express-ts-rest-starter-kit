@@ -2,9 +2,12 @@ import { PrismaClient } from "@prisma/client";
 
 import { FeatureFlagEntity } from "../../entities/organizations/feature_flag.entity";
 import { onSession } from "../../utils/prisma";
-import { UpdateFeatureFlagInput } from "./feature_flag.types";
+import { FeatureFlagSearchCriteriaInput, UpdateFeatureFlagInput } from "./feature_flag.types";
 
-export const findFeatureFlagInteractor = async (clientId: string, id: string): Promise<FeatureFlagEntity | null> => {
+export const findFeatureFlagInteractor = async (
+  searchCriteria: FeatureFlagSearchCriteriaInput,
+): Promise<FeatureFlagEntity | null> => {
+  const { id, clientId } = searchCriteria;
   const featureFlagFound = await onSession(async (client: PrismaClient) => {
     const featureFlag = await client.featureFlag.findUnique({
       where: {
@@ -57,4 +60,22 @@ export const updateFeatureFlagInteractor = async (featureFlag: UpdateFeatureFlag
   });
 
   return FeatureFlagEntity.fromPrisma(featureFlagUpdated);
+};
+
+export const deleteFeatureFlagInteractor = async (
+  searchCriteria: FeatureFlagSearchCriteriaInput,
+): Promise<FeatureFlagEntity> => {
+  const { id, clientId } = searchCriteria;
+  const [featureFlagDeleted] = await onSession((client: PrismaClient) => {
+    const deleteFeatureFlagTransaction = client.featureFlag.delete({
+      where: {
+        feature_flag_id: id,
+        feature_flag_organization_client_id: clientId,
+      },
+    });
+
+    return client.$transaction([deleteFeatureFlagTransaction]);
+  });
+
+  return FeatureFlagEntity.fromPrisma(featureFlagDeleted);
 };
