@@ -129,6 +129,8 @@ model Configuration {
   @@map(name: "configurations")
 
   organization                            Organization             @relation(fields: [configuration_organization_client_id], references: [organization_client_id], name: "organizations_configurations_fk")
+  @@unique([configuration_key, configuration_organization_client_id], name: "unique_configuration_key_and_configuration_organization_client_id")
+
 }
 
 enum ConfigurationTypeEnum {

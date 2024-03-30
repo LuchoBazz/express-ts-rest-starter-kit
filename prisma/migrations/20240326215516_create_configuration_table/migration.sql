@@ -16,3 +16,6 @@ CREATE TABLE "organizations"."configurations" (
 
 -- AddForeignKey
 ALTER TABLE "organizations"."configurations" ADD CONSTRAINT "configurations_configuration_organization_client_id_fkey" FOREIGN KEY ("configuration_organization_client_id") REFERENCES "organizations"."organizations"("organization_client_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- CreateIndex
+CREATE UNIQUE INDEX "configurations_configuration_key_configuration_organization_key" ON "organizations"."configurations"("configuration_key", "configuration_organization_client_id");
