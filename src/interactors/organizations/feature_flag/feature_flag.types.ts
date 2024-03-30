@@ -1,7 +1,6 @@
 export interface UpdateFeatureFlagInput {
-  id: string;
+  key: string;
   clientId: string;
-  key?: string;
   percentage?: number;
   isExperimental?: boolean;
   isActive?: boolean;

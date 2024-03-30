@@ -66,3 +66,49 @@ export const createFeatureFlagSchema = checkSchema({
     },
   },
 });
+
+export const updateFeatureFlagSchema = checkSchema({
+  percentage: {
+    in: ["body"],
+    isInt: {
+      errorMessage: "percentage is not a integer.",
+    },
+    toInt: true,
+  },
+  is_experimental: {
+    in: ["body"],
+    optional: {
+      options: {
+        nullable: true,
+      },
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "is_experimental can not be null.",
+      bail: true,
+    },
+    isBoolean: {
+      errorMessage: "is_experimental is not a boolean.",
+    },
+  },
+  is_active: {
+    in: ["body"],
+    optional: {
+      options: {
+        nullable: true,
+      },
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "is_experimental can not be null.",
+      bail: true,
+    },
+    isBoolean: {
+      errorMessage: "is_experimental is not a boolean.",
+    },
+  },
+});

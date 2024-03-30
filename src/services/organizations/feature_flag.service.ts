@@ -74,8 +74,10 @@ export const updateFeatureFlagService = async (
   try {
     const updateFeatureFlagTransaction = client.featureFlag.update({
       where: {
-        feature_flag_id: featureFlag.id,
-        feature_flag_organization_client_id: featureFlag.clientId,
+        unique_feature_flag_key_and_feature_flag_organization_client_id: {
+          feature_flag_key: featureFlag.key,
+          feature_flag_organization_client_id: featureFlag.clientId,
+        },
       },
       data: {
         feature_flag_key: featureFlag.key,

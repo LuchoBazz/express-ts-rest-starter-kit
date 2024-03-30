@@ -70,7 +70,6 @@ describe("Given a createFeatureFlagInteractor", () => {
 
   it("should update feature flag successfully", async () => {
     const featFlagUpdated = await updateFeatureFlagInteractor({
-      id: featureFlag.getId(),
       clientId: featureFlag.getClientId(),
       key: featureFlag.getKey(),
       percentage: featureFlag.getPercentage(),
