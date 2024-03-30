@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 
 import { FeatureFlagEntity } from "../../../entities/organizations/feature_flag.entity";
+import { ErrorMessage } from "../../../errors/errors.enum";
+import { NotFoundError } from "../../../errors/notFound.error";
 import {
   createFeatureFlagService,
   deleteFeatureFlagService,
@@ -12,10 +14,14 @@ import { FeatureFlagSearchCriteriaInput, UpdateFeatureFlagInput } from "./featur
 
 export const findFeatureFlagInteractor = async (
   searchCriteria: FeatureFlagSearchCriteriaInput,
-): Promise<FeatureFlagEntity | null> => {
+): Promise<FeatureFlagEntity> => {
   const featureFlagFound = await onSession(async (client: PrismaClient) => {
     return findFeatureFlagService(client, searchCriteria);
   });
+
+  if (!featureFlagFound) {
+    throw new NotFoundError(ErrorMessage.FEATURE_FLAG_NOT_FOUND);
+  }
 
   return featureFlagFound;
 };
