@@ -100,13 +100,10 @@ export const updateFeatureFlagSchema = checkSchema({
     in: ["body"],
     optional: {
       options: {
-        nullable: true,
+        nullable: false,
       },
     },
     exists: {
-      options: {
-        checkFalsy: true,
-      },
       errorMessage: "is_experimental can not be null.",
       bail: true,
     },
@@ -118,14 +115,11 @@ export const updateFeatureFlagSchema = checkSchema({
     in: ["body"],
     optional: {
       options: {
-        nullable: true,
+        nullable: false,
       },
     },
     exists: {
-      options: {
-        checkFalsy: true,
-      },
-      errorMessage: "is_experimental can not be null.",
+      errorMessage: "is_active can not be null.",
       bail: true,
     },
     isBoolean: {
