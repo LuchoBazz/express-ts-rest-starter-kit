@@ -1,9 +1,9 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 import { ConfigurationEntity } from "../../entities/organizations/configuration.entity";
 import { ErrorMessage } from "../../errors/errors.enum";
+import { prismaGlobalExceptionFilter } from "../../errors/prismaGlobalExceptionFilter";
 import { ServerError } from "../../errors/server.error";
-import { UnauthorizedError } from "../../errors/unauthorized.error";
 import {
   ConfigurationSearchCriteriaInput,
   UpdateConfigurationInput,
@@ -26,11 +26,7 @@ export const findConfigurationService = async (
 
     return configuration ? ConfigurationEntity.fromPrisma(configuration) : null;
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2025") {
-        throw new UnauthorizedError(ErrorMessage.NOT_HAVE_PERMISSION_TO_PERFORM_THIS_OPERATION);
-      }
-    }
+    prismaGlobalExceptionFilter(error);
     throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
@@ -53,17 +49,7 @@ export const createConfigurationService = async (
     const [configCreated] = await client.$transaction([createConfigTransaction]);
     return ConfigurationEntity.fromPrisma(configCreated);
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        throw new ServerError(ErrorMessage.COULD_NOT_BE_CREATED_BECAUSE_ID_ALREADY_EXISTS);
-      } else if (error.code === "P2025") {
-        throw new UnauthorizedError(ErrorMessage.NOT_HAVE_PERMISSION_TO_PERFORM_THIS_OPERATION);
-      } else if (error.code === "P2003") {
-        throw new ServerError(ErrorMessage.FOREIGN_KEY_CONSTRAINT_FAILED);
-      } else if (error.code === "P2000") {
-        throw new ServerError(ErrorMessage.DATA_VALIDATION_FAILED);
-      }
-    }
+    prismaGlobalExceptionFilter(error);
     throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
@@ -90,13 +76,7 @@ export const updateConfigurationService = async (
     const [configurationUpdated] = await client.$transaction([updateConfigurationTransaction]);
     return ConfigurationEntity.fromPrisma(configurationUpdated);
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2025") {
-        throw new UnauthorizedError(ErrorMessage.NOT_HAVE_PERMISSION_TO_PERFORM_THIS_OPERATION);
-      } else if (error.code === "P2000") {
-        throw new ServerError(ErrorMessage.DATA_VALIDATION_FAILED);
-      }
-    }
+    prismaGlobalExceptionFilter(error);
     throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
@@ -119,13 +99,7 @@ export const deleteConfigurationService = async (
     const [configurationDeleted] = await client.$transaction([deleteConfigurationTransaction]);
     return ConfigurationEntity.fromPrisma(configurationDeleted);
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2025") {
-        throw new UnauthorizedError(ErrorMessage.NOT_HAVE_PERMISSION_TO_PERFORM_THIS_OPERATION);
-      } else if (error.code === "P2000") {
-        throw new ServerError(ErrorMessage.DATA_VALIDATION_FAILED);
-      }
-    }
+    prismaGlobalExceptionFilter(error);
     throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
