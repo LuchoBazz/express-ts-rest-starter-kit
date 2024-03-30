@@ -1,6 +1,6 @@
 const featureFlagServiceMock = jest.fn();
 
-import { FeatureFlagEntity, FeatureFlagPrisma } from "../../../src/entities/organizations/feature_flag.entity";
+import { FeatureFlagEntity } from "../../../src/entities/organizations/feature_flag.entity";
 import {
   createFeatureFlagInteractor,
   deleteFeatureFlagInteractor,
@@ -31,15 +31,14 @@ jest.mock("@prisma/client", () => {
 });
 
 describe("Given a createFeatureFlagInteractor", () => {
-  let featureFlagPrisma: FeatureFlagPrisma;
   let featureFlag: FeatureFlagEntity;
 
   beforeEach(() => {
-    featureFlagPrisma = genRandomFeatureFlagPrisma();
+    const featureFlagPrisma = genRandomFeatureFlagPrisma();
     featureFlag = FeatureFlagEntity.fromPrisma(featureFlagPrisma);
 
     featureFlagServiceMock.mockImplementation(() => {
-      return featureFlag;
+      return Promise.resolve(featureFlag);
     });
   });
 

@@ -1,17 +1,21 @@
-import { ConfigurationEntity, ConfigurationPrisma } from "../../../src/entities/organizations/configuration.entity";
+const configurationMock = jest.fn();
+
+import { ConfigurationEntity } from "../../../src/entities/organizations/configuration.entity";
 import { createConfigurationInteractor } from "../../../src/interactors/organizations/configuration/configuration.interactor";
 import { genRandomConfigurationPrisma } from "../../mocks/organizations/configuration.mock";
 
-const createConfigurationMock = jest.fn();
-const transactionMock = jest.fn();
 const disconnectMock = jest.fn();
+
+jest.mock("../../../src/services/organizations/configuration.service", () => {
+  return {
+    createConfigurationService: configurationMock,
+  };
+});
 
 jest.mock("@prisma/client", () => {
   return {
     PrismaClient: jest.fn(() => {
       return {
-        configuration: { create: createConfigurationMock },
-        $transaction: transactionMock,
         $disconnect: disconnectMock,
       };
     }),
@@ -19,31 +23,26 @@ jest.mock("@prisma/client", () => {
 });
 
 describe("Given a createConfigurationInteractor", () => {
-  let configPrisma: ConfigurationPrisma;
   let config: ConfigurationEntity;
 
   beforeEach(() => {
-    configPrisma = genRandomConfigurationPrisma();
+    const configPrisma = genRandomConfigurationPrisma();
     config = ConfigurationEntity.fromPrisma(configPrisma);
 
-    createConfigurationMock.mockImplementation(() => {
-      return configPrisma;
-    });
-    transactionMock.mockImplementation(() => {
-      return [configPrisma];
+    configurationMock.mockImplementation(() => {
+      return Promise.resolve(config);
     });
   });
 
   afterEach(() => {
-    createConfigurationMock.mockClear();
-    transactionMock.mockClear();
+    configurationMock.mockClear();
   });
 
   it("should create configuration correctly", async () => {
     const configCreated = await createConfigurationInteractor(config);
 
     expect(configCreated).toEqual(config);
-    expect(createConfigurationMock).toHaveBeenCalledTimes(1);
+    expect(configurationMock).toHaveBeenCalledTimes(1);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 });
