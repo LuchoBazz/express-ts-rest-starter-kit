@@ -15,3 +15,6 @@ CREATE TABLE "organizations"."feature_flags" (
 -- AddForeignKey
 ALTER TABLE "organizations"."feature_flags" ADD CONSTRAINT "feature_flags_feature_flag_organization_client_id_fkey" FOREIGN KEY ("feature_flag_organization_client_id") REFERENCES "organizations"."organizations"("organization_client_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 ALTER TABLE "organizations"."feature_flags" ADD CONSTRAINT "feature_flags_percentage_check" CHECK (0 <= "feature_flag_percentage" AND "feature_flag_percentage" <= 100);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "feature_flags_feature_flag_key_feature_flag_organization_cl_key" ON "organizations"."feature_flags"("feature_flag_key", "feature_flag_organization_client_id");

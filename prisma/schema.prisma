@@ -111,6 +111,7 @@ model FeatureFlag {
   @@map(name: "feature_flags")
 
   organization                           Organization @relation(fields: [feature_flag_organization_client_id], references: [organization_client_id], name: "feature_flags_organizations_fk")
+  @@unique([feature_flag_key, feature_flag_organization_client_id], name: "unique_feature_flag_key_and_feature_flag_organization_client_id")
 }
 
 
