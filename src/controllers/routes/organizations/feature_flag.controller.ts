@@ -4,6 +4,7 @@ import { FeatureFlagEntity } from "../../../entities/organizations/feature_flag.
 import { HttpStatusCode } from "../../../gateways/basics";
 import {
   createFeatureFlagInteractor,
+  deleteFeatureFlagInteractor,
   findFeatureFlagInteractor,
   updateFeatureFlagInteractor,
 } from "../../../interactors/organizations/feature_flag/feature_flag.interactor";
@@ -81,6 +82,23 @@ export const updateFeatureFlagController = [
       const featureFlagCreated = await updateFeatureFlagInteractor(featureFlag);
 
       const responseFeatureFlag = presentFeatureFlag(featureFlagCreated);
+      response.status(HttpStatusCode.OK).json({ data: responseFeatureFlag });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
+
+export const deleteFeatureFlagController = [
+  validateSchema(organizationSchema),
+  validateSchema(featureFlagKeyParamsSchema),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const { client_id: clientId, key } = request.params;
+
+      const featureFlagDeleted = await deleteFeatureFlagInteractor({ key, clientId });
+
+      const responseFeatureFlag = presentFeatureFlag(featureFlagDeleted);
       response.status(HttpStatusCode.OK).json({ data: responseFeatureFlag });
     } catch (error) {
       next(error);
