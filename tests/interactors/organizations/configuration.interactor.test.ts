@@ -1,5 +1,5 @@
 import { ConfigurationEntity, ConfigurationPrisma } from "../../../src/entities/organizations/configuration.entity";
-import { createConfigurationInteractor } from "../../../src/interactors/organizations/configuration.interactor";
+import { createConfigurationInteractor } from "../../../src/interactors/organizations/configuration/configuration.interactor";
 import { genRandomConfigurationPrisma } from "../../mocks/organizations/configuration.mock";
 
 const createConfigurationMock = jest.fn();

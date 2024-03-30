@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
-import { ConfigurationEntity } from "../../entities/organizations/configuration.entity";
-import { onSession } from "../../utils/prisma";
+import { ConfigurationEntity } from "../../../entities/organizations/configuration.entity";
+import { onSession } from "../../../utils/prisma";
 
 export const createConfigurationInteractor = async (config: ConfigurationEntity): Promise<ConfigurationEntity> => {
   const [configurationCreated] = await onSession((client: PrismaClient) => {
