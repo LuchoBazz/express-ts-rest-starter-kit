@@ -1,3 +1,5 @@
+const featureFlagServiceMock = jest.fn();
+
 import { FeatureFlagEntity, FeatureFlagPrisma } from "../../../src/entities/organizations/feature_flag.entity";
 import {
   createFeatureFlagInteractor,
@@ -7,21 +9,21 @@ import {
 } from "../../../src/interactors/organizations/feature_flag/feature_flag.interactor";
 import { genRandomFeatureFlagPrisma } from "../../mocks/organizations/feature_flag.mock";
 
-const featureFlagMock = jest.fn();
-const transactionMock = jest.fn();
 const disconnectMock = jest.fn();
+
+jest.mock("../../../src/services/organizations/feature_flag.service", () => {
+  return {
+    findFeatureFlagService: featureFlagServiceMock,
+    createFeatureFlagService: featureFlagServiceMock,
+    updateFeatureFlagService: featureFlagServiceMock,
+    deleteFeatureFlagService: featureFlagServiceMock,
+  };
+});
 
 jest.mock("@prisma/client", () => {
   return {
     PrismaClient: jest.fn(() => {
       return {
-        featureFlag: {
-          findUnique: featureFlagMock,
-          create: featureFlagMock,
-          update: featureFlagMock,
-          delete: featureFlagMock,
-        },
-        $transaction: transactionMock,
         $disconnect: disconnectMock,
       };
     }),
@@ -36,17 +38,13 @@ describe("Given a createFeatureFlagInteractor", () => {
     featureFlagPrisma = genRandomFeatureFlagPrisma();
     featureFlag = FeatureFlagEntity.fromPrisma(featureFlagPrisma);
 
-    featureFlagMock.mockImplementation(() => {
-      return featureFlagPrisma;
-    });
-    transactionMock.mockImplementation(() => {
-      return [featureFlagPrisma];
+    featureFlagServiceMock.mockImplementation(() => {
+      return featureFlag;
     });
   });
 
   afterEach(() => {
-    featureFlagMock.mockClear();
-    transactionMock.mockClear();
+    featureFlagServiceMock.mockClear();
     disconnectMock.mockClear();
   });
 
@@ -58,7 +56,7 @@ describe("Given a createFeatureFlagInteractor", () => {
     });
 
     expect(featFlagFound).toEqual(featureFlag);
-    expect(featureFlagMock).toHaveBeenCalledTimes(1);
+    expect(featureFlagServiceMock).toHaveBeenCalledTimes(1);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 
@@ -66,7 +64,7 @@ describe("Given a createFeatureFlagInteractor", () => {
     const featFlagCreated = await createFeatureFlagInteractor(featureFlag);
 
     expect(featFlagCreated).toEqual(featureFlag);
-    expect(featureFlagMock).toHaveBeenCalledTimes(1);
+    expect(featureFlagServiceMock).toHaveBeenCalledTimes(1);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 
@@ -81,7 +79,7 @@ describe("Given a createFeatureFlagInteractor", () => {
     });
 
     expect(featFlagUpdated).toEqual(featureFlag);
-    expect(featureFlagMock).toHaveBeenCalledTimes(1);
+    expect(featureFlagServiceMock).toHaveBeenCalledTimes(1);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 
@@ -92,7 +90,7 @@ describe("Given a createFeatureFlagInteractor", () => {
     });
 
     expect(featFlagDeleted).toEqual(featureFlag);
-    expect(featureFlagMock).toHaveBeenCalledTimes(1);
+    expect(featureFlagServiceMock).toHaveBeenCalledTimes(1);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 });

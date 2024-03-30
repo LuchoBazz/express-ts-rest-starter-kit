@@ -1,7 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 
 import { FeatureFlagEntity, FeatureFlagPrisma } from "../../../src/entities/organizations/feature_flag.entity";
-import { findFeatureFlagService } from "../../../src/services/organizations/feature_flag.service";
+import {
+  createFeatureFlagService,
+  deleteFeatureFlagService,
+  findFeatureFlagService,
+  updateFeatureFlagService,
+} from "../../../src/services/organizations/feature_flag.service";
 import { genRandomFeatureFlagPrisma } from "../../mocks/organizations/feature_flag.mock";
 
 const featureFlagMock = jest.fn();
@@ -60,4 +65,40 @@ describe("Given a feature flag service", () => {
     expect(featureFlagMock).toHaveBeenCalledTimes(1);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
+
+  it("should create feature flag successfully", async () => {
+    const featFlagCreated = await createFeatureFlagService(prismaClient, featureFlag);
+
+    expect(featFlagCreated).toEqual(featureFlag);
+    expect(featureFlagMock).toHaveBeenCalledTimes(1);
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should update feature flag successfully", async () => {
+    const featFlagUpdated = await updateFeatureFlagService(prismaClient, {
+      id: featureFlag.getId(),
+      clientId: featureFlag.getClientId(),
+      key: featureFlag.getKey(),
+      percentage: featureFlag.getPercentage(),
+      isExperimental: featureFlag.getIsExperimental(),
+      isActive: featureFlag.getIsActive(),
+    });
+
+    expect(featFlagUpdated).toEqual(featureFlag);
+    expect(featureFlagMock).toHaveBeenCalledTimes(1);
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should delete feature flag successfully", async () => {
+    const featFlagDeleted = await deleteFeatureFlagService(prismaClient, {
+      clientId: featureFlag.getClientId(),
+      id: featureFlag.getId(),
+    });
+
+    expect(featFlagDeleted).toEqual(featureFlag);
+    expect(featureFlagMock).toHaveBeenCalledTimes(1);
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  // TODO: Add tests for testing errors
 });
