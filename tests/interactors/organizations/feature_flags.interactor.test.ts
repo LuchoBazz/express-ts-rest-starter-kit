@@ -4,7 +4,7 @@ import {
   deleteFeatureFlagInteractor,
   findFeatureFlagInteractor,
   updateFeatureFlagInteractor,
-} from "../../../src/interactors/organizations/feature_flag.interactor";
+} from "../../../src/interactors/organizations/feature_flag/feature_flag.interactor";
 import { genRandomFeatureFlagPrisma } from "../../mocks/organizations/feature_flag.mock";
 
 const featureFlagMock = jest.fn();

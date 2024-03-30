@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
-import { FeatureFlagEntity } from "../../entities/organizations/feature_flag.entity";
-import { onSession } from "../../utils/prisma";
+import { FeatureFlagEntity } from "../../../entities/organizations/feature_flag.entity";
+import { onSession } from "../../../utils/prisma";
 import { FeatureFlagSearchCriteriaInput, UpdateFeatureFlagInput } from "./feature_flag.types";
 
 export const findFeatureFlagInteractor = async (
