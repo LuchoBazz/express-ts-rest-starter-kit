@@ -14,4 +14,7 @@ export enum ErrorMessage {
 
   // Feature Flag
   FEATURE_FLAG_NOT_FOUND = "FEATURE_FLAG_NOT_FOUND",
+
+  // Configuration
+  CONFIGURATION_NOT_FOUND = "CONFIGURATION_NOT_FOUND",
 }

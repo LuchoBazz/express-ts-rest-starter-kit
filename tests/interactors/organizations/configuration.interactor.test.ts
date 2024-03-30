@@ -1,14 +1,22 @@
-const configurationMock = jest.fn();
+const configurationServiceMock = jest.fn();
 
 import { ConfigurationEntity } from "../../../src/entities/organizations/configuration.entity";
-import { createConfigurationInteractor } from "../../../src/interactors/organizations/configuration/configuration.interactor";
+import {
+  createConfigurationInteractor,
+  deleteConfigurationInteractor,
+  findConfigurationInteractor,
+  updateConfigurationInteractor,
+} from "../../../src/interactors/organizations/configuration/configuration.interactor";
 import { genRandomConfigurationPrisma } from "../../mocks/organizations/configuration.mock";
 
 const disconnectMock = jest.fn();
 
 jest.mock("../../../src/services/organizations/configuration.service", () => {
   return {
-    createConfigurationService: configurationMock,
+    findConfigurationService: configurationServiceMock,
+    createConfigurationService: configurationServiceMock,
+    updateConfigurationService: configurationServiceMock,
+    deleteConfigurationService: configurationServiceMock,
   };
 });
 
@@ -23,26 +31,62 @@ jest.mock("@prisma/client", () => {
 });
 
 describe("Given a createConfigurationInteractor", () => {
-  let config: ConfigurationEntity;
+  let configuration: ConfigurationEntity;
 
   beforeEach(() => {
-    const configPrisma = genRandomConfigurationPrisma();
-    config = ConfigurationEntity.fromPrisma(configPrisma);
+    const configurationPrisma = genRandomConfigurationPrisma();
+    configuration = ConfigurationEntity.fromPrisma(configurationPrisma);
 
-    configurationMock.mockImplementation(() => {
-      return Promise.resolve(config);
+    configurationServiceMock.mockImplementation(() => {
+      return Promise.resolve(configuration);
     });
   });
 
   afterEach(() => {
-    configurationMock.mockClear();
+    configurationServiceMock.mockClear();
+    disconnectMock.mockClear();
   });
 
-  it("should create configuration correctly", async () => {
-    const configCreated = await createConfigurationInteractor(config);
+  it("should get configuration successfully", async () => {
+    const configFound = await findConfigurationInteractor({
+      key: configuration.getKey(),
+      clientId: configuration.getClientId(),
+    });
 
-    expect(configCreated).toEqual(config);
-    expect(configurationMock).toHaveBeenCalledTimes(1);
+    expect(configFound).toEqual(configuration);
+    expect(configurationServiceMock).toHaveBeenCalledTimes(1);
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should create configuration successfully", async () => {
+    const configCreated = await createConfigurationInteractor(configuration);
+
+    expect(configCreated).toEqual(configuration);
+    expect(configurationServiceMock).toHaveBeenCalledTimes(1);
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should update configuration successfully", async () => {
+    const configUpdated = await updateConfigurationInteractor({
+      clientId: configuration.getClientId(),
+      key: configuration.getKey(),
+      value: configuration.getValue(),
+      type: configuration.getType(),
+    });
+
+    expect(configUpdated).toEqual(configuration);
+    expect(configurationServiceMock).toHaveBeenCalledTimes(1);
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should delete configuration successfully", async () => {
+    const configDeleted = await deleteConfigurationInteractor({
+      key: configuration.getKey(),
+      clientId: configuration.getClientId(),
+    });
+
+    expect(configDeleted).toEqual(configuration);
+    expect(configurationServiceMock).toHaveBeenCalledTimes(1);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 });
