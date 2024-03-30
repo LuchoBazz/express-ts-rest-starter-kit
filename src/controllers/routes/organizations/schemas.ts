@@ -21,6 +21,27 @@ export const organizationSchema = checkSchema({
   },
 });
 
+export const featureFlagKeyParamsSchema = checkSchema({
+  key: {
+    in: ["params"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing key",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "key can not be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "key is not a string.",
+    },
+  },
+});
+
 export const createFeatureFlagSchema = checkSchema({
   key: {
     in: ["body"],

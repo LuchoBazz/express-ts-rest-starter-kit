@@ -4,12 +4,35 @@ import { FeatureFlagEntity } from "../../../entities/organizations/feature_flag.
 import { HttpStatusCode } from "../../../gateways/basics";
 import {
   createFeatureFlagInteractor,
+  findFeatureFlagInteractor,
   updateFeatureFlagInteractor,
 } from "../../../interactors/organizations/feature_flag/feature_flag.interactor";
 import { UpdateFeatureFlagInput } from "../../../interactors/organizations/feature_flag/feature_flag.types";
 import { presentFeatureFlag } from "../../../presenters/organizations/feature_flag.presenter";
 import { validateSchema } from "../../validator";
-import { createFeatureFlagSchema, organizationSchema, updateFeatureFlagSchema } from "./schemas";
+import {
+  createFeatureFlagSchema,
+  featureFlagKeyParamsSchema,
+  organizationSchema,
+  updateFeatureFlagSchema,
+} from "./schemas";
+
+export const findFeatureFlagController = [
+  validateSchema(organizationSchema),
+  validateSchema(featureFlagKeyParamsSchema),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const { client_id: clientId, key } = request.params;
+
+      const featureFlagFound = await findFeatureFlagInteractor({ key, clientId });
+
+      const responseFeatureFlag = presentFeatureFlag(featureFlagFound);
+      response.status(HttpStatusCode.OK).json({ data: responseFeatureFlag });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
 
 export const createFeatureFlagController = [
   validateSchema(organizationSchema),
@@ -40,6 +63,7 @@ export const createFeatureFlagController = [
 
 export const updateFeatureFlagController = [
   validateSchema(organizationSchema),
+  validateSchema(featureFlagKeyParamsSchema),
   validateSchema(updateFeatureFlagSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {

@@ -7,6 +7,6 @@ export interface UpdateFeatureFlagInput {
 }
 
 export interface FeatureFlagSearchCriteriaInput {
-  id: string;
+  key: string;
   clientId: string;
 }

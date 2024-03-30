@@ -51,8 +51,8 @@ describe("Given a createFeatureFlagInteractor", () => {
   // TODO: Add test for tests nullable case
   it("should get feature flag successfully", async () => {
     const featFlagFound = await findFeatureFlagInteractor({
+      key: featureFlag.getKey(),
       clientId: featureFlag.getClientId(),
-      id: featureFlag.getId(),
     });
 
     expect(featFlagFound).toEqual(featureFlag);
@@ -84,8 +84,8 @@ describe("Given a createFeatureFlagInteractor", () => {
 
   it("should delete feature flag successfully", async () => {
     const featFlagDeleted = await deleteFeatureFlagInteractor({
+      key: featureFlag.getKey(),
       clientId: featureFlag.getClientId(),
-      id: featureFlag.getId(),
     });
 
     expect(featFlagDeleted).toEqual(featureFlag);

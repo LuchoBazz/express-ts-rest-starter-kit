@@ -14,11 +14,13 @@ export const findFeatureFlagService = async (
   searchCriteria: FeatureFlagSearchCriteriaInput,
 ): Promise<FeatureFlagEntity | null> => {
   try {
-    const { id, clientId } = searchCriteria;
+    const { key, clientId } = searchCriteria;
     const featureFlag = await client.featureFlag.findUnique({
       where: {
-        feature_flag_id: id,
-        feature_flag_organization_client_id: clientId,
+        unique_feature_flag_key_and_feature_flag_organization_client_id: {
+          feature_flag_key: key,
+          feature_flag_organization_client_id: clientId,
+        },
       },
     });
 
@@ -108,11 +110,13 @@ export const deleteFeatureFlagService = async (
   searchCriteria: FeatureFlagSearchCriteriaInput,
 ): Promise<FeatureFlagEntity> => {
   try {
-    const { id, clientId } = searchCriteria;
+    const { key, clientId } = searchCriteria;
     const deleteFeatureFlagTransaction = client.featureFlag.delete({
       where: {
-        feature_flag_id: id,
-        feature_flag_organization_client_id: clientId,
+        unique_feature_flag_key_and_feature_flag_organization_client_id: {
+          feature_flag_key: key,
+          feature_flag_organization_client_id: clientId,
+        },
       },
     });
 
