@@ -8,11 +8,7 @@ export class CacheService {
 
   public constructor() {
     const ttlSeconds = 3600;
-    this.cache = new NodeCache({
-      stdTTL: ttlSeconds,
-      checkperiod: ttlSeconds * 0.2,
-      useClones: false,
-    });
+    this.cache = new NodeCache({ stdTTL: ttlSeconds, checkperiod: ttlSeconds * 0.2, useClones: false });
   }
 
   public async get<T>(
