@@ -4,6 +4,21 @@ import { FeatureFlagEntity } from "../../entities/organizations/feature_flag.ent
 import { onSession } from "../../utils/prisma";
 import { UpdateFeatureFlagInput } from "./feature_flag.types";
 
+export const findFeatureFlagInteractor = async (clientId: string, id: string): Promise<FeatureFlagEntity | null> => {
+  const featureFlagFound = await onSession(async (client: PrismaClient) => {
+    const featureFlag = await client.featureFlag.findUnique({
+      where: {
+        feature_flag_id: id,
+        feature_flag_organization_client_id: clientId,
+      },
+    });
+
+    return featureFlag;
+  });
+
+  return featureFlagFound ? FeatureFlagEntity.fromPrisma(featureFlagFound) : null;
+};
+
 export const createFeatureFlagInteractor = async (featureFlag: FeatureFlagEntity): Promise<FeatureFlagEntity> => {
   const [featureFlagCreated] = await onSession((client: PrismaClient) => {
     const createFeatureFlagTransaction = client.featureFlag.create({
@@ -24,8 +39,8 @@ export const createFeatureFlagInteractor = async (featureFlag: FeatureFlagEntity
 };
 
 export const updateFeatureFlagInteractor = async (featureFlag: UpdateFeatureFlagInput): Promise<FeatureFlagEntity> => {
-  const [featureFlagCreated] = await onSession((client: PrismaClient) => {
-    const createFeatureFlagTransaction = client.featureFlag.update({
+  const [featureFlagUpdated] = await onSession((client: PrismaClient) => {
+    const updateFeatureFlagTransaction = client.featureFlag.update({
       where: {
         feature_flag_id: featureFlag.id,
         feature_flag_organization_client_id: featureFlag.clientId,
@@ -38,8 +53,8 @@ export const updateFeatureFlagInteractor = async (featureFlag: UpdateFeatureFlag
       },
     });
 
-    return client.$transaction([createFeatureFlagTransaction]);
+    return client.$transaction([updateFeatureFlagTransaction]);
   });
 
-  return FeatureFlagEntity.fromPrisma(featureFlagCreated);
+  return FeatureFlagEntity.fromPrisma(featureFlagUpdated);
 };
