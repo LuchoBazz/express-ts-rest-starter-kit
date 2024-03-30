@@ -55,7 +55,7 @@ describe("Given a createFeatureFlagInteractor", () => {
   });
 
   it("should update feature flag correctly", async () => {
-    const featFlagCreated = await updateFeatureFlagInteractor({
+    const featFlagUpdated = await updateFeatureFlagInteractor({
       id: featureFlag.getId(),
       clientId: featureFlag.getClientId(),
       key: featureFlag.getKey(),
@@ -64,7 +64,7 @@ describe("Given a createFeatureFlagInteractor", () => {
       isActive: featureFlag.getIsActive(),
     });
 
-    expect(featFlagCreated).toEqual(featureFlag);
+    expect(featFlagUpdated).toEqual(featureFlag);
     expect(featureFlagMock).toHaveBeenCalledTimes(1);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
