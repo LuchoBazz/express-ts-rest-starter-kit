@@ -5,9 +5,7 @@ import { ErrorMessage } from "../../errors/errors.enum";
 import { UnauthorizedError } from "../../errors/unauthorized.error";
 
 export const permissionChecker = (requiredPermissions: PermissionsValues[]) => {
-  return (request: Request, _: Response, next: NextFunction): void => {
-    console.log({ request });
-
+  return (_request: Request, _: Response, next: NextFunction): void => {
     // request.user.getPermissions()
     const userPermissions: PermissionsValues[] = [PermissionsValues.GUEST_USER];
 

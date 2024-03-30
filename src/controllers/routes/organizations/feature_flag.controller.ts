@@ -14,14 +14,16 @@ export const createFeatureFlagController = [
     try {
       const { client_id: clientId } = request.params;
       const { key, percentage, is_experimental: isExperimental } = request.body;
+      const isActive = true;
 
       const featureFlag = new FeatureFlagEntity(
         key as string,
         percentage as number,
         isExperimental as boolean,
-        true,
+        isActive,
         clientId,
       );
+
       const featureFlagCreated = await createFeatureFlagInteractor(featureFlag);
 
       const responseFeatureFlag = presentFeatureFlag(featureFlagCreated);
