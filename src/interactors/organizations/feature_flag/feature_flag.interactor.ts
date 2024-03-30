@@ -1,25 +1,18 @@
 import { PrismaClient } from "@prisma/client";
 
 import { FeatureFlagEntity } from "../../../entities/organizations/feature_flag.entity";
+import { findFeatureFlagService } from "../../../services/organizations/feature_flag.service";
 import { onSession } from "../../../utils/prisma";
 import { FeatureFlagSearchCriteriaInput, UpdateFeatureFlagInput } from "./feature_flag.types";
 
 export const findFeatureFlagInteractor = async (
   searchCriteria: FeatureFlagSearchCriteriaInput,
 ): Promise<FeatureFlagEntity | null> => {
-  const { id, clientId } = searchCriteria;
   const featureFlagFound = await onSession(async (client: PrismaClient) => {
-    const featureFlag = await client.featureFlag.findUnique({
-      where: {
-        feature_flag_id: id,
-        feature_flag_organization_client_id: clientId,
-      },
-    });
-
-    return featureFlag;
+    return findFeatureFlagService(client, searchCriteria);
   });
 
-  return featureFlagFound ? FeatureFlagEntity.fromPrisma(featureFlagFound) : null;
+  return featureFlagFound;
 };
 
 export const createFeatureFlagInteractor = async (featureFlag: FeatureFlagEntity): Promise<FeatureFlagEntity> => {
