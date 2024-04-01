@@ -1,13 +1,23 @@
+import { Entity } from "../entity";
 import { PermissionsValues } from "./authentication.enum";
 import { UserRole } from "./role.enum";
 
-export abstract class BaseUserEntity {
+export interface UserBaseResponse {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: UserRole;
+}
+
+export abstract class BaseUserEntity extends Entity {
   protected firstName: string;
   protected lastName: string;
   protected email: string;
   protected role: UserRole;
 
   constructor(firstName: string, lastName: string, email: string, role: UserRole) {
+    super();
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
