@@ -1,6 +1,6 @@
 import { PermissionsValues } from "./authentication.enum";
 import { UserRole } from "./role.enum";
-import { BaseUserEntity, UserBaseResponse } from "./user_base.entity";
+import { BaseUserEntity } from "./user_base.entity";
 
 export enum AuthProvider {
   FIREBASE = "FIREBASE",
@@ -34,7 +34,7 @@ export interface UserPrisma {
   user_updated_at: Date;
 }
 
-export interface UserResponse extends UserBaseResponse {
+export interface UserResponse {
   id: string;
   username: string;
   firstName: string;
@@ -54,9 +54,6 @@ export interface UserResponse extends UserBaseResponse {
 
 export class CommonUserEntity extends BaseUserEntity {
   protected username: string;
-  protected firstName: string;
-  protected lastName: string;
-  protected email: string;
   protected identificationNumber: string | null;
   protected phoneNumber: string | null;
   protected terms: boolean;
@@ -146,30 +143,6 @@ export class CommonUserEntity extends BaseUserEntity {
     this.username = username;
   }
 
-  public getFirstName(): string {
-    return this.firstName;
-  }
-
-  public setFirstName(firstName: string): void {
-    this.firstName = firstName;
-  }
-
-  public getLastName(): string {
-    return this.lastName;
-  }
-
-  public setLastName(lastName: string): void {
-    this.lastName = lastName;
-  }
-
-  public getEmail(): string {
-    return this.email;
-  }
-
-  public setEmail(email: string): void {
-    this.email = email;
-  }
-
   public getIdentificationNumber(): string | null {
     return this.identificationNumber;
   }
@@ -216,14 +189,6 @@ export class CommonUserEntity extends BaseUserEntity {
 
   public setUid(uid: string): void {
     this.uid = uid;
-  }
-
-  public getRole(): UserRole {
-    return this.role;
-  }
-
-  public setRole(role: UserRole): void {
-    this.role = role;
   }
 
   public getAuthProvider(): AuthProvider {
