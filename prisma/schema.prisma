@@ -90,7 +90,8 @@ model Role {
   @@map(name: "roles")
   @@unique([role_name], name: "role_name_unique")
 
-  users             User[]          @relation("users_roles_fk")
+  users              User[]                   @relation("users_roles_fk")
+  permissionsOnRoles PermissionsOnRoles[]     @relation("role_permission_assignments")
 }
 
 
@@ -147,6 +148,21 @@ model Permission {
 
   @@schema("users")
   @@map(name: "permissions") 
+  @@unique([permission_name], name: "unique_permission_name")
+  permissionsOnRoles PermissionsOnRoles[] @relation("permission_roles_assigned")
+}
+
+model PermissionsOnRoles {
+  role                                  Role        @relation(fields: [permissions_on_roles_role_name], references: [role_name], name: "role_permission_assignments")
+  permissions_on_roles_role_name        String      @db.VarChar(63)
+  permission                            Permission  @relation(fields: [permissions_on_roles_permission_name], references: [permission_name], name: "permission_roles_assigned")
+  permissions_on_roles_permission_name  String      @db.VarChar(63)
+  permissions_on_roles_created_at       DateTime    @default(now()) @db.Timestamptz
+  permissions_on_roles_updated_at       DateTime    @default(now()) @db.Timestamptz 
+
+  @@schema("users")
+  @@map(name: "permissions_on_roles")
+  @@id([permissions_on_roles_role_name, permissions_on_roles_permission_name])
 }
 
 // AuthTokenStatuses
