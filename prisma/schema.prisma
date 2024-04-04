@@ -91,8 +91,6 @@ model Role {
   @@unique([role_name], name: "role_name_unique")
 
   users             User[]          @relation("users_roles_fk")
-  permissions       Permission[]    @relation("roles_permissions_fk") 
-
 }
 
 
@@ -143,15 +141,12 @@ enum ConfigurationTypeEnum {
 // Permissions
 model Permission {
   permission_id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  permission_role         String      @db.VarChar(63)
   permission_name         String      @db.VarChar(63)
   permission_created_at   DateTime    @default(now()) @db.Timestamptz
   permission_updated_at   DateTime    @default(now()) @db.Timestamptz 
 
   @@schema("users")
   @@map(name: "permissions") 
-
-  role                     Role       @relation(fields: [permission_role], references: [role_name], name: "roles_permissions_fk")
 }
 
 // AuthTokenStatuses
