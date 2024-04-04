@@ -13,6 +13,5 @@ export const presentCommonUser = (commonUser: CommonUserEntity): UserResponse =>
     uid: commonUser.getUid(),
     authProvider: commonUser.getAuthProvider(),
     authType: commonUser.getAuthType(),
-    organizationClientId: commonUser.getOrganizationClientId(),
   };
 };

@@ -7,5 +7,6 @@ export const presentUserBase = (baseUser: BaseUserEntity): UserBaseResponse => {
     lastName: baseUser.getLastName(),
     email: baseUser.getEmail(),
     role: baseUser.getRole(),
+    organizationClientId: baseUser.getOrganizationClientId(),
   };
 };

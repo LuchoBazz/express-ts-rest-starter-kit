@@ -62,7 +62,6 @@ export class CommonUserEntity extends BaseUserEntity {
   protected uid: string;
   protected authProvider: AuthProvider;
   protected authType: AuthType;
-  protected organizationClientId: string;
 
   constructor(
     username: string,
@@ -80,7 +79,7 @@ export class CommonUserEntity extends BaseUserEntity {
     organizationClientId: string,
   ) {
     const role = UserRole.COMMON_USER;
-    super(firstName, lastName, email, role);
+    super(firstName, lastName, email, role, organizationClientId);
     this.username = username;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -94,7 +93,6 @@ export class CommonUserEntity extends BaseUserEntity {
     this.role = role;
     this.authProvider = authProvider;
     this.authType = authType;
-    this.organizationClientId = organizationClientId;
   }
 
   public static fromPrisma(payload: UserPrisma): CommonUserEntity {
@@ -205,14 +203,6 @@ export class CommonUserEntity extends BaseUserEntity {
 
   public setAuthType(authType: AuthType): void {
     this.authType = authType;
-  }
-
-  public getOrganizationClientId(): string {
-    return this.organizationClientId;
-  }
-
-  public setOrganizationClientId(organizationClientId: string): void {
-    this.organizationClientId = organizationClientId;
   }
 
   public getPermissions(): Promise<PermissionsValues[]> {
