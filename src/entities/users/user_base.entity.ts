@@ -19,7 +19,7 @@ export interface UserBaseResponse {
   lastName: string;
   email: string;
   role: UserRole;
-  organizationClientId: string;
+  clientId: string;
 }
 
 export abstract class BaseUserEntity extends Entity {
@@ -27,7 +27,7 @@ export abstract class BaseUserEntity extends Entity {
   protected lastName: string;
   protected email: string;
   protected role: UserRole;
-  protected organizationClientId: string;
+  protected clientId: string;
 
   constructor(firstName: string, lastName: string, email: string, role: UserRole, clientId: string) {
     super();
@@ -35,7 +35,7 @@ export abstract class BaseUserEntity extends Entity {
     this.lastName = lastName;
     this.email = email;
     this.role = role;
-    this.organizationClientId = clientId;
+    this.clientId = clientId;
   }
 
   public getFirstName(): string {
@@ -70,12 +70,12 @@ export abstract class BaseUserEntity extends Entity {
     this.role = role;
   }
 
-  public getOrganizationClientId(): string {
-    return this.organizationClientId;
+  public getClientId(): string {
+    return this.clientId;
   }
 
-  public setOrganizationClientId(organizationClientId: string): void {
-    this.organizationClientId = organizationClientId;
+  public setClientId(organizationClientId: string): void {
+    this.clientId = organizationClientId;
   }
 
   public abstract getPermissions(): Promise<PermissionsValues[]>;

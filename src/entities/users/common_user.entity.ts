@@ -49,7 +49,7 @@ export interface UserResponse {
   role: UserRole;
   authProvider: AuthProvider;
   authType: AuthType;
-  organizationClientId: string;
+  clientId: string;
 }
 
 export class CommonUserEntity extends BaseUserEntity {
@@ -129,7 +129,7 @@ export class CommonUserEntity extends BaseUserEntity {
       role: this.getRole(),
       authProvider: this.getAuthProvider(),
       authType: this.getAuthType(),
-      organizationClientId: this.getOrganizationClientId(),
+      clientId: this.getClientId(),
     };
   }
 
