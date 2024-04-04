@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 import { FeatureFlagEntity } from "../../../entities/organizations/feature_flag.entity";
 import { ErrorMessage } from "../../../errors/errors.enum";
-import { NotFoundError } from "../../../errors/notFound.error";
+import { NotFoundError } from "../../../errors/not_found.error";
 import {
   createFeatureFlagService,
   deleteFeatureFlagService,

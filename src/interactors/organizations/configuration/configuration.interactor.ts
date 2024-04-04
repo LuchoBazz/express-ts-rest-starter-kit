@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 import { ConfigurationEntity } from "../../../entities/organizations/configuration.entity";
 import { ErrorMessage } from "../../../errors/errors.enum";
-import { NotFoundError } from "../../../errors/notFound.error";
+import { NotFoundError } from "../../../errors/not_found.error";
 import {
   createConfigurationService,
   deleteConfigurationService,

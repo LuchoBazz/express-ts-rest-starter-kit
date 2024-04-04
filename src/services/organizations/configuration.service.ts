@@ -2,8 +2,8 @@ import { PrismaClient } from "@prisma/client";
 
 import { ConfigurationEntity } from "../../entities/organizations/configuration.entity";
 import { ErrorMessage } from "../../errors/errors.enum";
-import { prismaGlobalExceptionFilter } from "../../errors/prismaGlobalExceptionFilter";
-import { ServerError } from "../../errors/server.error";
+import { InternalServerError } from "../../errors/internal_server.error";
+import { prismaGlobalExceptionFilter } from "../../errors/prisma_global_exception_filter";
 import {
   ConfigurationSearchCriteriaInput,
   UpdateConfigurationInput,
@@ -27,7 +27,7 @@ export const findConfigurationService = async (
     return configuration ? ConfigurationEntity.fromPrisma(configuration) : null;
   } catch (error) {
     prismaGlobalExceptionFilter(error);
-    throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
+    throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -50,7 +50,7 @@ export const createConfigurationService = async (
     return ConfigurationEntity.fromPrisma(configCreated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
-    throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
+    throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -77,7 +77,7 @@ export const updateConfigurationService = async (
     return ConfigurationEntity.fromPrisma(configurationUpdated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
-    throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
+    throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -100,6 +100,6 @@ export const deleteConfigurationService = async (
     return ConfigurationEntity.fromPrisma(configurationDeleted);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
-    throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
+    throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };

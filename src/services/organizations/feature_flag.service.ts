@@ -2,8 +2,8 @@ import { PrismaClient } from "@prisma/client";
 
 import { FeatureFlagEntity } from "../../entities/organizations/feature_flag.entity";
 import { ErrorMessage } from "../../errors/errors.enum";
-import { prismaGlobalExceptionFilter } from "../../errors/prismaGlobalExceptionFilter";
-import { ServerError } from "../../errors/server.error";
+import { InternalServerError } from "../../errors/internal_server.error";
+import { prismaGlobalExceptionFilter } from "../../errors/prisma_global_exception_filter";
 import {
   FeatureFlagSearchCriteriaInput,
   UpdateFeatureFlagInput,
@@ -27,7 +27,7 @@ export const findFeatureFlagService = async (
     return featureFlag ? FeatureFlagEntity.fromPrisma(featureFlag) : null;
   } catch (error) {
     prismaGlobalExceptionFilter(error);
-    throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
+    throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -51,7 +51,7 @@ export const createFeatureFlagService = async (
     return FeatureFlagEntity.fromPrisma(featureFlagCreated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
-    throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
+    throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -79,7 +79,7 @@ export const updateFeatureFlagService = async (
     return FeatureFlagEntity.fromPrisma(featureFlagUpdated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
-    throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
+    throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -102,6 +102,6 @@ export const deleteFeatureFlagService = async (
     return FeatureFlagEntity.fromPrisma(featureFlagDeleted);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
-    throw new ServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
+    throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
