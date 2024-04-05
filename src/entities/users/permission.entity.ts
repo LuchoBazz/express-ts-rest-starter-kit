@@ -1,13 +1,13 @@
 import { Entity } from "../entity";
 
-export interface BaseUserPrisma {
+export interface PermissionPrisma {
   permission_id: string;
   permission_name: string;
   permission_created_at: Date;
   permission_updated_at: Date;
 }
 
-export interface UserBaseResponse {
+export interface PermissionResponse {
   id: string;
   name: string;
 }
