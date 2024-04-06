@@ -17,4 +17,7 @@ export enum ErrorMessage {
 
   // Configuration
   CONFIGURATION_NOT_FOUND = "CONFIGURATION_NOT_FOUND",
+
+  // Organization
+  ORGANIZATION_NOT_FOUND = "ORGANIZATION_NOT_FOUND",
 }

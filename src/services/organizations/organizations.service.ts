@@ -4,6 +4,7 @@ import { OrganizationEntity } from "../../entities/organizations/organization.en
 import { ErrorMessage } from "../../errors/errors.enum";
 import { InternalServerError } from "../../errors/internal_server.error";
 import { prismaGlobalExceptionFilter } from "../../errors/prisma_global_exception_filter";
+import { UpdateOrganizationInput } from "../../interactors/organizations/organization/organization.types";
 
 export const findOrganizationService = async (
   client: PrismaClient,
@@ -46,15 +47,15 @@ export const createOrganizationService = async (
 
 export const updateOrganizationService = async (
   client: PrismaClient,
-  organization: OrganizationEntity,
+  organization: UpdateOrganizationInput,
 ): Promise<OrganizationEntity> => {
   try {
     const updateOrganizationTransaction = client.organization.update({
       where: {
-        organization_client_id: organization.getClientId(),
+        organization_client_id: organization.clientId,
       },
       data: {
-        organization_name: organization.getName(),
+        organization_name: organization.name,
       },
     });
 

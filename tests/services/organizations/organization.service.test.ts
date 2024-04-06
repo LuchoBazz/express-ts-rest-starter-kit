@@ -70,7 +70,10 @@ describe("Given an organization service", () => {
   });
 
   it("should update organization successfully", async () => {
-    const orgUpdated = await updateOrganizationService(prismaClient, organization);
+    const orgUpdated = await updateOrganizationService(prismaClient, {
+      clientId: organization.getClientId(),
+      name: organization.getName(),
+    });
 
     expect(orgUpdated).toEqual(organization);
     expect(organizationMock).toHaveBeenCalledTimes(1);
@@ -82,4 +85,6 @@ describe("Given an organization service", () => {
     expect(orgDeleted).toEqual(organization);
     expect(organizationMock).toHaveBeenCalledTimes(1);
   });
+
+  // TODO: Add tests for testing errors
 });
