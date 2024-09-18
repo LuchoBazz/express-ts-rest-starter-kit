@@ -12,7 +12,7 @@ import { presentOrganization } from "../../../presenters/organizations/organizat
 import { validateSchema } from "../../validator";
 import { createOrganizationSchema, organizationSchema, updateOrganizationSchema } from "./schemas";
 
-export const findConfigurationController = [
+export const findOrganizationController = [
   validateSchema(organizationSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
