@@ -6,11 +6,11 @@ import { HttpStatusCode } from "../../../gateways/basics";
 import { createConfigurationInteractor } from "../../../interactors/organizations/configuration/configuration.interactor";
 import { presentConfiguration } from "../../../presenters/organizations/configuration.presenter";
 import { validateSchema } from "../../validator";
-import { createOrganizationSchema, organizationSchema } from "./schemas";
+import { createConfigurationSchema, organizationSchema } from "./schemas";
 
 export const createConfigurationController = [
   validateSchema(organizationSchema),
-  validateSchema(createOrganizationSchema),
+  validateSchema(createConfigurationSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const { client_id: clientId } = request.params;

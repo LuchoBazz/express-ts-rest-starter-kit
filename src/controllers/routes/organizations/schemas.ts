@@ -133,7 +133,7 @@ export const updateFeatureFlagSchema = checkSchema({
 
 // CONFIGURATIONS
 
-export const createOrganizationSchema = checkSchema({
+export const createConfigurationSchema = checkSchema({
   key: {
     in: ["body"],
     isEmpty: {
@@ -202,6 +202,32 @@ export const createOrganizationSchema = checkSchema({
     isIn: {
       options: [Object.keys(ConfigurationTypeEnum)],
       errorMessage: "Not an valid type.",
+    },
+  },
+});
+
+export const createOrganizationSchema = checkSchema({
+  name: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing name.",
+    },
+    optional: {
+      options: {
+        nullable: false,
+      },
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "name can not be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "name is not a string.",
     },
   },
 });
