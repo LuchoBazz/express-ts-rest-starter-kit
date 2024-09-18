@@ -1,0 +1,181 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["public", "organizations", "users"]
+}
+
+// Organizations
+model Organization {
+  organization_id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  organization_name          String    @db.VarChar(127)
+  organization_client_id     String    @db.VarChar(63)
+  organization_created_at    DateTime  @default(now()) @db.Timestamptz
+  organization_updated_at    DateTime  @default(now()) @db.Timestamptz
+  
+  @@schema("organizations")
+  @@map(name: "organizations")
+  @@unique([organization_id], name: "organization_pk") 
+  @@unique([organization_client_id], name: "organization_client_id_unique")
+
+  organization_users         User[]    @relation("users_organizations_fk")
+  feature_flags              FeatureFlag[] @relation("feature_flags_organizations_fk")
+  configurations             Configuration[] @relation("organizations_configurations_fk")
+}
+
+// User
+enum AuthProvider {
+  FIREBASE
+  SUPABASE
+
+  @@map(name: "auth_provider_enum")
+  @@schema("users")
+}
+
+enum AuthType {
+  EMAIL_AND_PASSWORD
+  FACEBOOK_AUTH
+  GOOGLE_AUTH
+  GITHUB_AUTH
+
+  @@map(name: "auth_type_enum")
+  @@schema("users")
+}
+
+model User {
+  user_id                      String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_username                String       @db.VarChar(63)
+  user_first_name              String       @db.VarChar(63)
+  user_last_name               String       @db.VarChar(63)
+  user_email                   String       @db.VarChar(63)
+  user_identification_number   String?      @db.VarChar(63)
+  user_phone_number            String?      @db.VarChar(31)
+  user_terms                   Boolean      @default(false)
+  user_notifications           Boolean      @default(false)
+  user_is_active               Boolean      @default(true)
+  user_uid                     String       @db.VarChar(255)
+  user_role                    String       @db.VarChar(63)
+  user_auth_provider           AuthProvider
+  user_auth_type               AuthType
+  user_organization_client_id  String       @db.VarChar(63)
+  user_created_at              DateTime     @default(now()) @db.Timestamptz
+  user_updated_at              DateTime     @default(now()) @db.Timestamptz
+
+  @@schema("users")
+  @@map(name: "users")
+
+  user_organization            Organization @relation(fields: [user_organization_client_id], references: [organization_client_id], onDelete: Cascade,  name: "users_organizations_fk")
+  user_role_reference          Role @relation(fields: [user_role], references: [role_name],  name: "users_roles_fk")
+  authTokens                   AuthTokenStatus[]  @relation(name: "auth_token_statuses_users_fk")
+}
+
+// Roles
+model Role {
+  role_id           String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  role_name         String          @db.VarChar(63)
+  role_created_at   DateTime        @default(now()) @db.Timestamptz
+  role_updated_at   DateTime        @default(now()) @db.Timestamptz
+
+  @@schema("users")
+  @@map(name: "roles")
+  @@unique([role_name], name: "role_name_unique")
+
+  users              User[]                   @relation("users_roles_fk")
+  permissionsOnRoles PermissionsOnRoles[]     @relation("role_permission_assignments")
+}
+
+
+// Feature Flag
+model FeatureFlag {
+  feature_flag_id                        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  feature_flag_key                       String       @db.VarChar(255)
+  feature_flag_percentage                Int          @default(0)
+  feature_flag_is_experimental           Boolean      @default(false)
+  feature_flag_is_active                 Boolean      @default(true)
+  feature_flag_organization_client_id    String       @db.VarChar(63)
+  feature_flag_created_at                DateTime     @default(now()) @db.Timestamptz
+  feature_flag_updated_at                DateTime     @default(now()) @db.Timestamptz
+
+  @@schema("organizations")
+  @@map(name: "feature_flags")
+
+  organization                           Organization @relation(fields: [feature_flag_organization_client_id], references: [organization_client_id], name: "feature_flags_organizations_fk")
+  @@unique([feature_flag_key, feature_flag_organization_client_id], name: "unique_feature_flag_key_and_feature_flag_organization_client_id")
+}
+
+
+// Configurations
+model Configuration {
+  configuration_id                        String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  configuration_key                       String                   @db.VarChar(255)
+  configuration_value                     String                   @db.Text
+  configuration_type                      ConfigurationTypeEnum
+  configuration_organization_client_id    String                   @db.VarChar(63)
+  configuration_created_at                DateTime                 @default(now()) @db.Timestamptz
+  configuration_updated_at                DateTime                 @default(now()) @db.Timestamptz
+  
+  @@schema("organizations")
+  @@map(name: "configurations")
+
+  organization                            Organization             @relation(fields: [configuration_organization_client_id], references: [organization_client_id], name: "organizations_configurations_fk")
+  @@unique([configuration_key, configuration_organization_client_id], name: "unique_configuration_key_and_configuration_organization_client_id")
+
+}
+
+enum ConfigurationTypeEnum {
+  ENUM
+  JSON
+  @@schema("organizations")
+  @@map(name: "configuration_type_enum")
+}
+
+// Permissions
+model Permission {
+  permission_id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  permission_name         String      @db.VarChar(63)
+  permission_created_at   DateTime    @default(now()) @db.Timestamptz
+  permission_updated_at   DateTime    @default(now()) @db.Timestamptz 
+
+  @@schema("users")
+  @@map(name: "permissions") 
+  @@unique([permission_name], name: "unique_permission_name")
+  permissionsOnRoles PermissionsOnRoles[] @relation("permission_roles_assigned")
+}
+
+model PermissionsOnRoles {
+  role                                  Role        @relation(fields: [permissions_on_roles_role_name], references: [role_name], name: "role_permission_assignments")
+  permissions_on_roles_role_name        String      @db.VarChar(63)
+  permission                            Permission  @relation(fields: [permissions_on_roles_permission_name], references: [permission_name], name: "permission_roles_assigned")
+  permissions_on_roles_permission_name  String      @db.VarChar(63)
+  permissions_on_roles_created_at       DateTime    @default(now()) @db.Timestamptz
+  permissions_on_roles_updated_at       DateTime    @default(now()) @db.Timestamptz 
+
+  @@schema("users")
+  @@map(name: "permissions_on_roles")
+  @@id([permissions_on_roles_role_name, permissions_on_roles_permission_name])
+}
+
+// AuthTokenStatuses
+model AuthTokenStatus {
+  auth_token_id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  auth_token_user            String      @db.Uuid
+  auth_token_issued_at       BigInt      @db.BigInt
+  auth_token_expiration_time BigInt      @db.BigInt
+  auth_token_created_at      DateTime    @default(now()) @db.Timestamptz
+  auth_token_updated_at      DateTime    @default(now()) @db.Timestamptz
+  
+  @@map(name: "auth_token_statuses")
+  @@schema("users")
+
+  user                       User        @relation(fields: [auth_token_user], references: [user_id], name: "auth_token_statuses_users_fk")
+}
