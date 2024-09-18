@@ -2,10 +2,31 @@ import { NextFunction, Request, Response } from "express";
 
 import { OrganizationEntity } from "../../../entities/organizations/organization.entity";
 import { HttpStatusCode } from "../../../gateways/basics";
-import { createOrganizationInteractor } from "../../../interactors/organizations/organization/organization.interactor";
+import {
+  createOrganizationInteractor,
+  findOrganizationInteractor,
+  updateOrganizationInteractor,
+} from "../../../interactors/organizations/organization/organization.interactor";
+import { UpdateOrganizationInput } from "../../../interactors/organizations/organization/organization.types";
 import { presentOrganization } from "../../../presenters/organizations/organization.presenter";
 import { validateSchema } from "../../validator";
-import { createOrganizationSchema, organizationSchema } from "./schemas";
+import { createOrganizationSchema, organizationSchema, updateOrganizationSchema } from "./schemas";
+
+export const findConfigurationController = [
+  validateSchema(organizationSchema),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const { client_id: clientId } = request.params;
+
+      const organizationFound = await findOrganizationInteractor(clientId);
+
+      const organizationFlag = presentOrganization(organizationFound);
+      response.status(HttpStatusCode.OK).json({ data: organizationFlag });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
 
 export const createOrganizationController = [
   validateSchema(organizationSchema),
@@ -20,6 +41,29 @@ export const createOrganizationController = [
       const organizationCreated = await createOrganizationInteractor(organization);
 
       const responseOrganization = presentOrganization(organizationCreated);
+      response.status(HttpStatusCode.OK).json({ data: responseOrganization });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
+
+export const updateOrganizationController = [
+  validateSchema(organizationSchema),
+  validateSchema(updateOrganizationSchema),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const { client_id: clientId } = request.params;
+      const { name } = request.body;
+
+      const featureFlag: UpdateOrganizationInput = {
+        clientId,
+        name: name as string,
+      };
+
+      const organizationUpdated = await updateOrganizationInteractor(featureFlag);
+
+      const responseOrganization = presentOrganization(organizationUpdated);
       response.status(HttpStatusCode.OK).json({ data: responseOrganization });
     } catch (error) {
       next(error);

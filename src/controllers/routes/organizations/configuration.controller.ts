@@ -62,7 +62,7 @@ export const createConfigurationController = [
   },
 ];
 
-export const updatConfigurationController = [
+export const updateConfigurationController = [
   validateSchema(organizationSchema),
   validateSchema(configurationKeyParamsSchema),
   validateSchema(updateConfigurationSchema),
