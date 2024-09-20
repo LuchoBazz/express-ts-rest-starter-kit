@@ -26,6 +26,12 @@ export class RoleEntity extends Entity {
     this.name = name;
   }
 
+  public static fromPrisma(payload: RolePrisma): RoleEntity {
+    const role = new RoleEntity(payload.role_name);
+    role.setId(payload.role_id);
+    return role;
+  }
+
   public getName(): string {
     return this.name;
   }
