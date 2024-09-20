@@ -20,4 +20,7 @@ export enum ErrorMessage {
 
   // Organization
   ORGANIZATION_NOT_FOUND = "ORGANIZATION_NOT_FOUND",
+
+  // ROLE
+  ROLE_NOT_FOUND = "ROLE_NOT_FOUND",
 }
