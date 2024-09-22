@@ -41,7 +41,8 @@
     "nodemon": "^3.1.7",
     "prettier": "^3.2.5",
     "prisma": "^5.19.1",
-    "ts-jest": "^29.1.2"
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2"
   },
   "overrides": {
     "minimatch": "5.1.2",
@@ -57,5 +58,8 @@
   "bugs": {
     "url": "https://github.com/LuchoBazz/express-ts-rest-starter-kit/issues"
   },
-  "homepage": "https://github.com/LuchoBazz/express-ts-rest-starter-kit#readme"
+  "homepage": "https://github.com/LuchoBazz/express-ts-rest-starter-kit#readme",
+  "prisma": {
+    "seed": "ts-node --transpile-only ./prisma/seed.ts"
+  }
 }
