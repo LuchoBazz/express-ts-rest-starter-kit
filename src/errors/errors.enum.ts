@@ -23,4 +23,7 @@ export enum ErrorMessage {
 
   // ROLE
   ROLE_NOT_FOUND = "ROLE_NOT_FOUND",
+
+  // PERMISSION
+  PERMISSION_NOT_FOUND = "PERMISSION_NOT_FOUND",
 }
