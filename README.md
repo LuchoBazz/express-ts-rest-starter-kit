@@ -42,6 +42,16 @@ npx prisma migrate dev
 npx prisma migrate deploy
 ```
 
+## Seed
+
+```bash
+# Run the seed
+npx prisma db seed
+
+# Reinitialize the database with seed data.
+npx prisma migrate reset
+```
+
 ## Test
 
 ```bash

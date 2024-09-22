@@ -57,5 +57,8 @@
   "bugs": {
     "url": "https://github.com/LuchoBazz/express-ts-rest-starter-kit/issues"
   },
-  "homepage": "https://github.com/LuchoBazz/express-ts-rest-starter-kit#readme"
+  "homepage": "https://github.com/LuchoBazz/express-ts-rest-starter-kit#readme",
+  "prisma": {
+    "seed": "ts-node --transpile-only ./prisma/seed.ts"
+  }
 }
