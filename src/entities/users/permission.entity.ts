@@ -20,6 +20,12 @@ export class PermissionEntity extends Entity {
     this.name = name;
   }
 
+  public static fromPrisma(payload: PermissionPrisma): PermissionEntity {
+    const role = new PermissionEntity(payload.permission_name);
+    role.setId(payload.permission_id);
+    return role;
+  }
+
   public getName(): string {
     return this.name;
   }
