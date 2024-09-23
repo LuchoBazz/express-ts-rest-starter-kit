@@ -60,11 +60,11 @@ describe("Given a permission on role service", () => {
   it("should find all permissions by role successfully", async () => {
     const permissionsFound = await findPermissionsByRoleService(prismaClient, role);
 
-    expect(
-      permissionsFound.map((permission) => {
-        return permission.getName();
-      }),
-    ).toEqual(permissionsExpected);
+    const permissionNamesExpected = permissionsFound.map((permission) => {
+      return permission.getName();
+    });
+
+    expect(permissionNamesExpected).toEqual(permissionsExpected);
     expect(permissionOnRoleMock).toHaveBeenCalledTimes(1);
   });
 
