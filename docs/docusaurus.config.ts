@@ -29,6 +29,16 @@ const config: Config = {
     locales: ['en'],
   },
 
+  themes: [
+    [
+      require.resolve("@easyops-cn/docusaurus-search-local"),
+      ({
+        hashed: true,
+        language: ['en', 'es']
+      }),
+    ],
+  ],
+
   presets: [
     [
       'classic',
@@ -114,6 +124,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      additionalLanguages: ['json', 'bash', 'go', 'sql']
     },
   } satisfies Preset.ThemeConfig,
 };
