@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+
 import { PermissionsValues } from "../../src/entities/users/authentication.enum";
 
 const prisma = new PrismaClient();
