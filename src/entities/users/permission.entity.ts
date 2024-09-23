@@ -21,9 +21,9 @@ export class PermissionEntity extends Entity {
   }
 
   public static fromPrisma(payload: PermissionPrisma): PermissionEntity {
-    const role = new PermissionEntity(payload.permission_name);
-    role.setId(payload.permission_id);
-    return role;
+    const permission = new PermissionEntity(payload.permission_name);
+    permission.setId(payload.permission_id);
+    return permission;
   }
 
   public getName(): string {
