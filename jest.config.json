@@ -3,10 +3,8 @@
   "coverageProvider": "v8",
   "testEnvironment": "node",
   "preset": "ts-jest",
-  "testMatch": ["<rootDir>/tests/**/*.test.ts"],
+  "testMatch": ["<rootDir>/tests/unit/**/*.test.ts"],
   "coveragePathIgnorePatterns": ["/node_modules/"],
   "collectCoverageFrom": ["<rootDir>/src/**/*.ts"],
-  "setupFilesAfterEnv": [
-    // "./tests/global-setup.ts"
-  ]
+  "setupFilesAfterEnv": []
 }

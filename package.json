@@ -8,8 +8,8 @@
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet && prettier --check '{src,test}/**/*.ts' && prettier --check '**/*.{yml,yaml}'",
     "linter-fix": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix && npm run prettier",
     "prettier": "./node_modules/prettier/bin/prettier.cjs --write .",
-    "start:dev": "npm run build && node ./build/src/server.js",
-    "start:prod": "npm run build && node ./build/src/server.js",
+    "start:dev": "npm run build && node ./build/src/app/server.js",
+    "start:prod": "npm run build && node ./build/src/app/server.js",
     "test": "LOG_SILENT=true jest --coverage --logHeapUsage"
   },
   "dependencies": {

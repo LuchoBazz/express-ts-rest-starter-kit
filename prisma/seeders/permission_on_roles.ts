@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-import { PermissionsValues } from "../../src/entities/users/authentication.enum";
+import { PermissionsValues } from "../../src/core/entities/users/authentication.enum";
 
 const prisma = new PrismaClient();
 
