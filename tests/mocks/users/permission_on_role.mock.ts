@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { PermissionOnRolePrisma } from "../../../src/entities/users/permission_on_role.entity";
+import { PermissionOnRolePrisma } from "../../../src/core/entities/users/permission_on_role.entity";
 
 export const genRandomPermissionOnRolePrisma = ({
   permissions_on_roles_role_name = faker.string.alpha(10),

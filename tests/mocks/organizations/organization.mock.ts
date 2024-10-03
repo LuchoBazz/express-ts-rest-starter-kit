@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { OrganizationPrisma } from "../../../src/entities/organizations/organization.entity";
+import { OrganizationPrisma } from "../../../src/core/entities/organizations/organization.entity";
 
 export const genRandomOrganizationPrisma = ({
   organization_id = faker.string.uuid(),

@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 
-import { AuthProvider, AuthType, UserPrisma } from "../../../src/entities/users/common_user.entity";
-import { UserRole } from "../../../src/entities/users/role.enum";
+import { AuthProvider, AuthType, UserPrisma } from "../../../src/core/entities/users/common_user.entity";
+import { UserRole } from "../../../src/core/entities/users/role.enum";
 
 export const genRandomUserPrisma = ({
   user_id = faker.string.uuid(),

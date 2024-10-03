@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 
-import { UserRole } from "../../../src/entities/users/role.enum";
-import { BaseUserPrisma } from "../../../src/entities/users/user_base.entity";
+import { UserRole } from "../../../src/core/entities/users/role.enum";
+import { BaseUserPrisma } from "../../../src/core/entities/users/user_base.entity";
 
 export const genRandomBaseUserPrisma = ({
   user_id = faker.string.uuid(),

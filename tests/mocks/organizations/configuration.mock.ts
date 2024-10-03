@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { ConfigurationTypeEnum } from "@prisma/client";
 
-import { ConfigurationPrisma } from "../../../src/entities/organizations/configuration.entity";
+import { ConfigurationPrisma } from "../../../src/core/entities/organizations/configuration.entity";
 
 export const genRandomConfigurationPrisma = ({
   configuration_id = faker.string.uuid(),

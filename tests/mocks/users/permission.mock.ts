@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { PermissionPrisma } from "../../../src/entities/users/permission.entity";
+import { PermissionPrisma } from "../../../src/core/entities/users/permission.entity";
 
 export const genRandomPermissionPrisma = ({
   permission_id = faker.string.uuid(),

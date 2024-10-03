@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { RolePrisma } from "../../../src/entities/users/role.enum";
+import { RolePrisma } from "../../../src/core/entities/users/role.enum";
 
 export const genRandomRolePrisma = ({
   role_id = faker.string.uuid(),
