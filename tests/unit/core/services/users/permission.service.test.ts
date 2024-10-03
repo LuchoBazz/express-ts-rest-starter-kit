@@ -1,12 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 
-import { PermissionEntity, PermissionPrisma } from "../../../../src/core/entities/users/permission.entity";
+import { PermissionEntity, PermissionPrisma } from "../../../../../src/core/entities/users/permission.entity";
 import {
   createPermissionService,
   deletePermissionService,
   findPermissionService,
-} from "../../../../src/core/services/users/permission.service";
-import { genRandomPermissionPrisma } from "../../../mocks/users/permission.mock";
+} from "../../../../../src/core/services/users/permission.service";
+import { genRandomPermissionPrisma } from "../../../../mocks/users/permission.mock";
 
 const permissionMock = jest.fn();
 const transactionMock = jest.fn();

@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
 
-import { PermissionOnRoleEntity } from "../../../../src/core/entities/users/permission_on_role.entity";
-import { findPermissionsByRoleService } from "../../../../src/core/services/users/permission_on_role.service";
-import { genRandomPermissionOnRolePrisma } from "../../../mocks/users/permission_on_role.mock";
+import { PermissionOnRoleEntity } from "../../../../../src/core/entities/users/permission_on_role.entity";
+import { findPermissionsByRoleService } from "../../../../../src/core/services/users/permission_on_role.service";
+import { genRandomPermissionOnRolePrisma } from "../../../../mocks/users/permission_on_role.mock";
 
 const permissionOnRoleMock = jest.fn();
 const transactionMock = jest.fn();

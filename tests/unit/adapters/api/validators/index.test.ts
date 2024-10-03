@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { Result, ValidationChain, ValidationError, validationResult } from "express-validator";
 
-import { ErrorMessage } from "../../../../src/adapters/api/errors/errors.enum";
-import { UnprocessableEntityError } from "../../../../src/adapters/api/errors/unprocessable_entity.error";
-import { validateSchema } from "../../../../src/adapters/api/validator";
+import { ErrorMessage } from "../../../../../src/adapters/api/errors/errors.enum";
+import { UnprocessableEntityError } from "../../../../../src/adapters/api/errors/unprocessable_entity.error";
+import { validateSchema } from "../../../../../src/adapters/api/validator";
 
 jest.mock("express-validator");
 

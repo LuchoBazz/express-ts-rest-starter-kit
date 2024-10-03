@@ -1,10 +1,10 @@
 import { Prisma } from "@prisma/client";
 
-import { ErrorMessage } from "../../../src/adapters/api/errors/errors.enum";
-import { InternalServerError } from "../../../src/adapters/api/errors/internal_server.error";
-import { prismaGlobalExceptionFilter } from "../../../src/adapters/api/errors/prisma_global_exception_filter";
-import { ServerError } from "../../../src/adapters/api/errors/server.error";
-import { UnauthorizedError } from "../../../src/adapters/api/errors/unauthorized.error";
+import { ErrorMessage } from "../../../../../src/adapters/api/errors/errors.enum";
+import { InternalServerError } from "../../../../../src/adapters/api/errors/internal_server.error";
+import { prismaGlobalExceptionFilter } from "../../../../../src/adapters/api/errors/prisma_global_exception_filter";
+import { ServerError } from "../../../../../src/adapters/api/errors/server.error";
+import { UnauthorizedError } from "../../../../../src/adapters/api/errors/unauthorized.error";
 
 describe("prismaGlobalExceptionFilter", () => {
   it.each([

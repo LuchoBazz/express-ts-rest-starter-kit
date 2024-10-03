@@ -1,12 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 
-import { RoleEntity, RolePrisma } from "../../../../src/core/entities/users/role.enum";
+import { RoleEntity, RolePrisma } from "../../../../../src/core/entities/users/role.enum";
 import {
   createRoleService,
   deleteRoleService,
   findRoleService,
-} from "../../../../src/core/services/users/role.service";
-import { genRandomRolePrisma } from "../../../mocks/users/role.mock";
+} from "../../../../../src/core/services/users/role.service";
+import { genRandomRolePrisma } from "../../../../mocks/users/role.mock";
 
 const roleMock = jest.fn();
 const transactionMock = jest.fn();

@@ -1,16 +1,16 @@
 const roleServiceMock = jest.fn();
 
-import { RoleEntity } from "../../../../src/core/entities/users/role.enum";
+import { RoleEntity } from "../../../../../src/core/entities/users/role.enum";
 import {
   createRoleInteractor,
   deleteRoleInteractor,
   findRoleInteractor,
-} from "../../../../src/core/interactors/users/role/role.interactor";
-import { genRandomRolePrisma } from "../../../mocks/users/role.mock";
+} from "../../../../../src/core/interactors/users/role/role.interactor";
+import { genRandomRolePrisma } from "../../../../mocks/users/role.mock";
 
 const disconnectMock = jest.fn();
 
-jest.mock("../../../../src/core/services/users/role.service", () => {
+jest.mock("../../../../../src/core/services/users/role.service", () => {
   return {
     findRoleService: roleServiceMock,
     createRoleService: roleServiceMock,

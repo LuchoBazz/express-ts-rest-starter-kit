@@ -3,14 +3,14 @@ import { PrismaClient } from "@prisma/client";
 import {
   ConfigurationEntity,
   ConfigurationPrisma,
-} from "../../../../src/core/entities/organizations/configuration.entity";
+} from "../../../../../src/core/entities/organizations/configuration.entity";
 import {
   createConfigurationService,
   deleteConfigurationService,
   findConfigurationService,
   updateConfigurationService,
-} from "../../../../src/core/services/organizations/configuration.service";
-import { genRandomConfigurationPrisma } from "../../../mocks/organizations/configuration.mock";
+} from "../../../../../src/core/services/organizations/configuration.service";
+import { genRandomConfigurationPrisma } from "../../../../mocks/organizations/configuration.mock";
 
 const configurationMock = jest.fn();
 const transactionMock = jest.fn();

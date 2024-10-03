@@ -1,4 +1,4 @@
-import { OrganizationCacheParameters } from "../../../../src/core/entities/cache/organization_cache.entity";
+import { OrganizationCacheParameters } from "../../../../../src/core/entities/cache/organization_cache.entity";
 
 describe("Given a OrganizationCacheParameters instance", () => {
   const clientId = "exampleClientId";

@@ -1,16 +1,16 @@
 const permissionServiceMock = jest.fn();
 
-import { PermissionEntity } from "../../../../src/core/entities/users/permission.entity";
+import { PermissionEntity } from "../../../../../src/core/entities/users/permission.entity";
 import {
   createPermissionInteractor,
   deletePermissionInteractor,
   findPermissionInteractor,
-} from "../../../../src/core/interactors/users/permission/permission.interactor";
-import { genRandomPermissionPrisma } from "../../../mocks/users/permission.mock";
+} from "../../../../../src/core/interactors/users/permission/permission.interactor";
+import { genRandomPermissionPrisma } from "../../../../mocks/users/permission.mock";
 
 const disconnectMock = jest.fn();
 
-jest.mock("../../../../src/core/services/users/permission.service", () => {
+jest.mock("../../../../../src/core/services/users/permission.service", () => {
   return {
     findPermissionService: permissionServiceMock,
     createPermissionService: permissionServiceMock,

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-import { onSession } from "../../src/infrastructure/database/prisma";
+import { onSession } from "../../../../src/infrastructure/database/prisma";
 
 const transactionMock = jest.fn();
 const disconnectMock = jest.fn();

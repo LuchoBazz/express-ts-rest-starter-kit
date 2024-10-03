@@ -1,13 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 
-import { FeatureFlagEntity, FeatureFlagPrisma } from "../../../../src/core/entities/organizations/feature_flag.entity";
+import {
+  FeatureFlagEntity,
+  FeatureFlagPrisma,
+} from "../../../../../src/core/entities/organizations/feature_flag.entity";
 import {
   createFeatureFlagService,
   deleteFeatureFlagService,
   findFeatureFlagService,
   updateFeatureFlagService,
-} from "../../../../src/core/services/organizations/feature_flag.service";
-import { genRandomFeatureFlagPrisma } from "../../../mocks/organizations/feature_flag.mock";
+} from "../../../../../src/core/services/organizations/feature_flag.service";
+import { genRandomFeatureFlagPrisma } from "../../../../mocks/organizations/feature_flag.mock";
 
 const featureFlagMock = jest.fn();
 const transactionMock = jest.fn();

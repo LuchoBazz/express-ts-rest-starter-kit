@@ -1,5 +1,5 @@
-import { RoleCachePermissions } from "../../../../src/core/entities/cache/permission_cache.entity";
-import { UserRole } from "../../../../src/core/entities/users/role.enum";
+import { RoleCachePermissions } from "../../../../../src/core/entities/cache/permission_cache.entity";
+import { UserRole } from "../../../../../src/core/entities/users/role.enum";
 
 describe("Given a RoleCachePermissions instance", () => {
   const role = UserRole.COMMON_USER;

@@ -1,17 +1,17 @@
 const featureFlagServiceMock = jest.fn();
 
-import { FeatureFlagEntity } from "../../../../src/core/entities/organizations/feature_flag.entity";
+import { FeatureFlagEntity } from "../../../../../src/core/entities/organizations/feature_flag.entity";
 import {
   createFeatureFlagInteractor,
   deleteFeatureFlagInteractor,
   findFeatureFlagInteractor,
   updateFeatureFlagInteractor,
-} from "../../../../src/core/interactors/organizations/feature_flag/feature_flag.interactor";
-import { genRandomFeatureFlagPrisma } from "../../../mocks/organizations/feature_flag.mock";
+} from "../../../../../src/core/interactors/organizations/feature_flag/feature_flag.interactor";
+import { genRandomFeatureFlagPrisma } from "../../../../mocks/organizations/feature_flag.mock";
 
 const disconnectMock = jest.fn();
 
-jest.mock("../../../../src/core/services/organizations/feature_flag.service", () => {
+jest.mock("../../../../../src/core/services/organizations/feature_flag.service", () => {
   return {
     findFeatureFlagService: featureFlagServiceMock,
     createFeatureFlagService: featureFlagServiceMock,

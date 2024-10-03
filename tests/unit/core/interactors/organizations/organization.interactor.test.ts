@@ -1,17 +1,17 @@
 const organizationServiceMock = jest.fn();
 
-import { OrganizationEntity } from "../../../../src/core/entities/organizations/organization.entity";
+import { OrganizationEntity } from "../../../../../src/core/entities/organizations/organization.entity";
 import {
   createOrganizationInteractor,
   deleteOrganizationInteractor,
   findOrganizationInteractor,
   updateOrganizationInteractor,
-} from "../../../../src/core/interactors/organizations/organization/organization.interactor";
-import { genRandomOrganizationPrisma } from "../../../mocks/organizations/organization.mock";
+} from "../../../../../src/core/interactors/organizations/organization/organization.interactor";
+import { genRandomOrganizationPrisma } from "../../../../mocks/organizations/organization.mock";
 
 const disconnectMock = jest.fn();
 
-jest.mock("../../../../src/core/services/organizations/organizations.service", () => {
+jest.mock("../../../../../src/core/services/organizations/organizations.service", () => {
   return {
     findOrganizationService: organizationServiceMock,
     createOrganizationService: organizationServiceMock,

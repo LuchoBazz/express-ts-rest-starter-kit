@@ -3,14 +3,14 @@ import { PrismaClient } from "@prisma/client";
 import {
   OrganizationEntity,
   OrganizationPrisma,
-} from "../../../../src/core/entities/organizations/organization.entity";
+} from "../../../../../src/core/entities/organizations/organization.entity";
 import {
   createOrganizationService,
   deleteOrganizationService,
   findOrganizationService,
   updateOrganizationService,
-} from "../../../../src/core/services/organizations/organizations.service";
-import { genRandomOrganizationPrisma } from "../../../mocks/organizations/organization.mock";
+} from "../../../../../src/core/services/organizations/organizations.service";
+import { genRandomOrganizationPrisma } from "../../../../mocks/organizations/organization.mock";
 
 const organizationMock = jest.fn();
 const transactionMock = jest.fn();

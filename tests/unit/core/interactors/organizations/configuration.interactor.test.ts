@@ -1,17 +1,17 @@
 const configurationServiceMock = jest.fn();
 
-import { ConfigurationEntity } from "../../../../src/core/entities/organizations/configuration.entity";
+import { ConfigurationEntity } from "../../../../../src/core/entities/organizations/configuration.entity";
 import {
   createConfigurationInteractor,
   deleteConfigurationInteractor,
   findConfigurationInteractor,
   updateConfigurationInteractor,
-} from "../../../../src/core/interactors/organizations/configuration/configuration.interactor";
-import { genRandomConfigurationPrisma } from "../../../mocks/organizations/configuration.mock";
+} from "../../../../../src/core/interactors/organizations/configuration/configuration.interactor";
+import { genRandomConfigurationPrisma } from "../../../../mocks/organizations/configuration.mock";
 
 const disconnectMock = jest.fn();
 
-jest.mock("../../../../src/core/services/organizations/configuration.service", () => {
+jest.mock("../../../../../src/core/services/organizations/configuration.service", () => {
   return {
     findConfigurationService: configurationServiceMock,
     createConfigurationService: configurationServiceMock,
