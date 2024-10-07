@@ -2,7 +2,10 @@ import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
 
 import { PermissionOnRoleEntity } from "../../../../../src/core/entities/users/permission_on_role.entity";
-import { findPermissionsByRoleService } from "../../../../../src/core/services/users/permission_on_role.service";
+import {
+  addPermissionsToRoleService,
+  findPermissionsByRoleService,
+} from "../../../../../src/core/services/users/permission_on_role.service";
 import { genRandomPermissionOnRolePrisma } from "../../../../mocks/users/permission_on_role.mock";
 
 const permissionOnRoleMock = jest.fn();
@@ -15,6 +18,7 @@ jest.mock("@prisma/client", () => {
       return {
         permissionsOnRoles: {
           findMany: permissionOnRoleMock,
+          create: permissionOnRoleMock,
         },
         $transaction: transactionMock,
         $disconnect: disconnectMock,
@@ -27,6 +31,7 @@ describe("Given a permission on role service", () => {
   let prismaClient: PrismaClient;
   let permissionsExpected: string[];
   let role: string;
+  let permissions: string[];
 
   beforeAll(() => {
     prismaClient = new PrismaClient();
@@ -34,14 +39,17 @@ describe("Given a permission on role service", () => {
 
   beforeEach(() => {
     role = faker.string.alphanumeric(10);
+    permissions = [faker.string.alphanumeric(8), faker.string.alphanumeric(8)];
 
     const permissionsOnRolePrisma = [
       genRandomPermissionOnRolePrisma({ permissions_on_roles_role_name: role }),
       genRandomPermissionOnRolePrisma({ permissions_on_roles_role_name: role }),
     ];
+
     const permissionsOnRoleEntity = permissionsOnRolePrisma.map((permissionOnRolePrisma) => {
       return PermissionOnRoleEntity.fromPrisma(permissionOnRolePrisma);
     });
+
     permissionsExpected = permissionsOnRoleEntity.map((permissionOnRoleEntity) => {
       return permissionOnRoleEntity.getPermissionName();
     });
@@ -66,6 +74,28 @@ describe("Given a permission on role service", () => {
 
     expect(permissionNamesExpected).toEqual(permissionsExpected);
     expect(permissionOnRoleMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should add permissions to role successfully", async () => {
+    const permissionsOnRolePrisma = permissions.map((permission) => {
+      return genRandomPermissionOnRolePrisma({
+        permissions_on_roles_permission_name: permission,
+        permissions_on_roles_role_name: role,
+      });
+    });
+
+    transactionMock.mockImplementation(() => {
+      return permissionsOnRolePrisma;
+    });
+
+    const permissionsAdded = await addPermissionsToRoleService(prismaClient, permissions, role);
+
+    const permissionNamesAdded = permissionsAdded.map((permission) => {
+      return permission.getName();
+    });
+
+    expect(permissionNamesAdded).toEqual(permissions);
+    expect(transactionMock).toHaveBeenCalledTimes(1);
   });
 
   // TODO: Add tests for error handling

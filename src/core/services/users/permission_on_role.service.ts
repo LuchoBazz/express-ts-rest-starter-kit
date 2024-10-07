@@ -24,3 +24,33 @@ export const findPermissionsByRoleService = async (client: PrismaClient, role: s
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }
 };
+
+export const addPermissionsToRoleService = async (
+  client: PrismaClient,
+  permissions: string[],
+  role: string,
+): Promise<PermissionEntity[]> => {
+  try {
+    const createPermissionsTransactions = permissions.map((permission) => {
+      return client.permissionsOnRoles.create({
+        data: {
+          permissions_on_roles_permission_name: permission,
+          permissions_on_roles_role_name: role,
+        },
+      });
+    });
+
+    const permissionsCreated = await client.$transaction(createPermissionsTransactions);
+
+    const permissionsOnRole = permissionsCreated.map((permissionCreated) => {
+      return PermissionOnRoleEntity.fromPrisma(permissionCreated);
+    });
+
+    return permissionsOnRole.map((permissionOnRole) => {
+      return new PermissionEntity(permissionOnRole.getPermissionName());
+    });
+  } catch (error) {
+    prismaGlobalExceptionFilter(error);
+    throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
+  }
+};
