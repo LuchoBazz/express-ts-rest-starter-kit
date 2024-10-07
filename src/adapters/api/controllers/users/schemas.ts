@@ -77,3 +77,30 @@ export const permissionOnRoleSchema = checkSchema({
     },
   },
 });
+
+export const addPermissionsToRoleSchema = checkSchema({
+  role_name: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing role_name.",
+    },
+    optional: {
+      options: {
+        nullable: false,
+      },
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "role_name can not be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "role_name is not a string.",
+    },
+  },
+  permissions: {},
+});
