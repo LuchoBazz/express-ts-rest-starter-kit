@@ -28,7 +28,7 @@ export const roleSchema = checkSchema({
 
 export const permissionSchema = checkSchema({
   name: {
-    in: ["body"],
+    in: ["params"],
     isEmpty: {
       options: { ignore_whitespace: true },
       negated: true,
@@ -48,6 +48,32 @@ export const permissionSchema = checkSchema({
     },
     isString: {
       errorMessage: "name is not a string.",
+    },
+  },
+});
+
+export const permissionOnRoleSchema = checkSchema({
+  role_name: {
+    in: ["params"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing role_name.",
+    },
+    optional: {
+      options: {
+        nullable: false,
+      },
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "role_name can not be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "role_name is not a string.",
     },
   },
 });
