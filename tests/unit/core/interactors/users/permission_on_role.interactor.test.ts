@@ -10,7 +10,6 @@ import {
 } from "../../../../../src/core/interactors/users/permission/permission_on_role.interactor";
 import { genRandomPermissionPrisma } from "../../../../mocks/users/permission.mock";
 
-
 jest.mock("../../../../../src/core/services/users/permission_on_role.service", () => {
   return {
     findPermissionsByRoleService: permissionServiceMock,
@@ -82,11 +81,11 @@ describe("Given a permission interactor", () => {
 
     it("should throw an error if adding permissions fails", async () => {
       permissionServiceMock.mockImplementation(() => {
-        throw new Error("Failed to add permissions");
+        throw new Error("FAILED_TO_ADD_PERMISSIONS");
       });
 
       await expect(addPermissionsToRoleInteractor("some-role", ["permission-1"])).rejects.toThrow(
-        "Failed to add permissions",
+        "FAILED_TO_ADD_PERMISSIONS",
       );
 
       expect(permissionServiceMock).toHaveBeenCalledTimes(1);
