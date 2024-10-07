@@ -4,7 +4,10 @@ import { ErrorMessage } from "../../../../adapters/api/errors/errors.enum";
 import { NotFoundError } from "../../../../adapters/api/errors/not_found.error";
 import { onSession } from "../../../../infrastructure/database/prisma";
 import { PermissionEntity } from "../../../entities/users/permission.entity";
-import { findPermissionsByRoleService } from "../../../services/users/permission_on_role.service";
+import {
+  addPermissionsToRoleService,
+  findPermissionsByRoleService,
+} from "../../../services/users/permission_on_role.service";
 
 export const findPermissionsByRoleInteractor = async (role: string): Promise<PermissionEntity[]> => {
   const permissionsFound = await onSession(async (client: PrismaClient) => {
@@ -16,4 +19,15 @@ export const findPermissionsByRoleInteractor = async (role: string): Promise<Per
   }
 
   return permissionsFound;
+};
+
+export const addPermissionsToRoleInteractor = async (
+  role: string,
+  permissions: string[],
+): Promise<PermissionEntity[]> => {
+  const permissionsCreated = await onSession((client: PrismaClient) => {
+    return addPermissionsToRoleService(client, role, permissions);
+  });
+
+  return permissionsCreated;
 };

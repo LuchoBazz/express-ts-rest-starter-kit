@@ -88,7 +88,7 @@ describe("Given a permission on role service", () => {
       return permissionsOnRolePrisma;
     });
 
-    const permissionsAdded = await addPermissionsToRoleService(prismaClient, permissions, role);
+    const permissionsAdded = await addPermissionsToRoleService(prismaClient, role, permissions);
 
     const permissionNamesAdded = permissionsAdded.map((permission) => {
       return permission.getName();

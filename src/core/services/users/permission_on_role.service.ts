@@ -27,8 +27,8 @@ export const findPermissionsByRoleService = async (client: PrismaClient, role: s
 
 export const addPermissionsToRoleService = async (
   client: PrismaClient,
-  permissions: string[],
   role: string,
+  permissions: string[],
 ): Promise<PermissionEntity[]> => {
   try {
     const createPermissionsTransactions = permissions.map((permission) => {

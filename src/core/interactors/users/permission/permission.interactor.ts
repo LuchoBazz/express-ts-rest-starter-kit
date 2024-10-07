@@ -22,9 +22,9 @@ export const findPermissionInteractor = async (name: string): Promise<Permission
   return permissionFound;
 };
 
-export const createPermissionInteractor = async (role: PermissionEntity): Promise<PermissionEntity> => {
+export const createPermissionInteractor = async (permission: PermissionEntity): Promise<PermissionEntity> => {
   const permissionCreated = await onSession((client: PrismaClient) => {
-    return createPermissionService(client, role);
+    return createPermissionService(client, permission);
   });
 
   return permissionCreated;
