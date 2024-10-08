@@ -13,7 +13,7 @@
     "test": "LOG_SILENT=true jest --coverage --logHeapUsage"
   },
   "dependencies": {
-    "@easyops-cn/docusaurus-search-local": "^0.44.5",
+    "@easyops-cn/docusaurus-search-local": "^0.44.6",
     "@open-syk/common": "^0.4.0",
     "@prisma/client": "^5.11.0",
     "@types/cors": "^2.8.17",
