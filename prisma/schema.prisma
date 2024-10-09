@@ -33,6 +33,7 @@ model Organization {
   configurations             Configuration[] @relation("organizations_configurations_fk")
   subscription_plans         SubscriptionPlan[] @relation("organizations_subscription_plans_fk")
   subscriptions              Subscription[] @relation("organizations_subscriptions_fk")
+  payments                   Payment[] @relation("organizations_payments_fk")
 }
 
 // User
@@ -246,6 +247,7 @@ model Payment {
   payment_date                     DateTime  @db.Timestamptz(6)
   payment_external_payment_id      String    @db.VarChar(255)
   payment_status                   String    @db.VarChar(63) // 'completed', 'failed', 'pending'
+  payment_organization_client_id   String    @db.VarChar(63)
   payment_created_at               DateTime  @default(now()) @db.Timestamptz(6)
   payment_updated_at               DateTime  @updatedAt @db.Timestamptz(6)
 
@@ -253,5 +255,6 @@ model Payment {
   @@map(name: "payments")
   @@index([payment_subscription_id])
 
+  organization Organization @relation(fields: [payment_organization_client_id], references: [organization_client_id], name: "organizations_payments_fk")
   subscription Subscription @relation(fields: [payment_subscription_id], references: [subscriptions_id], onDelete: Cascade, name: "subscriptions_payment_fk")
 }
