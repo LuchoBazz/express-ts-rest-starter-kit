@@ -12,7 +12,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["public", "organizations", "users"]
+  schemas  = ["public", "organizations", "users", "subscriptions"]
 }
 
 // Organizations
@@ -31,6 +31,7 @@ model Organization {
   organization_users         User[]    @relation("users_organizations_fk")
   feature_flags              FeatureFlag[] @relation("feature_flags_organizations_fk")
   configurations             Configuration[] @relation("organizations_configurations_fk")
+  subscription_plans         SubscriptionPlan[] @relation("organizations_subscription_plans_fk")
 }
 
 // User
@@ -178,4 +179,32 @@ model AuthTokenStatus {
   @@schema("users")
 
   user                       User        @relation(fields: [auth_token_user], references: [user_id], name: "auth_token_statuses_users_fk")
+}
+
+// Suscriptions
+model SubscriptionPlan {
+  subscription_plan_id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subscription_plan_name            String      @db.VarChar(63)
+  subscription_plan_product_id      String      @db.VarChar(255)
+  subscription_plan_variants        String[]    @db.VarChar
+  subscription_plan_slug            String      @unique @db.VarChar(63)
+  subscription_plan_price           Float       @default(0.0)
+  subscription_plan_href            String?     @db.VarChar(255)
+  subscription_plan_billing_cycle   String      @unique @db.VarChar(63) // 'monthly', 'yearly'
+  subscription_plan_description     String      @db.VarChar(255)
+  subscription_plan_node_quota      Int         @default(100)
+  subscription_plan_features        Json        @default("[]")
+  subscription_plan_most_popular    Boolean     @default(false)
+  subscription_plan_tier            Int         @default(0)
+  subscription_plan_is_active       Boolean     @default(true)
+  subscription_plan_organization    String      @db.Uuid
+  subscription_plan_created_at      DateTime    @default(now()) @db.Timestamptz(6)
+  subscription_plan_updated_at      DateTime    @updatedAt @db.Timestamptz(6)
+
+
+  @@schema("subscriptions")
+  @@map(name: "subscription_plans")
+  @@index([subscription_plan_organization])
+
+  organization                  Organization   @relation(fields: [subscription_plan_organization], references: [organization_client_id], onDelete: Cascade,  name: "organizations_subscription_plans_fk")
 }
