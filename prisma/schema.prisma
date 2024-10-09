@@ -184,23 +184,23 @@ model AuthTokenStatus {
 
 // Suscriptions
 model SubscriptionPlan {
-  subscription_plan_id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  subscription_plan_name            String      @db.VarChar(63)
-  subscription_plan_product_id      String      @db.VarChar(255)
-  subscription_plan_variants        String[]    @db.VarChar
-  subscription_plan_slug            String      @unique @db.VarChar(63)
-  subscription_plan_price           Float       @default(0.0)
-  subscription_plan_href            String?     @db.VarChar(255)
-  subscription_plan_billing_cycle   String      @unique @db.VarChar(63) // 'monthly', 'yearly'
-  subscription_plan_description     String      @db.VarChar(255)
-  subscription_plan_node_quota      Int         @default(100)
-  subscription_plan_features        Json        @default("[]")
-  subscription_plan_most_popular    Boolean     @default(false)
-  subscription_plan_tier            Int         @default(0)
-  subscription_plan_is_active       Boolean     @default(true)
-  subscription_plan_organization_client_id    String                   @db.VarChar(63)
-  subscription_plan_created_at      DateTime    @default(now()) @db.Timestamptz(6)
-  subscription_plan_updated_at      DateTime    @updatedAt @db.Timestamptz(6)
+  subscription_plan_id                        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subscription_plan_name                      String      @db.VarChar(63)
+  subscription_plan_product_id                String      @db.VarChar(255)
+  subscription_plan_variants                  String[]    @db.VarChar
+  subscription_plan_slug                      String      @unique @db.VarChar(63)
+  subscription_plan_price                     Float       @default(0.0)
+  subscription_plan_href                      String?     @db.VarChar(255)
+  subscription_plan_billing_cycle             String      @unique @db.VarChar(63) // 'monthly', 'yearly'
+  subscription_plan_description               String      @db.VarChar(255)
+  subscription_plan_node_quota                Int         @default(100)
+  subscription_plan_features                  Json        @default("[]")
+  subscription_plan_most_popular              Boolean     @default(false)
+  subscription_plan_tier                      Int         @default(0)
+  subscription_plan_is_active                 Boolean     @default(true)
+  subscription_plan_organization_client_id    String      @db.VarChar(63)
+  subscription_plan_created_at                DateTime    @default(now()) @db.Timestamptz(6)
+  subscription_plan_updated_at                DateTime    @updatedAt @db.Timestamptz(6)
 
 
   @@schema("subscriptions")
@@ -213,10 +213,10 @@ model SubscriptionPlan {
 
 model Subscription {
   subscriptions_id                        String      @id @default(uuid())
-  subscriptions_user_id                   String      @unique
-  subscriptions_subscription_plan_id      String
-  subscriptions_external_subscription_id  String
-  subscriptions_frequency                 String      @db.VarChar(63)
+  subscriptions_user_id                   String      @db.Uuid
+  subscriptions_subscription_plan_id      String      @db.Uuid
+  subscriptions_external_subscription_id  String      @db.VarChar(255)
+  subscriptions_billing_cycle             String      @db.VarChar(63) // // 'monthly', 'yearly'
   subscriptions_status                    String      @db.VarChar(63) // 'active', 'cancelled', 'past_due', 'paused'
   subscriptions_is_active                 Boolean     @default(true)
   subscriptions_renews_at                 DateTime    @db.Timestamptz(6)
@@ -240,9 +240,9 @@ model Subscription {
 
 model Payment {
   payment_id                       String    @id @default(uuid())
-  payment_subscription_id          String
+  payment_subscription_id          String    @db.Uuid
   payment_amount                   Float     @default(0.0)
-  payment_currency                 String    @db.VarChar(3)
+  payment_currency                 String    @db.VarChar(4)
   payment_date                     DateTime  @db.Timestamptz(6)
   payment_external_payment_id      String    @db.VarChar(255)
   payment_status                   String    @db.VarChar(63) // 'completed', 'failed', 'pending'
