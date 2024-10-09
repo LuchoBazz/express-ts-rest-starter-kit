@@ -235,5 +235,23 @@ model Subscription {
 
   organization                  Organization       @relation(fields: [subscriptions_organization_client_id], references: [organization_client_id], onDelete: Cascade,  name: "organizations_subscriptions_fk")
   subscription_plan             SubscriptionPlan   @relation(fields: [subscriptions_subscription_plan_id], references: [subscription_plan_id], onDelete: Cascade,  name: "subscription_plans_subscriptions_fk")
+  payments                      Payment[]          @relation("subscriptions_payment_fk")
 }
 
+model Payment {
+  payment_id                       String    @id @default(uuid())
+  payment_subscription_id          String
+  payment_amount                   Float     @default(0.0)
+  payment_currency                 String    @db.VarChar(3)
+  payment_date                     DateTime  @db.Timestamptz(6)
+  payment_external_payment_id      String    @db.VarChar(255)
+  payment_status                   String    @db.VarChar(63) // 'completed', 'failed', 'pending'
+  payment_created_at               DateTime  @default(now()) @db.Timestamptz(6)
+  payment_updated_at               DateTime  @updatedAt @db.Timestamptz(6)
+
+  @@schema("subscriptions")
+  @@map(name: "payments")
+  @@index([payment_subscription_id])
+
+  subscription Subscription @relation(fields: [payment_subscription_id], references: [subscriptions_id], onDelete: Cascade, name: "subscriptions_payment_fk")
+}
