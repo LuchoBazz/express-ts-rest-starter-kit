@@ -19,7 +19,9 @@ class SubscriptionEntity extends entity_1.Entity {
         this.updatedAt = updatedAt;
     }
     static fromPrisma(payload) {
-        return new SubscriptionEntity(payload.subscriptions_user_id, payload.subscriptions_subscription_plan_id, payload.subscriptions_external_subscription_id, payload.subscriptions_billing_cycle, payload.subscriptions_status, payload.subscriptions_is_active, payload.subscriptions_renews_at, payload.subscriptions_starts_at, payload.subscriptions_ends_at, payload.subscriptions_organization_client_id, payload.subscriptions_created_at, payload.subscriptions_updated_at);
+        const subscription = new SubscriptionEntity(payload.subscriptions_user_id, payload.subscriptions_subscription_plan_id, payload.subscriptions_external_subscription_id, payload.subscriptions_billing_cycle, payload.subscriptions_status, payload.subscriptions_is_active, payload.subscriptions_renews_at, payload.subscriptions_starts_at, payload.subscriptions_ends_at, payload.subscriptions_organization_client_id, payload.subscriptions_created_at, payload.subscriptions_updated_at);
+        subscription.setId(payload.subscriptions_id);
+        return subscription;
     }
     getUserId() {
         return this.userId;

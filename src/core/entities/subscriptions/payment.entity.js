@@ -16,7 +16,9 @@ class PaymentEntity extends entity_1.Entity {
         this.updatedAt = updatedAt;
     }
     static fromPrisma(payload) {
-        return new PaymentEntity(payload.payment_subscription_id, payload.payment_amount, payload.payment_currency, payload.payment_date, payload.payment_external_payment_id, payload.payment_status, payload.payment_organization_client_id, payload.payment_created_at, payload.payment_updated_at);
+        const payment = new PaymentEntity(payload.payment_subscription_id, payload.payment_amount, payload.payment_currency, payload.payment_date, payload.payment_external_payment_id, payload.payment_status, payload.payment_organization_client_id, payload.payment_created_at, payload.payment_updated_at);
+        payment.setId(payload.payment_id);
+        return payment;
     }
     getSubscriptionId() {
         return this.subscriptionId;

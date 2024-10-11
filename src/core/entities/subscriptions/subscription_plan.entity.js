@@ -24,6 +24,7 @@ class SubscriptionPlanEntity extends entity_1.Entity {
     }
     static fromPrisma(payload) {
         const subscriptionPlan = new SubscriptionPlanEntity(payload.subscription_plan_name, payload.subscription_plan_product_id, payload.subscription_plan_variants, payload.subscription_plan_slug, payload.subscription_plan_price, payload.subscription_plan_href, payload.subscription_plan_billing_cycle, payload.subscription_plan_description, payload.subscription_plan_node_quota, payload.subscription_plan_features, payload.subscription_plan_most_popular, payload.subscription_plan_tier, payload.subscription_plan_is_active, payload.subscription_plan_organization_client_id, payload.subscription_plan_created_at, payload.subscription_plan_updated_at);
+        subscriptionPlan.setId(payload.subscription_plan_id);
         return subscriptionPlan;
     }
     getName() {
