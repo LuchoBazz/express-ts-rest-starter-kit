@@ -33,7 +33,7 @@ model Organization {
   configurations             Configuration[] @relation("organizations_configurations_fk")
   subscription_plans         SubscriptionPlan[] @relation("organizations_subscription_plans_fk")
   subscriptions              Subscription[] @relation("organizations_subscriptions_fk")
-  // payments                   Payment[] @relation("organizations_payments_fk")
+  payments                   Payment[] @relation("organizations_payments_fk")
 }
 
 // User
@@ -213,7 +213,7 @@ model SubscriptionPlan {
 }
 
 model Subscription {
-  subscriptions_id                        String      @id @default(uuid())
+  subscriptions_id                        String      @id @default(uuid()) @db.Uuid
   subscriptions_user_id                   String      @db.Uuid
   subscriptions_subscription_plan_id      String      @db.Uuid
   subscriptions_external_subscription_id  String      @db.VarChar(255)
@@ -236,25 +236,25 @@ model Subscription {
 
   organization                  Organization       @relation(fields: [subscriptions_organization_client_id], references: [organization_client_id], onDelete: Cascade,  name: "organizations_subscriptions_fk")
   subscription_plan             SubscriptionPlan   @relation(fields: [subscriptions_subscription_plan_id], references: [subscription_plan_id], onDelete: Cascade,  name: "subscription_plans_subscriptions_fk")
-  // payments                      Payment[]          @relation("subscriptions_payment_fk")
+  payments                      Payment[]          @relation("subscriptions_payment_fk")
 }
 
-// model Payment {
-//   payment_id                       String    @id @default(uuid())
-//   payment_subscription_id          String    @db.Uuid
-//   payment_amount                   Float     @default(0.0)
-//   payment_currency                 String    @db.VarChar(4)
-//   payment_date                     DateTime  @db.Timestamptz(6)
-//   payment_external_payment_id      String    @db.VarChar(255)
-//   payment_status                   String    @db.VarChar(63) // 'completed', 'failed', 'pending'
-//   payment_organization_client_id   String    @db.VarChar(63)
-//   payment_created_at               DateTime  @default(now()) @db.Timestamptz(6)
-//   payment_updated_at               DateTime  @updatedAt @db.Timestamptz(6)
+model Payment {
+  payment_id                       String    @id @default(uuid()) @db.Uuid
+  payment_subscription_id          String    @db.Uuid
+  payment_amount                   Float     @default(0.0)
+  payment_currency                 String    @db.VarChar(4)
+  payment_date                     DateTime  @db.Timestamptz(6)
+  payment_external_payment_id      String    @db.VarChar(255)
+  payment_status                   String    @db.VarChar(63) // 'completed', 'failed', 'pending'
+  payment_organization_client_id   String    @db.VarChar(63)
+  payment_created_at               DateTime  @default(now()) @db.Timestamptz(6)
+  payment_updated_at               DateTime  @updatedAt @db.Timestamptz(6)
 
-//   @@schema("subscriptions")
-//   @@map(name: "payments")
-//   @@index([payment_subscription_id])
+  @@schema("subscriptions")
+  @@map(name: "payments")
+  @@index([payment_subscription_id])
 
-//   organization Organization @relation(fields: [payment_organization_client_id], references: [organization_client_id], name: "organizations_payments_fk")
-//   subscription Subscription @relation(fields: [payment_subscription_id], references: [subscriptions_id], onDelete: Cascade, name: "subscriptions_payment_fk")
-// }
+  organization Organization @relation(fields: [payment_organization_client_id], references: [organization_client_id], name: "organizations_payments_fk")
+  subscription Subscription @relation(fields: [payment_subscription_id], references: [subscriptions_id], onDelete: Cascade, name: "subscriptions_payment_fk")
+}

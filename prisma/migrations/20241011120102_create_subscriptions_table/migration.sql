@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "subscriptions"."subscriptions" (
-    "subscriptions_id" TEXT NOT NULL,
+    "subscriptions_id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "subscriptions_user_id" UUID NOT NULL,
     "subscriptions_subscription_plan_id" UUID NOT NULL,
     "subscriptions_external_subscription_id" VARCHAR(255) NOT NULL,
