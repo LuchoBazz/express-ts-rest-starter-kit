@@ -36,10 +36,13 @@ npm run start:prod
 
 ```bash
 # Create new Migration
-npx prisma migrate dev
+npx prisma migrate dev --name migration_name
 
 # Run Migrations
 npx prisma migrate deploy
+
+# Generate Schemas
+npx prisma generate
 ```
 
 ## Seed
