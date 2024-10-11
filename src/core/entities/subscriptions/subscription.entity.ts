@@ -76,7 +76,7 @@ export class SubscriptionEntity extends Entity {
   }
 
   public static fromPrisma(payload: SubscriptionPrisma): SubscriptionEntity {
-    return new SubscriptionEntity(
+    const subscription = new SubscriptionEntity(
       payload.subscriptions_user_id,
       payload.subscriptions_subscription_plan_id,
       payload.subscriptions_external_subscription_id,
@@ -90,6 +90,8 @@ export class SubscriptionEntity extends Entity {
       payload.subscriptions_created_at,
       payload.subscriptions_updated_at,
     );
+    subscription.setId(payload.subscriptions_id);
+    return subscription;
   }
 
   public getUserId(): string {

@@ -33,5 +33,8 @@ CREATE UNIQUE INDEX "subscription_plans_subscription_plan_billing_cycle_key" ON 
 -- CreateIndex
 CREATE INDEX "subscription_plans_subscription_plan_organization_client_id_idx" ON "subscriptions"."subscription_plans"("subscription_plan_organization_client_id");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "subscription_plans_subscription_plan_id_subscription_plan_o_key" ON "subscriptions"."subscription_plans"("subscription_plan_id", "subscription_plan_organization_client_id");
+
 -- AddForeignKey
 ALTER TABLE "subscriptions"."subscription_plans" ADD CONSTRAINT "subscription_plans_subscription_plan_organization_client_i_fkey" FOREIGN KEY ("subscription_plan_organization_client_id") REFERENCES "organizations"."organizations"("organization_client_id") ON DELETE CASCADE ON UPDATE CASCADE;

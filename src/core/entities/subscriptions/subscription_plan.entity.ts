@@ -7,11 +7,11 @@ export interface SubscriptionPlanPrisma {
   subscription_plan_variants: string[];
   subscription_plan_slug: string;
   subscription_plan_price: number;
-  subscription_plan_href?: string;
+  subscription_plan_href: string | null;
   subscription_plan_billing_cycle: string;
   subscription_plan_description: string;
   subscription_plan_node_quota: number;
-  subscription_plan_features: object;
+  subscription_plan_features: any;
   subscription_plan_most_popular: boolean;
   subscription_plan_tier: number;
   subscription_plan_is_active: boolean;
@@ -27,11 +27,11 @@ export interface SubscriptionPlanResponse {
   variants: string[];
   slug: string;
   price: number;
-  href?: string;
+  href: string | null;
   billingCycle: string;
   description: string;
   nodeQuota: number;
-  features: object;
+  features: any;
   mostPopular: boolean;
   tier: number;
   isActive: boolean;
@@ -46,11 +46,11 @@ export class SubscriptionPlanEntity extends Entity {
   protected variants: string[];
   protected slug: string;
   protected price: number;
-  protected href: string | undefined;
+  protected href: string | null;
   protected billingCycle: string;
   protected description: string;
   protected nodeQuota: number;
-  protected features: object;
+  protected features: any;
   protected mostPopular: boolean;
   protected tier: number;
   protected isActive: boolean;
@@ -64,11 +64,11 @@ export class SubscriptionPlanEntity extends Entity {
     variants: string[],
     slug: string,
     price: number,
-    href: string | undefined,
+    href: string | null,
     billingCycle: string,
     description: string,
     nodeQuota: number,
-    features: object,
+    features: any,
     mostPopular: boolean,
     tier: number,
     isActive: boolean,
@@ -114,6 +114,7 @@ export class SubscriptionPlanEntity extends Entity {
       payload.subscription_plan_created_at,
       payload.subscription_plan_updated_at,
     );
+    subscriptionPlan.setId(payload.subscription_plan_id);
     return subscriptionPlan;
   }
 
@@ -157,11 +158,11 @@ export class SubscriptionPlanEntity extends Entity {
     this.price = price;
   }
 
-  public getHref(): string | undefined {
+  public getHref(): string | null {
     return this.href;
   }
 
-  public setHref(href: string | undefined): void {
+  public setHref(href: string | null): void {
     this.href = href;
   }
 
@@ -189,11 +190,11 @@ export class SubscriptionPlanEntity extends Entity {
     this.nodeQuota = nodeQuota;
   }
 
-  public getFeatures(): object {
+  public getFeatures(): any {
     return this.features;
   }
 
-  public setFeatures(features: object): void {
+  public setFeatures(features: any): void {
     this.features = features;
   }
 

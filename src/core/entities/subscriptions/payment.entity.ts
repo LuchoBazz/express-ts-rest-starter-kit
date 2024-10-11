@@ -61,7 +61,7 @@ export class PaymentEntity extends Entity {
   }
 
   public static fromPrisma(payload: PaymentPrisma): PaymentEntity {
-    return new PaymentEntity(
+    const payment = new PaymentEntity(
       payload.payment_subscription_id,
       payload.payment_amount,
       payload.payment_currency,
@@ -72,6 +72,8 @@ export class PaymentEntity extends Entity {
       payload.payment_created_at,
       payload.payment_updated_at,
     );
+    payment.setId(payload.payment_id);
+    return payment;
   }
 
   public getSubscriptionId(): string {

@@ -207,6 +207,7 @@ model SubscriptionPlan {
   @@schema("subscriptions")
   @@map(name: "subscription_plans")
   @@index([subscription_plan_organization_client_id])
+  @@unique([subscription_plan_id, subscription_plan_organization_client_id], name: "unique_subscription_plan_id_and_subscription_organization_client_id")
 
   organization                  Organization   @relation(fields: [subscription_plan_organization_client_id], references: [organization_client_id], onDelete: Cascade,  name: "organizations_subscription_plans_fk")
   subscriptions                 Subscription[] @relation("subscription_plans_subscriptions_fk")
