@@ -4,19 +4,19 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
   title: "Docs express-ts-rest-starter-kit",
-  tagline: "Dinosaurs are cool",
+  tagline: "Docs express-ts-rest-starter-kit",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: "https://your-docusaurus-site.example.com",
+  url: "https://luchobazz.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "facebook", // Usually your GitHub org/user name.
-  projectName: "docusaurus", // Usually your repo name.
+  organizationName: "LuchoBazz", // Usually your GitHub org/user name.
+  projectName: "express-ts-rest-starter-kit", // Usually your repo name.
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -73,7 +73,7 @@ const config: Config = {
           label: "Docs",
         },
         {
-          href: "https://github.com/facebook/docusaurus",
+          href: "https://github.com/LuchoBazz/express-ts-rest-starter-kit",
           label: "GitHub",
           position: "right",
         },
@@ -113,12 +113,12 @@ const config: Config = {
           items: [
             {
               label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
+              href: "https://github.com/LuchoBazz/express-ts-rest-starter-kit",
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} express-ts-rest-starter-kit, Inc. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
