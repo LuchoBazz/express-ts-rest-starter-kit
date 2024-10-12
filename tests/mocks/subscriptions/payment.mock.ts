@@ -5,7 +5,7 @@ import { PaymentPrisma } from "../../../src/core/entities/subscriptions/payment.
 export const genRandomPaymentPrisma = ({
   payment_id = faker.string.uuid(),
   payment_subscription_id = faker.string.uuid(),
-  payment_amount = faker.number.float({ min: 0, max: 1000, precision: 0.01 }),
+  payment_amount = faker.number.float({ min: 0, max: 1000, multipleOf: 0.01 }),
   payment_currency = faker.finance.currencyCode(),
   payment_date = faker.date.recent(),
   payment_external_payment_id = faker.string.alpha(10),
