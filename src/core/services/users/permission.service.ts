@@ -7,9 +7,9 @@ import { PermissionEntity } from "../../entities/users/permission.entity";
 
 export const findPermissionService = async (client: PrismaClient, name: string): Promise<PermissionEntity | null> => {
   try {
-    const permission = await client.permission.findUnique({ where: { permission_name: name } });
+    const record = await client.permission.findUnique({ where: { permission_name: name } });
 
-    return permission ? PermissionEntity.fromPrisma(permission) : null;
+    return record ? PermissionEntity.fromPrisma(record) : null;
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -21,15 +21,15 @@ export const createPermissionService = async (
   permission: PermissionEntity,
 ): Promise<PermissionEntity> => {
   try {
-    const createPermissionTransaction = client.permission.create({
+    const record = client.permission.create({
       data: {
         permission_id: permission.getId(),
         permission_name: permission.getName(),
       },
     });
 
-    const [permissionCreated] = await client.$transaction([createPermissionTransaction]);
-    return PermissionEntity.fromPrisma(permissionCreated);
+    const [recordCreated] = await client.$transaction([record]);
+    return PermissionEntity.fromPrisma(recordCreated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -38,10 +38,10 @@ export const createPermissionService = async (
 
 export const deletePermissionService = async (client: PrismaClient, name: string): Promise<PermissionEntity> => {
   try {
-    const deletePermissionTransaction = client.permission.delete({ where: { permission_name: name } });
+    const record = client.permission.delete({ where: { permission_name: name } });
 
-    const [permissionDeleted] = await client.$transaction([deletePermissionTransaction]);
-    return PermissionEntity.fromPrisma(permissionDeleted);
+    const [recordDeleted] = await client.$transaction([record]);
+    return PermissionEntity.fromPrisma(recordDeleted);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);

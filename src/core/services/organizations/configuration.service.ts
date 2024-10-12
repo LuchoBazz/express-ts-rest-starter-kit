@@ -15,7 +15,7 @@ export const findConfigurationService = async (
 ): Promise<ConfigurationEntity | null> => {
   try {
     const { key, clientId } = searchCriteria;
-    const configuration = await client.configuration.findUnique({
+    const record = await client.configuration.findUnique({
       where: {
         unique_configuration_key_and_configuration_organization_client_id: {
           configuration_key: key,
@@ -24,7 +24,7 @@ export const findConfigurationService = async (
       },
     });
 
-    return configuration ? ConfigurationEntity.fromPrisma(configuration) : null;
+    return record ? ConfigurationEntity.fromPrisma(record) : null;
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -36,7 +36,7 @@ export const createConfigurationService = async (
   config: ConfigurationEntity,
 ): Promise<ConfigurationEntity> => {
   try {
-    const createConfigTransaction = client.configuration.create({
+    const record = client.configuration.create({
       data: {
         configuration_id: config.getId(),
         configuration_key: config.getKey(),
@@ -46,8 +46,8 @@ export const createConfigurationService = async (
       },
     });
 
-    const [configCreated] = await client.$transaction([createConfigTransaction]);
-    return ConfigurationEntity.fromPrisma(configCreated);
+    const [recordCreated] = await client.$transaction([record]);
+    return ConfigurationEntity.fromPrisma(recordCreated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -59,7 +59,7 @@ export const updateConfigurationService = async (
   configuration: UpdateConfigurationInput,
 ): Promise<ConfigurationEntity> => {
   try {
-    const updateConfigurationTransaction = client.configuration.update({
+    const record = client.configuration.update({
       where: {
         unique_configuration_key_and_configuration_organization_client_id: {
           configuration_key: configuration.key,
@@ -73,8 +73,8 @@ export const updateConfigurationService = async (
       },
     });
 
-    const [configurationUpdated] = await client.$transaction([updateConfigurationTransaction]);
-    return ConfigurationEntity.fromPrisma(configurationUpdated);
+    const [recordUpdated] = await client.$transaction([record]);
+    return ConfigurationEntity.fromPrisma(recordUpdated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -87,7 +87,7 @@ export const deleteConfigurationService = async (
 ): Promise<ConfigurationEntity> => {
   try {
     const { key, clientId } = searchCriteria;
-    const deleteConfigurationTransaction = client.configuration.delete({
+    const record = client.configuration.delete({
       where: {
         unique_configuration_key_and_configuration_organization_client_id: {
           configuration_key: key,
@@ -96,8 +96,8 @@ export const deleteConfigurationService = async (
       },
     });
 
-    const [configurationDeleted] = await client.$transaction([deleteConfigurationTransaction]);
-    return ConfigurationEntity.fromPrisma(configurationDeleted);
+    const [recordDeleted] = await client.$transaction([record]);
+    return ConfigurationEntity.fromPrisma(recordDeleted);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);

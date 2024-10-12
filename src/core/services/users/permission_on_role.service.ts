@@ -8,11 +8,11 @@ import { PermissionOnRoleEntity, PermissionOnRolePrisma } from "../../entities/u
 
 export const findPermissionsByRoleService = async (client: PrismaClient, role: string): Promise<PermissionEntity[]> => {
   try {
-    const permissionsOnRole = await client.permissionsOnRoles.findMany({
+    const records = await client.permissionsOnRoles.findMany({
       where: { permissions_on_roles_role_name: role },
     });
 
-    const permissionsOnRoleEntity = permissionsOnRole.map((permissionOnRole: PermissionOnRolePrisma) => {
+    const permissionsOnRoleEntity = records.map((permissionOnRole: PermissionOnRolePrisma) => {
       return PermissionOnRoleEntity.fromPrisma(permissionOnRole);
     });
 
@@ -31,7 +31,7 @@ export const addPermissionsToRoleService = async (
   permissions: string[],
 ): Promise<PermissionEntity[]> => {
   try {
-    const createPermissionsTransactions = permissions.map((permission) => {
+    const record = permissions.map((permission) => {
       return client.permissionsOnRoles.create({
         data: {
           permissions_on_roles_permission_name: permission,
@@ -40,9 +40,9 @@ export const addPermissionsToRoleService = async (
       });
     });
 
-    const permissionsCreated = await client.$transaction(createPermissionsTransactions);
+    const recordsCreated = await client.$transaction(record);
 
-    const permissionsOnRole = permissionsCreated.map((permissionCreated) => {
+    const permissionsOnRole = recordsCreated.map((permissionCreated) => {
       return PermissionOnRoleEntity.fromPrisma(permissionCreated);
     });
 
