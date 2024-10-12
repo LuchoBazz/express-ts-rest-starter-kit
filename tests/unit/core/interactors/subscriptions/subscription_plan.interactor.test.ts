@@ -30,7 +30,7 @@ jest.mock("@prisma/client", () => {
   };
 });
 
-describe("Given a createSubscriptionPlanInteractor", () => {
+describe("Given a SubscriptionPlanInteractor", () => {
   let subscriptionPlan: SubscriptionPlanEntity;
 
   beforeEach(() => {
