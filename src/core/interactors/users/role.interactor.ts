@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 
-import { ErrorMessage } from "../../../../adapters/api/errors/errors.enum";
-import { NotFoundError } from "../../../../adapters/api/errors/not_found.error";
-import { onSession } from "../../../../infrastructure/database/prisma";
-import { RoleEntity } from "../../../entities/users/role.enum";
-import { createRoleService, deleteRoleService, findRoleService } from "../../../services/users/role.service";
+import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
+import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
+import { onSession } from "../../../infrastructure/database/prisma";
+import { RoleEntity } from "../../entities/users/role.enum";
+import { createRoleService, deleteRoleService, findRoleService } from "../../services/users/role.service";
 
 export const findRoleInteractor = async (name: string): Promise<RoleEntity> => {
   const roleFound = await onSession(async (client: PrismaClient) => {

@@ -4,7 +4,10 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { InternalServerError } from "../../../adapters/api/errors/internal_server.error";
 import { prismaGlobalExceptionFilter } from "../../../adapters/api/errors/prisma_global_exception_filter";
 import { SubscriptionPlanEntity } from "../../entities/subscriptions/subscription_plan.entity";
-import { SubscriptionPlanSearchCriteriaInput, UpdateSubscriptionPlanInput } from "./subscription_plan.types";
+import {
+  SubscriptionPlanSearchCriteriaInput,
+  UpdateSubscriptionPlanInput,
+} from "../../types/subscriptions/subscription_plan.types";
 
 export const findSubscriptionPlanService = async (
   client: PrismaClient,
@@ -12,7 +15,7 @@ export const findSubscriptionPlanService = async (
 ): Promise<SubscriptionPlanEntity | null> => {
   try {
     const { id, clientId } = searchCriteria;
-    const subscritionPlan = await client.subscriptionPlan.findUnique({
+    const record = await client.subscriptionPlan.findUnique({
       where: {
         unique_subscription_plan_id_and_subscription_organization_client_id: {
           subscription_plan_id: id,
@@ -21,7 +24,7 @@ export const findSubscriptionPlanService = async (
       },
     });
 
-    return subscritionPlan ? SubscriptionPlanEntity.fromPrisma(subscritionPlan) : null;
+    return record ? SubscriptionPlanEntity.fromPrisma(record) : null;
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -33,7 +36,7 @@ export const createSubscriptionPlanService = async (
   subscriptionPlan: SubscriptionPlanEntity,
 ): Promise<SubscriptionPlanEntity> => {
   try {
-    const createSubscriptionPlanTransaction = client.subscriptionPlan.create({
+    const record = client.subscriptionPlan.create({
       data: {
         subscription_plan_id: subscriptionPlan.getId(),
         subscription_plan_name: subscriptionPlan.getName(),
@@ -53,8 +56,8 @@ export const createSubscriptionPlanService = async (
       },
     });
 
-    const [subscriptionPlanCreated] = await client.$transaction([createSubscriptionPlanTransaction]);
-    return SubscriptionPlanEntity.fromPrisma(subscriptionPlanCreated);
+    const [recordCreated] = await client.$transaction([record]);
+    return SubscriptionPlanEntity.fromPrisma(recordCreated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -67,7 +70,7 @@ export const updateSubscriptionPlanService = async (
   subscriptionPlan: UpdateSubscriptionPlanInput,
 ): Promise<SubscriptionPlanEntity> => {
   try {
-    const subscriptionPlanTransaction = client.subscriptionPlan.update({
+    const record = client.subscriptionPlan.update({
       where: {
         unique_subscription_plan_id_and_subscription_organization_client_id: {
           subscription_plan_id: searchCriteria.id,
@@ -91,8 +94,8 @@ export const updateSubscriptionPlanService = async (
       },
     });
 
-    const [subscriptionPlanUpdated] = await client.$transaction([subscriptionPlanTransaction]);
-    return SubscriptionPlanEntity.fromPrisma(subscriptionPlanUpdated);
+    const [recordUpdated] = await client.$transaction([record]);
+    return SubscriptionPlanEntity.fromPrisma(recordUpdated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -105,7 +108,7 @@ export const deleteSubscriptionPlanService = async (
 ): Promise<SubscriptionPlanEntity> => {
   try {
     const { id, clientId } = searchCriteria;
-    const deleteSubscriptionPlanTransaction = client.subscriptionPlan.delete({
+    const record = client.subscriptionPlan.delete({
       where: {
         unique_subscription_plan_id_and_subscription_organization_client_id: {
           subscription_plan_id: id,
@@ -114,8 +117,8 @@ export const deleteSubscriptionPlanService = async (
       },
     });
 
-    const [subscriptionPlanDeleted] = await client.$transaction([deleteSubscriptionPlanTransaction]);
-    return SubscriptionPlanEntity.fromPrisma(subscriptionPlanDeleted);
+    const [recordDeleted] = await client.$transaction([record]);
+    return SubscriptionPlanEntity.fromPrisma(recordDeleted);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);

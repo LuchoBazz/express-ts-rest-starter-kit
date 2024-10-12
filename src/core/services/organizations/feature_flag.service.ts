@@ -4,10 +4,7 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { InternalServerError } from "../../../adapters/api/errors/internal_server.error";
 import { prismaGlobalExceptionFilter } from "../../../adapters/api/errors/prisma_global_exception_filter";
 import { FeatureFlagEntity } from "../../entities/organizations/feature_flag.entity";
-import {
-  FeatureFlagSearchCriteriaInput,
-  UpdateFeatureFlagInput,
-} from "../../interactors/organizations/feature_flag/feature_flag.types";
+import { FeatureFlagSearchCriteriaInput, UpdateFeatureFlagInput } from "../../types/organizations/feature_flag.types";
 
 export const findFeatureFlagService = async (
   client: PrismaClient,
@@ -15,7 +12,7 @@ export const findFeatureFlagService = async (
 ): Promise<FeatureFlagEntity | null> => {
   try {
     const { key, clientId } = searchCriteria;
-    const featureFlag = await client.featureFlag.findUnique({
+    const record = await client.featureFlag.findUnique({
       where: {
         unique_feature_flag_key_and_feature_flag_organization_client_id: {
           feature_flag_key: key,
@@ -24,7 +21,7 @@ export const findFeatureFlagService = async (
       },
     });
 
-    return featureFlag ? FeatureFlagEntity.fromPrisma(featureFlag) : null;
+    return record ? FeatureFlagEntity.fromPrisma(record) : null;
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -36,7 +33,7 @@ export const createFeatureFlagService = async (
   featureFlag: FeatureFlagEntity,
 ): Promise<FeatureFlagEntity> => {
   try {
-    const createFeatureFlagTransaction = client.featureFlag.create({
+    const record = client.featureFlag.create({
       data: {
         feature_flag_id: featureFlag.getId(),
         feature_flag_key: featureFlag.getKey(),
@@ -47,8 +44,8 @@ export const createFeatureFlagService = async (
       },
     });
 
-    const [featureFlagCreated] = await client.$transaction([createFeatureFlagTransaction]);
-    return FeatureFlagEntity.fromPrisma(featureFlagCreated);
+    const [recordCreated] = await client.$transaction([record]);
+    return FeatureFlagEntity.fromPrisma(recordCreated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -60,7 +57,7 @@ export const updateFeatureFlagService = async (
   featureFlag: UpdateFeatureFlagInput,
 ): Promise<FeatureFlagEntity> => {
   try {
-    const updateFeatureFlagTransaction = client.featureFlag.update({
+    const record = client.featureFlag.update({
       where: {
         unique_feature_flag_key_and_feature_flag_organization_client_id: {
           feature_flag_key: featureFlag.key,
@@ -75,8 +72,8 @@ export const updateFeatureFlagService = async (
       },
     });
 
-    const [featureFlagUpdated] = await client.$transaction([updateFeatureFlagTransaction]);
-    return FeatureFlagEntity.fromPrisma(featureFlagUpdated);
+    const [recordUpdated] = await client.$transaction([record]);
+    return FeatureFlagEntity.fromPrisma(recordUpdated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -89,7 +86,7 @@ export const deleteFeatureFlagService = async (
 ): Promise<FeatureFlagEntity> => {
   try {
     const { key, clientId } = searchCriteria;
-    const deleteFeatureFlagTransaction = client.featureFlag.delete({
+    const record = client.featureFlag.delete({
       where: {
         unique_feature_flag_key_and_feature_flag_organization_client_id: {
           feature_flag_key: key,
@@ -98,8 +95,8 @@ export const deleteFeatureFlagService = async (
       },
     });
 
-    const [featureFlagDeleted] = await client.$transaction([deleteFeatureFlagTransaction]);
-    return FeatureFlagEntity.fromPrisma(featureFlagDeleted);
+    const [recordDeleted] = await client.$transaction([record]);
+    return FeatureFlagEntity.fromPrisma(recordDeleted);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);

@@ -5,7 +5,7 @@ import {
   createRoleInteractor,
   deleteRoleInteractor,
   findRoleInteractor,
-} from "../../../../../src/core/interactors/users/role/role.interactor";
+} from "../../../../../src/core/interactors/users/role.interactor";
 import { genRandomRolePrisma } from "../../../../mocks/users/role.mock";
 
 const disconnectMock = jest.fn();

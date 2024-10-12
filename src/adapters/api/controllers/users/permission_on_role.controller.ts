@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import {
   addPermissionsToRoleInteractor,
   findPermissionsByRoleInteractor,
-} from "../../../../core/interactors/users/permission/permission_on_role.interactor";
+} from "../../../../core/interactors/users/permission_on_role.interactor";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentPermission } from "../../../presenters/users/permission.presenter";
 import { validateSchema } from "../../validator";

@@ -7,7 +7,7 @@ import { PermissionEntity } from "../../../../../src/core/entities/users/permiss
 import {
   addPermissionsToRoleInteractor,
   findPermissionsByRoleInteractor,
-} from "../../../../../src/core/interactors/users/permission/permission_on_role.interactor";
+} from "../../../../../src/core/interactors/users/permission_on_role.interactor";
 import { genRandomPermissionPrisma } from "../../../../mocks/users/permission.mock";
 
 jest.mock("../../../../../src/core/services/users/permission_on_role.service", () => {

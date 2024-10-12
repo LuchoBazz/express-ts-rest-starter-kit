@@ -5,8 +5,8 @@ import {
   createOrganizationInteractor,
   findOrganizationInteractor,
   updateOrganizationInteractor,
-} from "../../../../core/interactors/organizations/organization/organization.interactor";
-import { UpdateOrganizationInput } from "../../../../core/interactors/organizations/organization/organization.types";
+} from "../../../../core/interactors/organizations/organization.interactor";
+import { UpdateOrganizationInput } from "../../../../core/types/organizations/organization.types";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentOrganization } from "../../../presenters/organizations/organization.presenter";
 import { validateSchema } from "../../validator";

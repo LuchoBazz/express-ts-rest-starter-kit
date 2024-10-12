@@ -7,8 +7,8 @@ import {
   deleteConfigurationInteractor,
   findConfigurationInteractor,
   updateConfigurationInteractor,
-} from "../../../../core/interactors/organizations/configuration/configuration.interactor";
-import { UpdateConfigurationInput } from "../../../../core/interactors/organizations/configuration/configuration.types";
+} from "../../../../core/interactors/organizations/configuration.interactor";
+import { UpdateConfigurationInput } from "../../../../core/types/organizations/configuration.types";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentConfiguration } from "../../../presenters/organizations/configuration.presenter";
 import { validateSchema } from "../../validator";

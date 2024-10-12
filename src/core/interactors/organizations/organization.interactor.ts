@@ -1,16 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 
-import { ErrorMessage } from "../../../../adapters/api/errors/errors.enum";
-import { NotFoundError } from "../../../../adapters/api/errors/not_found.error";
-import { onSession } from "../../../../infrastructure/database/prisma";
-import { OrganizationEntity } from "../../../entities/organizations/organization.entity";
+import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
+import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
+import { onSession } from "../../../infrastructure/database/prisma";
+import { OrganizationEntity } from "../../entities/organizations/organization.entity";
 import {
   createOrganizationService,
   deleteOrganizationService,
   findOrganizationService,
   updateOrganizationService,
-} from "../../../services/organizations/organizations.service";
-import { UpdateOrganizationInput } from "./organization.types";
+} from "../../services/organizations/organizations.service";
+import { UpdateOrganizationInput } from "../../types/organizations/organization.types";
 
 export const findOrganizationInteractor = async (clientId: string): Promise<OrganizationEntity> => {
   const organizationFound = await onSession(async (client: PrismaClient) => {

@@ -7,9 +7,9 @@ import { RoleEntity } from "../../entities/users/role.enum";
 
 export const findRoleService = async (client: PrismaClient, name: string): Promise<RoleEntity | null> => {
   try {
-    const role = await client.role.findUnique({ where: { role_name: name } });
+    const record = await client.role.findUnique({ where: { role_name: name } });
 
-    return role ? RoleEntity.fromPrisma(role) : null;
+    return record ? RoleEntity.fromPrisma(record) : null;
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -18,15 +18,15 @@ export const findRoleService = async (client: PrismaClient, name: string): Promi
 
 export const createRoleService = async (client: PrismaClient, role: RoleEntity): Promise<RoleEntity> => {
   try {
-    const createRoleTransaction = client.role.create({
+    const record = client.role.create({
       data: {
         role_id: role.getId(),
         role_name: role.getName(),
       },
     });
 
-    const [roleCreated] = await client.$transaction([createRoleTransaction]);
-    return RoleEntity.fromPrisma(roleCreated);
+    const [recordCreated] = await client.$transaction([record]);
+    return RoleEntity.fromPrisma(recordCreated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -35,10 +35,10 @@ export const createRoleService = async (client: PrismaClient, role: RoleEntity):
 
 export const deleteRoleService = async (client: PrismaClient, name: string): Promise<RoleEntity> => {
   try {
-    const deleteRoleTransaction = client.role.delete({ where: { role_name: name } });
+    const record = client.role.delete({ where: { role_name: name } });
 
-    const [roleDeleted] = await client.$transaction([deleteRoleTransaction]);
-    return RoleEntity.fromPrisma(roleDeleted);
+    const [recordDeleted] = await client.$transaction([record]);
+    return RoleEntity.fromPrisma(recordDeleted);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);

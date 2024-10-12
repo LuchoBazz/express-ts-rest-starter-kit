@@ -6,7 +6,7 @@ import {
   deleteFeatureFlagInteractor,
   findFeatureFlagInteractor,
   updateFeatureFlagInteractor,
-} from "../../../../../src/core/interactors/organizations/feature_flag/feature_flag.interactor";
+} from "../../../../../src/core/interactors/organizations/feature_flag.interactor";
 import { genRandomFeatureFlagPrisma } from "../../../../mocks/organizations/feature_flag.mock";
 
 const disconnectMock = jest.fn();

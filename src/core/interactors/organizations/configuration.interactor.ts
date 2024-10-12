@@ -1,16 +1,19 @@
 import { PrismaClient } from "@prisma/client";
 
-import { ErrorMessage } from "../../../../adapters/api/errors/errors.enum";
-import { NotFoundError } from "../../../../adapters/api/errors/not_found.error";
-import { onSession } from "../../../../infrastructure/database/prisma";
-import { ConfigurationEntity } from "../../../entities/organizations/configuration.entity";
+import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
+import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
+import { onSession } from "../../../infrastructure/database/prisma";
+import { ConfigurationEntity } from "../../entities/organizations/configuration.entity";
 import {
   createConfigurationService,
   deleteConfigurationService,
   findConfigurationService,
   updateConfigurationService,
-} from "../../../services/organizations/configuration.service";
-import { ConfigurationSearchCriteriaInput, UpdateConfigurationInput } from "./configuration.types";
+} from "../../services/organizations/configuration.service";
+import {
+  ConfigurationSearchCriteriaInput,
+  UpdateConfigurationInput,
+} from "../../types/organizations/configuration.types";
 
 export const findConfigurationInteractor = async (
   searchCriteria: ConfigurationSearchCriteriaInput,

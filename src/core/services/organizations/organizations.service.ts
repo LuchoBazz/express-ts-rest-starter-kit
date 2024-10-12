@@ -4,20 +4,20 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { InternalServerError } from "../../../adapters/api/errors/internal_server.error";
 import { prismaGlobalExceptionFilter } from "../../../adapters/api/errors/prisma_global_exception_filter";
 import { OrganizationEntity } from "../../entities/organizations/organization.entity";
-import { UpdateOrganizationInput } from "../../interactors/organizations/organization/organization.types";
+import { UpdateOrganizationInput } from "../../types/organizations/organization.types";
 
 export const findOrganizationService = async (
   client: PrismaClient,
   clientId: string,
 ): Promise<OrganizationEntity | null> => {
   try {
-    const organization = await client.organization.findUnique({
+    const record = await client.organization.findUnique({
       where: {
         organization_client_id: clientId,
       },
     });
 
-    return organization ? OrganizationEntity.fromPrisma(organization) : null;
+    return record ? OrganizationEntity.fromPrisma(record) : null;
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -29,7 +29,7 @@ export const createOrganizationService = async (
   organization: OrganizationEntity,
 ): Promise<OrganizationEntity> => {
   try {
-    const createOrganizationTransaction = client.organization.create({
+    const record = client.organization.create({
       data: {
         organization_id: organization.getId(),
         organization_name: organization.getName(),
@@ -37,8 +37,8 @@ export const createOrganizationService = async (
       },
     });
 
-    const [organizationCreated] = await client.$transaction([createOrganizationTransaction]);
-    return OrganizationEntity.fromPrisma(organizationCreated);
+    const [recordCreated] = await client.$transaction([record]);
+    return OrganizationEntity.fromPrisma(recordCreated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -50,7 +50,7 @@ export const updateOrganizationService = async (
   organization: UpdateOrganizationInput,
 ): Promise<OrganizationEntity> => {
   try {
-    const updateOrganizationTransaction = client.organization.update({
+    const record = client.organization.update({
       where: {
         organization_client_id: organization.clientId,
       },
@@ -59,8 +59,8 @@ export const updateOrganizationService = async (
       },
     });
 
-    const [organizationUpdated] = await client.$transaction([updateOrganizationTransaction]);
-    return OrganizationEntity.fromPrisma(organizationUpdated);
+    const [recordUpdated] = await client.$transaction([record]);
+    return OrganizationEntity.fromPrisma(recordUpdated);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -72,14 +72,14 @@ export const deleteOrganizationService = async (
   clientId: string,
 ): Promise<OrganizationEntity> => {
   try {
-    const deleteOrganizationTransaction = client.organization.delete({
+    const record = client.organization.delete({
       where: {
         organization_client_id: clientId,
       },
     });
 
-    const [organizationDeleted] = await client.$transaction([deleteOrganizationTransaction]);
-    return OrganizationEntity.fromPrisma(organizationDeleted);
+    const [recordDeleted] = await client.$transaction([record]);
+    return OrganizationEntity.fromPrisma(recordDeleted);
   } catch (error) {
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
