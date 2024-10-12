@@ -1,5 +1,7 @@
 import { checkSchema } from "express-validator";
 
+// SUBSCRIPTIONS
+
 export const subscriptionKeyParamsSchema = checkSchema({
   id: {
     in: ["params"],
@@ -172,5 +174,166 @@ export const updateSubscriptionSchema = checkSchema({
       errorMessage: "endsAt is not a valid date.",
     },
     toDate: true,
+  },
+});
+
+// SUBSCRIPTION PLAN
+
+export const subscriptionPlanKeyParamsSchema = checkSchema({
+  slug: {
+    in: ["params"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing slug.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "slug cannot be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "slug is not a string.",
+    },
+  },
+});
+
+export const createSubscriptionPlanSchema = checkSchema({
+  name: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing name.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "name cannot be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "name is not a string.",
+    },
+  },
+  productId: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing productId.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "productId cannot be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "productId is not a string.",
+    },
+  },
+  variants: {
+    in: ["body"],
+    isArray: {
+      errorMessage: "variants should be an array.",
+    },
+  },
+  price: {
+    in: ["body"],
+    isFloat: {
+      errorMessage: "price is not a valid number.",
+    },
+    toFloat: true,
+  },
+  billingCycle: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing billingCycle.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "billingCycle cannot be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "billingCycle is not a string.",
+    },
+  },
+  nodeQuota: {
+    in: ["body"],
+    isInt: {
+      errorMessage: "nodeQuota is not a valid integer.",
+    },
+    toInt: true,
+  },
+  mostPopular: {
+    in: ["body"],
+    isBoolean: {
+      errorMessage: "mostPopular is not a boolean.",
+    },
+  },
+  tier: {
+    in: ["body"],
+    isInt: {
+      errorMessage: "tier is not a valid integer.",
+    },
+    toInt: true,
+  },
+});
+
+export const updateSubscriptionPlanSchema = checkSchema({
+  price: {
+    in: ["body"],
+    isFloat: {
+      errorMessage: "price is not a valid number.",
+    },
+    toFloat: true,
+  },
+  billingCycle: {
+    in: ["body"],
+    isString: {
+      errorMessage: "billingCycle is not a string.",
+    },
+  },
+  description: {
+    in: ["body"],
+    isString: {
+      errorMessage: "description is not a string.",
+    },
+  },
+  nodeQuota: {
+    in: ["body"],
+    isInt: {
+      errorMessage: "nodeQuota is not a valid integer.",
+    },
+    toInt: true,
+  },
+  mostPopular: {
+    in: ["body"],
+    isBoolean: {
+      errorMessage: "mostPopular is not a boolean.",
+    },
+  },
+  tier: {
+    in: ["body"],
+    isInt: {
+      errorMessage: "tier is not a valid integer.",
+    },
+    toInt: true,
+  },
+  isActive: {
+    in: ["body"],
+    isBoolean: {
+      errorMessage: "isActive is not a boolean.",
+    },
   },
 });
