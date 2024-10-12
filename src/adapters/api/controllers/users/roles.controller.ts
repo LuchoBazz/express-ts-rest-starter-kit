@@ -5,7 +5,7 @@ import {
   createRoleInteractor,
   deleteRoleInteractor,
   findRoleInteractor,
-} from "../../../../core/interactors/users/role/role.interactor";
+} from "../../../../core/interactors/users/role.interactor";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentRole } from "../../../presenters/users/role.presenter";
 import { validateSchema } from "../../validator";

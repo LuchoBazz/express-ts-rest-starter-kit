@@ -4,7 +4,7 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { InternalServerError } from "../../../adapters/api/errors/internal_server.error";
 import { prismaGlobalExceptionFilter } from "../../../adapters/api/errors/prisma_global_exception_filter";
 import { OrganizationEntity } from "../../entities/organizations/organization.entity";
-import { UpdateOrganizationInput } from "../../interactors/organizations/organization/organization.types";
+import { UpdateOrganizationInput } from "../../types/organizations/organization.types";
 
 export const findOrganizationService = async (
   client: PrismaClient,

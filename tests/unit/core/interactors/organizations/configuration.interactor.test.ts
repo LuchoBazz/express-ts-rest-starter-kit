@@ -6,7 +6,7 @@ import {
   deleteConfigurationInteractor,
   findConfigurationInteractor,
   updateConfigurationInteractor,
-} from "../../../../../src/core/interactors/organizations/configuration/configuration.interactor";
+} from "../../../../../src/core/interactors/organizations/configuration.interactor";
 import { genRandomConfigurationPrisma } from "../../../../mocks/organizations/configuration.mock";
 
 const disconnectMock = jest.fn();

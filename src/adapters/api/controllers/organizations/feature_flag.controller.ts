@@ -6,8 +6,8 @@ import {
   deleteFeatureFlagInteractor,
   findFeatureFlagInteractor,
   updateFeatureFlagInteractor,
-} from "../../../../core/interactors/organizations/feature_flag/feature_flag.interactor";
-import { UpdateFeatureFlagInput } from "../../../../core/interactors/organizations/feature_flag/feature_flag.types";
+} from "../../../../core/interactors/organizations/feature_flag.interactor";
+import { UpdateFeatureFlagInput } from "../../../../core/types/organizations/feature_flag.types";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentFeatureFlag } from "../../../presenters/organizations/feature_flag.presenter";
 import { validateSchema } from "../../validator";

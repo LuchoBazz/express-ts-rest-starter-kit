@@ -5,7 +5,7 @@ import {
   createPermissionInteractor,
   deletePermissionInteractor,
   findPermissionInteractor,
-} from "../../../../../src/core/interactors/users/permission/permission.interactor";
+} from "../../../../../src/core/interactors/users/permission.interactor";
 import { genRandomPermissionPrisma } from "../../../../mocks/users/permission.mock";
 
 const disconnectMock = jest.fn();

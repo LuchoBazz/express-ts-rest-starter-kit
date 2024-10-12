@@ -4,7 +4,10 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { InternalServerError } from "../../../adapters/api/errors/internal_server.error";
 import { prismaGlobalExceptionFilter } from "../../../adapters/api/errors/prisma_global_exception_filter";
 import { SubscriptionPlanEntity } from "../../entities/subscriptions/subscription_plan.entity";
-import { SubscriptionPlanSearchCriteriaInput, UpdateSubscriptionPlanInput } from "./subscription_plan.types";
+import {
+  SubscriptionPlanSearchCriteriaInput,
+  UpdateSubscriptionPlanInput,
+} from "../../types/subscriptions/subscription_plan.types";
 
 export const findSubscriptionPlanService = async (
   client: PrismaClient,

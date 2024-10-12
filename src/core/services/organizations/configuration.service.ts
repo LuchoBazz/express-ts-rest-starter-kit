@@ -7,7 +7,7 @@ import { ConfigurationEntity } from "../../entities/organizations/configuration.
 import {
   ConfigurationSearchCriteriaInput,
   UpdateConfigurationInput,
-} from "../../interactors/organizations/configuration/configuration.types";
+} from "../../types/organizations/configuration.types";
 
 export const findConfigurationService = async (
   client: PrismaClient,

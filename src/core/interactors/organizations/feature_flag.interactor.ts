@@ -1,16 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 
-import { ErrorMessage } from "../../../../adapters/api/errors/errors.enum";
-import { NotFoundError } from "../../../../adapters/api/errors/not_found.error";
-import { onSession } from "../../../../infrastructure/database/prisma";
-import { FeatureFlagEntity } from "../../../entities/organizations/feature_flag.entity";
+import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
+import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
+import { onSession } from "../../../infrastructure/database/prisma";
+import { FeatureFlagEntity } from "../../entities/organizations/feature_flag.entity";
 import {
   createFeatureFlagService,
   deleteFeatureFlagService,
   findFeatureFlagService,
   updateFeatureFlagService,
-} from "../../../services/organizations/feature_flag.service";
-import { FeatureFlagSearchCriteriaInput, UpdateFeatureFlagInput } from "./feature_flag.types";
+} from "../../services/organizations/feature_flag.service";
+import { FeatureFlagSearchCriteriaInput, UpdateFeatureFlagInput } from "../../types/organizations/feature_flag.types";
 
 export const findFeatureFlagInteractor = async (
   searchCriteria: FeatureFlagSearchCriteriaInput,

@@ -6,7 +6,7 @@ import {
   deleteOrganizationInteractor,
   findOrganizationInteractor,
   updateOrganizationInteractor,
-} from "../../../../../src/core/interactors/organizations/organization/organization.interactor";
+} from "../../../../../src/core/interactors/organizations/organization.interactor";
 import { genRandomOrganizationPrisma } from "../../../../mocks/organizations/organization.mock";
 
 const disconnectMock = jest.fn();

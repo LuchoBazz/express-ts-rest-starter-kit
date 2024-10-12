@@ -5,7 +5,7 @@ import {
   createPermissionInteractor,
   deletePermissionInteractor,
   findPermissionInteractor,
-} from "../../../../core/interactors/users/permission/permission.interactor";
+} from "../../../../core/interactors/users/permission.interactor";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentPermission } from "../../../presenters/users/permission.presenter";
 import { validateSchema } from "../../validator";

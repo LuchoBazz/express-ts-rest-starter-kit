@@ -4,10 +4,7 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { InternalServerError } from "../../../adapters/api/errors/internal_server.error";
 import { prismaGlobalExceptionFilter } from "../../../adapters/api/errors/prisma_global_exception_filter";
 import { FeatureFlagEntity } from "../../entities/organizations/feature_flag.entity";
-import {
-  FeatureFlagSearchCriteriaInput,
-  UpdateFeatureFlagInput,
-} from "../../interactors/organizations/feature_flag/feature_flag.types";
+import { FeatureFlagSearchCriteriaInput, UpdateFeatureFlagInput } from "../../types/organizations/feature_flag.types";
 
 export const findFeatureFlagService = async (
   client: PrismaClient,
