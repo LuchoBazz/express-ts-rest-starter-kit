@@ -337,3 +337,126 @@ export const updateSubscriptionPlanSchema = checkSchema({
     },
   },
 });
+
+// PAYMENT
+export const paymentKeyParamsSchema = checkSchema({
+  payment_id: {
+    in: ["params"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing payment_id.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "payment_id cannot be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "payment_id is not a string.",
+    },
+  },
+});
+
+export const createPaymentSchema = checkSchema({
+  subscriptionId: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing subscriptionId.",
+    },
+    isString: {
+      errorMessage: "subscriptionId is not a string.",
+    },
+  },
+  amount: {
+    in: ["body"],
+    isFloat: {
+      errorMessage: "amount is not a valid number.",
+    },
+    toFloat: true,
+  },
+  currency: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing currency.",
+    },
+    isString: {
+      errorMessage: "currency is not a string.",
+    },
+  },
+  externalPaymentId: {
+    in: ["body"],
+    isString: {
+      errorMessage: "externalPaymentId is not a string.",
+    },
+  },
+  status: {
+    in: ["body"],
+    isString: {
+      errorMessage: "status is not a string.",
+    },
+  },
+  organizationClientId: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing organizationClientId.",
+    },
+    isString: {
+      errorMessage: "organizationClientId is not a string.",
+    },
+  },
+});
+
+export const updatePaymentSchema = checkSchema({
+  subscriptionId: {
+    in: ["body"],
+    optional: true,
+    isString: {
+      errorMessage: "subscriptionId is not a string.",
+    },
+  },
+  amount: {
+    in: ["body"],
+    optional: true,
+    isFloat: {
+      errorMessage: "amount is not a valid number.",
+    },
+    toFloat: true,
+  },
+  currency: {
+    in: ["body"],
+    optional: true,
+    isString: {
+      errorMessage: "currency is not a string.",
+    },
+  },
+  externalPaymentId: {
+    in: ["body"],
+    optional: true,
+    isString: {
+      errorMessage: "externalPaymentId is not a string.",
+    },
+  },
+  status: {
+    in: ["body"],
+    optional: true,
+    isString: {
+      errorMessage: "status is not a string.",
+    },
+  },
+  organizationClientId: {
+    in: ["body"],
+    optional: true,
+    isString: {
+      errorMessage: "organizationClientId is not a string.",
+    },
+  },
+});
