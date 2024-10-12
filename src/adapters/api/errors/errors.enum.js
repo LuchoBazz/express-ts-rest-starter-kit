@@ -25,4 +25,10 @@ var ErrorMessage;
     ErrorMessage["ROLE_NOT_FOUND"] = "ROLE_NOT_FOUND";
     // PERMISSION
     ErrorMessage["PERMISSION_NOT_FOUND"] = "PERMISSION_NOT_FOUND";
+    // SUBSCRIPTION PLAN
+    ErrorMessage["SUBSCRIPTION_PLAN_NOT_FOUND"] = "SUBSCRIPTION_PLAN_NOT_FOUND";
+    // SUBSCRIPTION
+    ErrorMessage["SUBSCRIPTION_NOT_FOUND"] = "SUBSCRIPTION_NOT_FOUND";
+    // PAYMENT
+    ErrorMessage["PAYMENT_NOT_FOUND"] = "PAYMENT_NOT_FOUND";
 })(ErrorMessage || (exports.ErrorMessage = ErrorMessage = {}));
