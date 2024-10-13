@@ -4,6 +4,7 @@ import morgan from "morgan";
 
 import { healthCheck, logError, logRequest, notFound } from "../../adapters/api/middlewares/basics";
 import organizationRouter from "./organization.router";
+import subscriptionRouter from "./subscription.router";
 
 const router = express();
 const logFormat =
@@ -20,6 +21,7 @@ router.use(express.urlencoded({ extended: false }));
 router.get("/", healthCheck);
 router.get("/health", healthCheck);
 router.use("/organizations", organizationRouter);
+router.use("/subscriptions", subscriptionRouter);
 
 router.use(morgan(logFormat));
 router.use(logRequest);
