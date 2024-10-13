@@ -382,15 +382,15 @@ export const paymentKeyParamsSchema = checkSchema({
 });
 
 export const createPaymentSchema = checkSchema({
-  subscriptionId: {
+  subscription_id: {
     in: ["body"],
     isEmpty: {
       options: { ignore_whitespace: true },
       negated: true,
-      errorMessage: "Missing subscriptionId.",
+      errorMessage: "Missing subscription_id.",
     },
     isString: {
-      errorMessage: "subscriptionId is not a string.",
+      errorMessage: "subscription_id is not a string.",
     },
   },
   amount: {
@@ -411,10 +411,10 @@ export const createPaymentSchema = checkSchema({
       errorMessage: "currency is not a string.",
     },
   },
-  externalPaymentId: {
+  external_payment_id: {
     in: ["body"],
     isString: {
-      errorMessage: "externalPaymentId is not a string.",
+      errorMessage: "external_payment_id is not a string.",
     },
   },
   status: {
@@ -423,25 +423,14 @@ export const createPaymentSchema = checkSchema({
       errorMessage: "status is not a string.",
     },
   },
-  organizationClientId: {
-    in: ["body"],
-    isEmpty: {
-      options: { ignore_whitespace: true },
-      negated: true,
-      errorMessage: "Missing organizationClientId.",
-    },
-    isString: {
-      errorMessage: "organizationClientId is not a string.",
-    },
-  },
 });
 
 export const updatePaymentSchema = checkSchema({
-  subscriptionId: {
+  subscription_id: {
     in: ["body"],
     optional: true,
     isString: {
-      errorMessage: "subscriptionId is not a string.",
+      errorMessage: "subscription_id is not a string.",
     },
   },
   amount: {
@@ -459,11 +448,11 @@ export const updatePaymentSchema = checkSchema({
       errorMessage: "currency is not a string.",
     },
   },
-  externalPaymentId: {
+  external_payment_id: {
     in: ["body"],
     optional: true,
     isString: {
-      errorMessage: "externalPaymentId is not a string.",
+      errorMessage: "external_payment_id is not a string.",
     },
   },
   status: {
@@ -472,12 +461,6 @@ export const updatePaymentSchema = checkSchema({
     isString: {
       errorMessage: "status is not a string.",
     },
-  },
-  organizationClientId: {
-    in: ["body"],
-    optional: true,
-    isString: {
-      errorMessage: "organizationClientId is not a string.",
-    },
-  },
+  }
 });
+

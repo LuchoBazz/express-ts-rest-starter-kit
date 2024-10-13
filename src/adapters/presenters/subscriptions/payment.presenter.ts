@@ -3,14 +3,14 @@ import { PaymentEntity, PaymentResponse } from "../../../core/entities/subscript
 export const presentPayment = (entity: PaymentEntity): PaymentResponse => {
   return {
     id: entity.getId(),
-    subscriptionId: entity.getSubscriptionId(),
+    subscription_id: entity.getSubscriptionId(),
     amount: entity.getAmount(),
     currency: entity.getCurrency(),
     date: entity.getDate(),
-    externalPaymentId: entity.getExternalPaymentId(),
+    external_payment_id: entity.getExternalPaymentId(),
     status: entity.getStatus(),
-    organizationClientId: entity.getOrganizationClientId(),
-    createdAt: entity.getCreatedAt(),
-    updatedAt: entity.getUpdatedAt(),
+    client_id: entity.getOrganizationClientId(),
+    created_at: entity.getCreatedAt(),
+    updated_at: entity.getUpdatedAt(),
   };
 };

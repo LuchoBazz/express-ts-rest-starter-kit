@@ -15,15 +15,15 @@ export interface PaymentPrisma {
 
 export interface PaymentResponse {
   id: string;
-  subscriptionId: string;
+  subscription_id: string;
   amount: number;
   currency: string;
   date: Date;
-  externalPaymentId: string;
+  external_payment_id: string;
   status: string;
-  organizationClientId: string;
-  createdAt: Date;
-  updatedAt: Date;
+  client_id: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export class PaymentEntity extends Entity {

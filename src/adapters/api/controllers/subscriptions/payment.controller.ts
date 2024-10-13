@@ -11,9 +11,11 @@ import { PaymentSearchCriteriaInput, UpdatePaymentInput } from "../../../../core
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentPayment } from "../../../presenters/subscriptions/payment.presenter";
 import { validateSchema } from "../../validator";
+import { organizationSchema } from "../organizations/schemas";
 import { createPaymentSchema, paymentKeyParamsSchema, updatePaymentSchema } from "./schemas";
 
 export const findPaymentController = [
+  validateSchema(organizationSchema),
   validateSchema(paymentKeyParamsSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
@@ -30,19 +32,21 @@ export const findPaymentController = [
 ];
 
 export const createPaymentController = [
+  validateSchema(organizationSchema),
   validateSchema(createPaymentSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { subscriptionId, amount, currency, externalPaymentId, status, organizationClientId } = request.body;
+      const { client_id: clientId } = request.params;
+      const { subscription_id, amount, currency, external_payment_id, status } = request.body;
 
       const payment = new PaymentEntity(
-        subscriptionId as string,
+        subscription_id as string,
         amount as number,
         currency as string,
         new Date(),
-        externalPaymentId as string,
+        external_payment_id as string,
         status as string,
-        organizationClientId as string,
+        clientId,
         new Date(),
         new Date(),
       );
@@ -58,12 +62,13 @@ export const createPaymentController = [
 ];
 
 export const updatePaymentController = [
+  validateSchema(organizationSchema),
   validateSchema(paymentKeyParamsSchema),
   validateSchema(updatePaymentSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { payment_id: id } = request.params;
-      const { subscriptionId, amount, currency, externalPaymentId, status, organizationClientId } = request.body;
+      const { payment_id: id, client_id: clientId } = request.params;
+      const { subscription_id: subscriptionId, amount, currency, external_payment_id: externalPaymentId, status } = request.body;
 
       const searchCriteria: PaymentSearchCriteriaInput = { id };
 
@@ -73,7 +78,7 @@ export const updatePaymentController = [
         currency: currency ?? undefined,
         externalPaymentId: externalPaymentId ?? undefined,
         status: status ?? undefined,
-        organizationClientId: organizationClientId ?? undefined,
+        organizationClientId: clientId ?? undefined,
       };
 
       const paymentUpdated = await updatePaymentInteractor(searchCriteria, payment);
@@ -87,6 +92,7 @@ export const updatePaymentController = [
 ];
 
 export const deletePaymentController = [
+  validateSchema(organizationSchema),
   validateSchema(paymentKeyParamsSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {

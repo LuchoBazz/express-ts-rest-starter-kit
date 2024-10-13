@@ -50,9 +50,21 @@ subscription.delete(
 );
 
 // Subscription Payment
-subscription.get("/:client_id/subscription-payments", permissionChecker([GUEST_USER]), findPaymentController);
+subscription.get(
+  "/:client_id/subscription-payments/:payment_id",
+  permissionChecker([GUEST_USER]),
+  findPaymentController,
+);
 subscription.post("/:client_id/subscription-payments", permissionChecker([GUEST_USER]), createPaymentController);
-subscription.put("/:client_id/subscription-payments", permissionChecker([GUEST_USER]), updatePaymentController);
-subscription.delete("/:client_id/subscription-payments", permissionChecker([GUEST_USER]), deletePaymentController);
+subscription.put(
+  "/:client_id/subscription-payments/:payment_id",
+  permissionChecker([GUEST_USER]),
+  updatePaymentController,
+);
+subscription.delete(
+  "/:client_id/subscription-payments/:payment_id",
+  permissionChecker([GUEST_USER]),
+  deletePaymentController,
+);
 
 export default subscription;
