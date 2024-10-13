@@ -16,6 +16,7 @@ import {
 import {
   createSubscriptionPlanController,
   deleteSubscriptionPlanController,
+  findSubscriptionPlanByOrganizationController,
   findSubscriptionPlanController,
   updateSubscriptionPlanController,
 } from "../../adapters/api/controllers/subscriptions/subscription_plan.controller";
@@ -38,6 +39,11 @@ subscription.put("/:client_id/subscriptions/:id", permissionChecker([GUEST_USER]
 subscription.delete("/:client_id/subscriptions/:id", permissionChecker([GUEST_USER]), deleteSubscriptionController);
 
 // Subscription Plan
+subscription.get(
+  "/:client_id/subscription-plans",
+  permissionChecker([GUEST_USER]),
+  findSubscriptionPlanByOrganizationController,
+);
 subscription.get(
   "/:client_id/subscription-plans/:slug",
   permissionChecker([GUEST_USER]),

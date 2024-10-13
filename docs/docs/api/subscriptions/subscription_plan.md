@@ -5,6 +5,11 @@ sidebar_label: Subscription Plan
 ---
 
 ```bash
+curl -X GET "http://localhost:3000/organizations/{client_id}/subscription-plans" \
+  -H "Accept: application/json"
+```
+
+```bash
 curl -X GET "http://localhost:3000/organizations/{client_id}/subscription-plans/{slug}" \
 -H "Content-Type: application/json"
 ```

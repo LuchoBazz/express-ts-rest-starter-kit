@@ -4,6 +4,7 @@ import { SubscriptionPlanEntity } from "../../../../../src/core/entities/subscri
 import {
   createSubscriptionPlanInteractor,
   deleteSubscriptionPlanInteractor,
+  findSubscriptionPlanByOrganizationInteractor,
   findSubscriptionPlanInteractor,
   updateSubscriptionPlanInteractor,
 } from "../../../../../src/core/interactors/subscriptions/subscription_plan.interactor";
@@ -13,6 +14,7 @@ const disconnectMock = jest.fn();
 
 jest.mock("../../../../../src/core/services/subscriptions/subscription_plan.service", () => {
   return {
+    findSubscriptionPlanByOrganizationService: subscriptionPlanServiceMock,
     findSubscriptionPlanService: subscriptionPlanServiceMock,
     createSubscriptionPlanService: subscriptionPlanServiceMock,
     updateSubscriptionPlanService: subscriptionPlanServiceMock,
@@ -47,7 +49,6 @@ describe("Given a SubscriptionPlanInteractor", () => {
     disconnectMock.mockClear();
   });
 
-  // TODO: Add test for tests nullable case
   it("should get subscription plan successfully", async () => {
     const subPlanFound = await findSubscriptionPlanInteractor({
       id: subscriptionPlan.getId(),
@@ -102,6 +103,32 @@ describe("Given a SubscriptionPlanInteractor", () => {
     });
 
     expect(subPlanDeleted).toEqual(subscriptionPlan);
+    expect(subscriptionPlanServiceMock).toHaveBeenCalledTimes(1);
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should find subscription plans by organization successfully", async () => {
+    const clientId = subscriptionPlan.getOrganizationClientId();
+    subscriptionPlanServiceMock.mockImplementationOnce(() => {
+      return Promise.resolve([subscriptionPlan]);
+    });
+
+    const subscriptionPlansFound = await findSubscriptionPlanByOrganizationInteractor(clientId);
+
+    expect(subscriptionPlansFound).toEqual([subscriptionPlan]);
+    expect(subscriptionPlanServiceMock).toHaveBeenCalledTimes(1);
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should handle errors when finding subscription plans by organization", async () => {
+    const clientId = subscriptionPlan.getOrganizationClientId();
+    const errorMessage = "Error fetching subscription plans";
+
+    subscriptionPlanServiceMock.mockImplementationOnce(() => {
+      throw new Error(errorMessage);
+    });
+
+    await expect(findSubscriptionPlanByOrganizationInteractor(clientId)).rejects.toThrow(Error);
     expect(subscriptionPlanServiceMock).toHaveBeenCalledTimes(1);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });

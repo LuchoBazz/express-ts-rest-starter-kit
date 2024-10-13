@@ -4,6 +4,7 @@ import { SubscriptionPlanEntity } from "../../../../core/entities/subscriptions/
 import {
   createSubscriptionPlanInteractor,
   deleteSubscriptionPlanInteractor,
+  findSubscriptionPlanByOrganizationInteractor,
   findSubscriptionPlanInteractor,
   updateSubscriptionPlanInteractor,
 } from "../../../../core/interactors/subscriptions/subscription_plan.interactor";
@@ -16,6 +17,22 @@ import { presentSubscriptionPlan } from "../../../presenters/subscriptions/subsc
 import { validateSchema } from "../../validator";
 import { organizationSchema } from "../organizations/schemas";
 import { createSubscriptionPlanSchema, subscriptionPlanKeyParamsSchema, updateSubscriptionPlanSchema } from "./schemas";
+
+export const findSubscriptionPlanByOrganizationController = [
+  validateSchema(organizationSchema),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const { client_id: clientId } = request.params;
+
+      const subscriptionPlansFound = await findSubscriptionPlanByOrganizationInteractor(clientId);
+
+      const responseSubscriptionPlans = subscriptionPlansFound.map(presentSubscriptionPlan);
+      response.status(HttpStatusCode.OK).json({ data: responseSubscriptionPlans });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
 
 export const findSubscriptionPlanController = [
   validateSchema(organizationSchema),
