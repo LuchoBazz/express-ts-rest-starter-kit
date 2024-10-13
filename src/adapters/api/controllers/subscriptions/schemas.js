@@ -288,6 +288,9 @@ exports.createSubscriptionPlanSchema = (0, express_validator_1.checkSchema)({
 exports.updateSubscriptionPlanSchema = (0, express_validator_1.checkSchema)({
     price: {
         in: ["body"],
+        optional: {
+            options: { nullable: true },
+        },
         isFloat: {
             errorMessage: "price is not a valid number.",
         },
@@ -295,18 +298,27 @@ exports.updateSubscriptionPlanSchema = (0, express_validator_1.checkSchema)({
     },
     billingCycle: {
         in: ["body"],
+        optional: {
+            options: { nullable: true },
+        },
         isString: {
             errorMessage: "billingCycle is not a string.",
         },
     },
     description: {
         in: ["body"],
+        optional: {
+            options: { nullable: true },
+        },
         isString: {
             errorMessage: "description is not a string.",
         },
     },
     nodeQuota: {
         in: ["body"],
+        optional: {
+            options: { nullable: true },
+        },
         isInt: {
             errorMessage: "nodeQuota is not a valid integer.",
         },
@@ -314,12 +326,18 @@ exports.updateSubscriptionPlanSchema = (0, express_validator_1.checkSchema)({
     },
     mostPopular: {
         in: ["body"],
+        optional: {
+            options: { nullable: true },
+        },
         isBoolean: {
             errorMessage: "mostPopular is not a boolean.",
         },
     },
     tier: {
         in: ["body"],
+        optional: {
+            options: { nullable: true },
+        },
         isInt: {
             errorMessage: "tier is not a valid integer.",
         },
@@ -327,6 +345,9 @@ exports.updateSubscriptionPlanSchema = (0, express_validator_1.checkSchema)({
     },
     isActive: {
         in: ["body"],
+        optional: {
+            options: { nullable: true },
+        },
         isBoolean: {
             errorMessage: "isActive is not a boolean.",
         },

@@ -49,6 +49,7 @@ const createSubscriptionPlanService = async (client, subscriptionPlan) => {
         return subscription_plan_entity_1.SubscriptionPlanEntity.fromPrisma(recordCreated);
     }
     catch (error) {
+        console.log(JSON.stringify({ error }, undefined, 2));
         (0, prisma_global_exception_filter_1.prismaGlobalExceptionFilter)(error);
         throw new internal_server_error_1.InternalServerError(errors_enum_1.ErrorMessage.INTERNAL_SERVER_ERROR);
     }

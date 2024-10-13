@@ -14,10 +14,10 @@ subscription.post("/:client_id", (0, permitions_1.permissionChecker)([GUEST_USER
 subscription.put("/:client_id", (0, permitions_1.permissionChecker)([GUEST_USER]), subscription_controller_1.updateSubscriptionController);
 subscription.delete("/:client_id", (0, permitions_1.permissionChecker)([GUEST_USER]), subscription_controller_1.deleteSubscriptionController);
 // Subscription Plan
-subscription.get("/:client_id/plan", (0, permitions_1.permissionChecker)([GUEST_USER]), subscription_plan_controller_1.findSubscriptionPlanController);
-subscription.post("/:client_id/plan", (0, permitions_1.permissionChecker)([GUEST_USER]), subscription_plan_controller_1.createSubscriptionPlanController);
-subscription.put("/:client_id/plan", (0, permitions_1.permissionChecker)([GUEST_USER]), subscription_plan_controller_1.updateSubscriptionPlanController);
-subscription.delete("/:client_id/plan", (0, permitions_1.permissionChecker)([GUEST_USER]), subscription_plan_controller_1.deleteSubscriptionPlanController);
+subscription.get("/:client_id/plans/:slug", (0, permitions_1.permissionChecker)([GUEST_USER]), subscription_plan_controller_1.findSubscriptionPlanController);
+subscription.post("/:client_id/plans", (0, permitions_1.permissionChecker)([GUEST_USER]), subscription_plan_controller_1.createSubscriptionPlanController);
+subscription.put("/:client_id/plans/:slug", (0, permitions_1.permissionChecker)([GUEST_USER]), subscription_plan_controller_1.updateSubscriptionPlanController);
+subscription.delete("/:client_id/plans/:slug", (0, permitions_1.permissionChecker)([GUEST_USER]), subscription_plan_controller_1.deleteSubscriptionPlanController);
 // Subscription Payment
 subscription.get("/:client_id/payment", (0, permitions_1.permissionChecker)([GUEST_USER]), payment_controller_1.findPaymentController);
 subscription.post("/:client_id/payment", (0, permitions_1.permissionChecker)([GUEST_USER]), payment_controller_1.createPaymentController);
