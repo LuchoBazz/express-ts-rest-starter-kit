@@ -32,10 +32,10 @@ subscription.put("/:client_id", permissionChecker([GUEST_USER]), updateSubscript
 subscription.delete("/:client_id", permissionChecker([GUEST_USER]), deleteSubscriptionController);
 
 // Subscription Plan
-subscription.get("/:client_id/plan", permissionChecker([GUEST_USER]), findSubscriptionPlanController);
-subscription.post("/:client_id/plan", permissionChecker([GUEST_USER]), createSubscriptionPlanController);
-subscription.put("/:client_id/plan", permissionChecker([GUEST_USER]), updateSubscriptionPlanController);
-subscription.delete("/:client_id/plan", permissionChecker([GUEST_USER]), deleteSubscriptionPlanController);
+subscription.get("/:client_id/plans/:slug", permissionChecker([GUEST_USER]), findSubscriptionPlanController);
+subscription.post("/:client_id/plans", permissionChecker([GUEST_USER]), createSubscriptionPlanController);
+subscription.put("/:client_id/plans/:slug", permissionChecker([GUEST_USER]), updateSubscriptionPlanController);
+subscription.delete("/:client_id/plans/:slug", permissionChecker([GUEST_USER]), deleteSubscriptionPlanController);
 
 // Subscription Payment
 subscription.get("/:client_id/payment", permissionChecker([GUEST_USER]), findPaymentController);

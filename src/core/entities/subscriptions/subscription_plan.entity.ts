@@ -23,21 +23,21 @@ export interface SubscriptionPlanPrisma {
 export interface SubscriptionPlanResponse {
   id: string;
   name: string;
-  productId: string;
+  product_id: string;
   variants: string[];
   slug: string;
   price: number;
   href: string | null;
-  billingCycle: string;
+  billing_cycle: string;
   description: string;
-  nodeQuota: number;
+  node_quota: number;
   features: any;
-  mostPopular: boolean;
+  most_popular: boolean;
   tier: number;
-  isActive: boolean;
-  organizationClientId: string;
-  createdAt: Date;
-  updatedAt: Date;
+  is_active: boolean;
+  client_id: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export class SubscriptionPlanEntity extends Entity {

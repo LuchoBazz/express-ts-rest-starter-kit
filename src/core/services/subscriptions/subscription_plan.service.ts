@@ -59,6 +59,7 @@ export const createSubscriptionPlanService = async (
     const [recordCreated] = await client.$transaction([record]);
     return SubscriptionPlanEntity.fromPrisma(recordCreated);
   } catch (error) {
+    console.log(JSON.stringify({ error }, undefined, 2));
     prismaGlobalExceptionFilter(error);
     throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
   }

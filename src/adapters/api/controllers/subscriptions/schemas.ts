@@ -293,6 +293,9 @@ export const createSubscriptionPlanSchema = checkSchema({
 export const updateSubscriptionPlanSchema = checkSchema({
   price: {
     in: ["body"],
+    optional: {
+      options: { nullable: true },
+    },
     isFloat: {
       errorMessage: "price is not a valid number.",
     },
@@ -300,18 +303,27 @@ export const updateSubscriptionPlanSchema = checkSchema({
   },
   billingCycle: {
     in: ["body"],
+    optional: {
+      options: { nullable: true },
+    },
     isString: {
       errorMessage: "billingCycle is not a string.",
     },
   },
   description: {
     in: ["body"],
+    optional: {
+      options: { nullable: true },
+    },
     isString: {
       errorMessage: "description is not a string.",
     },
   },
   nodeQuota: {
     in: ["body"],
+    optional: {
+      options: { nullable: true },
+    },
     isInt: {
       errorMessage: "nodeQuota is not a valid integer.",
     },
@@ -319,12 +331,18 @@ export const updateSubscriptionPlanSchema = checkSchema({
   },
   mostPopular: {
     in: ["body"],
+    optional: {
+      options: { nullable: true },
+    },
     isBoolean: {
       errorMessage: "mostPopular is not a boolean.",
     },
   },
   tier: {
     in: ["body"],
+    optional: {
+      options: { nullable: true },
+    },
     isInt: {
       errorMessage: "tier is not a valid integer.",
     },
@@ -332,11 +350,15 @@ export const updateSubscriptionPlanSchema = checkSchema({
   },
   isActive: {
     in: ["body"],
+    optional: {
+      options: { nullable: true },
+    },
     isBoolean: {
       errorMessage: "isActive is not a boolean.",
     },
   },
 });
+
 
 // PAYMENT
 export const paymentKeyParamsSchema = checkSchema({
