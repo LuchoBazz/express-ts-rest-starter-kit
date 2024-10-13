@@ -14,16 +14,16 @@ curl -X POST "http://localhost:3000/organizations/{client_id}/subscription-plans
 -H "Content-Type: application/json" \
 -d '{
   "name": "Your Plan Name",
-  "productId": "12345",
+  "product_id": "12345",
   "variants": ["variant1", "variant2"],
-  "slug": "your-plan-slug",
+  "slug": "your-plan-slug-1",
   "price": 29.99,
   "href": "https://your-link.com",
-  "billingCycle": "monthly",
+  "billing_cycle": "weekly",
   "description": "A brief description of the plan",
-  "nodeQuota": 10,
+  "node_quota": 10,
   "features": "Feature1, Feature2",
-  "mostPopular": true,
+  "most_popular": true,
   "tier": 2
 }'
 ```
@@ -33,13 +33,13 @@ curl -X PUT "http://localhost:3000/organizations/{client_id}/subscription-plans/
 -H "Content-Type: application/json" \
 -d '{
   "price": 99.99,
-  "billingCycle": "monthly",
+  "billing_cycle": "weekly",
   "description": "Updated subscription plan description",
-  "nodeQuota": 5,
+  "node_quota": 10,
   "features": "Feature1, Feature2",
-  "mostPopular": true,
+  "most_popular": true,
   "tier": 1,
-  "isActive": true
+  "is_active": true
 }'
 ```
 

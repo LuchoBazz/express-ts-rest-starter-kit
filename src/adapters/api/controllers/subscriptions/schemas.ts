@@ -219,22 +219,22 @@ export const createSubscriptionPlanSchema = checkSchema({
       errorMessage: "name is not a string.",
     },
   },
-  productId: {
+  product_id: {
     in: ["body"],
     isEmpty: {
       options: { ignore_whitespace: true },
       negated: true,
-      errorMessage: "Missing productId.",
+      errorMessage: "Missing product_id.",
     },
     exists: {
       options: {
         checkFalsy: true,
       },
-      errorMessage: "productId cannot be null.",
+      errorMessage: "product_id cannot be null.",
       bail: true,
     },
     isString: {
-      errorMessage: "productId is not a string.",
+      errorMessage: "product_id is not a string.",
     },
   },
   variants: {
@@ -250,35 +250,35 @@ export const createSubscriptionPlanSchema = checkSchema({
     },
     toFloat: true,
   },
-  billingCycle: {
+  billing_cycle: {
     in: ["body"],
     isEmpty: {
       options: { ignore_whitespace: true },
       negated: true,
-      errorMessage: "Missing billingCycle.",
+      errorMessage: "Missing billing_cycle.",
     },
     exists: {
       options: {
         checkFalsy: true,
       },
-      errorMessage: "billingCycle cannot be null.",
+      errorMessage: "billing_cycle cannot be null.",
       bail: true,
     },
     isString: {
-      errorMessage: "billingCycle is not a string.",
+      errorMessage: "billing_cycle is not a string.",
     },
   },
-  nodeQuota: {
+  node_quota: {
     in: ["body"],
     isInt: {
-      errorMessage: "nodeQuota is not a valid integer.",
+      errorMessage: "node_quota is not a valid integer.",
     },
     toInt: true,
   },
-  mostPopular: {
+  most_popular: {
     in: ["body"],
     isBoolean: {
-      errorMessage: "mostPopular is not a boolean.",
+      errorMessage: "most_popular is not a boolean.",
     },
   },
   tier: {
@@ -301,13 +301,13 @@ export const updateSubscriptionPlanSchema = checkSchema({
     },
     toFloat: true,
   },
-  billingCycle: {
+  billing_cycle: {
     in: ["body"],
     optional: {
       options: { nullable: true },
     },
     isString: {
-      errorMessage: "billingCycle is not a string.",
+      errorMessage: "billing_cycle is not a string.",
     },
   },
   description: {
@@ -319,23 +319,23 @@ export const updateSubscriptionPlanSchema = checkSchema({
       errorMessage: "description is not a string.",
     },
   },
-  nodeQuota: {
+  node_quota: {
     in: ["body"],
     optional: {
       options: { nullable: true },
     },
     isInt: {
-      errorMessage: "nodeQuota is not a valid integer.",
+      errorMessage: "node_quota is not a valid integer.",
     },
     toInt: true,
   },
-  mostPopular: {
+  most_popular: {
     in: ["body"],
     optional: {
       options: { nullable: true },
     },
     isBoolean: {
-      errorMessage: "mostPopular is not a boolean.",
+      errorMessage: "most_popular is not a boolean.",
     },
   },
   tier: {
@@ -348,13 +348,13 @@ export const updateSubscriptionPlanSchema = checkSchema({
     },
     toInt: true,
   },
-  isActive: {
+  is_active: {
     in: ["body"],
     optional: {
       options: { nullable: true },
     },
     isBoolean: {
-      errorMessage: "isActive is not a boolean.",
+      errorMessage: "is_active is not a boolean.",
     },
   },
 });

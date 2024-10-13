@@ -42,23 +42,23 @@ export const createSubscriptionPlanController = [
       const { client_id: clientId } = request.params;
       const {
         name,
-        productId,
+        product_id: productId,
         variants,
         slug,
         price,
         href,
-        billingCycle,
+        billing_cycle: billingCycle,
         description,
-        nodeQuota,
+        node_quota: nodeQuota,
         features,
-        mostPopular,
+        most_popular: mostPopular,
         tier,
       } = request.body;
-      const isActive = true;
-      const createdAt = new Date();
-      const updatedAt = new Date();
+      const is_active = true;
+      const created_at = new Date();
+      const updated_at = new Date();
 
-      const subscriptionPlan = new SubscriptionPlanEntity(
+      const subscription_plan = new SubscriptionPlanEntity(
         name as string,
         productId as string,
         variants as string[],
@@ -71,16 +71,16 @@ export const createSubscriptionPlanController = [
         features as string,
         mostPopular as boolean,
         tier as number,
-        isActive as boolean,
+        is_active as boolean,
         clientId,
-        createdAt,
-        updatedAt,
+        created_at,
+        updated_at,
       );
 
-      const subscriptionPlanCreated = await createSubscriptionPlanInteractor(subscriptionPlan);
+      const subscription_plan_created = await createSubscriptionPlanInteractor(subscription_plan);
 
-      const responseSubscriptionPlan = presentSubscriptionPlan(subscriptionPlanCreated);
-      response.status(HttpStatusCode.OK).json({ data: responseSubscriptionPlan });
+      const response_subscription_plan = presentSubscriptionPlan(subscription_plan_created);
+      response.status(HttpStatusCode.OK).json({ data: response_subscription_plan });
     } catch (error) {
       next(error);
     }
@@ -94,20 +94,20 @@ export const updateSubscriptionPlanController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const { client_id: clientId, slug } = request.params;
-      const { price, billingCycle, description, nodeQuota, features, mostPopular, tier, isActive } = request.body;
+      const { price, billing_cycle, description, node_quota, features, most_popular, tier, is_active } = request.body;
 
       const searchCriteria: SubscriptionPlanSearchCriteriaInput = { id: slug, clientId };
 
       const subscriptionPlan: UpdateSubscriptionPlanInput = {
         slug,
         price: price ?? undefined,
-        billingCycle: billingCycle ?? undefined,
+        billingCycle: billing_cycle ?? undefined,
         description: description ?? undefined,
-        nodeQuota: nodeQuota ?? undefined,
+        nodeQuota: node_quota ?? undefined,
         features: features ?? undefined,
-        mostPopular: mostPopular ?? undefined,
+        mostPopular: most_popular ?? undefined,
         tier: tier ?? undefined,
-        isActive: isActive ?? undefined,
+        isActive: is_active ?? undefined,
       };
 
       const subscriptionPlanUpdated = await updateSubscriptionPlanInteractor(searchCriteria, subscriptionPlan);
