@@ -54,9 +54,11 @@ This document provides a comprehensive overview of the project's structure, desi
 ## Explanation of the Structure
 
 ### /app
+
 This folder contains the application startup and Express routes.
 
 ### /core
+
 The core layer, or "nucleus," contains:
 
 - **Entities (/entities)**: Entities that represent business objects.
@@ -64,6 +66,7 @@ The core layer, or "nucleus," contains:
 - **Repositories (/repositories)**: Interfaces that define how to interact with data persistence.
 
 ### /adapters
+
 This section includes adapters that connect the domain with the outside world:
 
 - **API (/api)**: Express controllers that handle HTTP requests.
@@ -71,8 +74,9 @@ This section includes adapters that connect the domain with the outside world:
 - **Mappers (/mappers)**: Optional mappers for converting data between different layers.
 
 ### /infrastructure
+
 Contains infrastructure configurations, such as the database, logging, and any application infrastructure-related settings.
 
 ### /tests
-Holds unit and integration tests, which can be divided into folders such as unit (testing domain logic) and integration (testing API, databases, etc.).
 
+Holds unit and integration tests, which can be divided into folders such as unit (testing domain logic) and integration (testing API, databases, etc.).
