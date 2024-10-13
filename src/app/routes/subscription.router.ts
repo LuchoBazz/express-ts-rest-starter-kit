@@ -26,21 +26,33 @@ const { GUEST_USER } = PermissionsValues;
 const subscription = Router();
 
 // Subscription
-subscription.get("/:client_id", permissionChecker([GUEST_USER]), findSubscriptionController);
-subscription.post("/:client_id", permissionChecker([GUEST_USER]), createSubscriptionController);
-subscription.put("/:client_id", permissionChecker([GUEST_USER]), updateSubscriptionController);
-subscription.delete("/:client_id", permissionChecker([GUEST_USER]), deleteSubscriptionController);
+subscription.get("/:client_id/subscriptions/:id", permissionChecker([GUEST_USER]), findSubscriptionController);
+subscription.post("/:client_id/subscriptions", permissionChecker([GUEST_USER]), createSubscriptionController);
+subscription.put("/:client_id/subscriptions/:id", permissionChecker([GUEST_USER]), updateSubscriptionController);
+subscription.delete("/:client_id/subscriptions/:id", permissionChecker([GUEST_USER]), deleteSubscriptionController);
 
 // Subscription Plan
-subscription.get("/:client_id/plans/:slug", permissionChecker([GUEST_USER]), findSubscriptionPlanController);
-subscription.post("/:client_id/plans", permissionChecker([GUEST_USER]), createSubscriptionPlanController);
-subscription.put("/:client_id/plans/:slug", permissionChecker([GUEST_USER]), updateSubscriptionPlanController);
-subscription.delete("/:client_id/plans/:slug", permissionChecker([GUEST_USER]), deleteSubscriptionPlanController);
+subscription.get(
+  "/:client_id/subscription-plans/:slug",
+  permissionChecker([GUEST_USER]),
+  findSubscriptionPlanController,
+);
+subscription.post("/:client_id/subscription-plans", permissionChecker([GUEST_USER]), createSubscriptionPlanController);
+subscription.put(
+  "/:client_id/subscription-plans/:slug",
+  permissionChecker([GUEST_USER]),
+  updateSubscriptionPlanController,
+);
+subscription.delete(
+  "/:client_id/subscription-plans/:slug",
+  permissionChecker([GUEST_USER]),
+  deleteSubscriptionPlanController,
+);
 
 // Subscription Payment
-subscription.get("/:client_id/payment", permissionChecker([GUEST_USER]), findPaymentController);
-subscription.post("/:client_id/payment", permissionChecker([GUEST_USER]), createPaymentController);
-subscription.put("/:client_id/payment", permissionChecker([GUEST_USER]), updatePaymentController);
-subscription.delete("/:client_id/payment", permissionChecker([GUEST_USER]), deletePaymentController);
+subscription.get("/:client_id/subscription-payments", permissionChecker([GUEST_USER]), findPaymentController);
+subscription.post("/:client_id/subscription-payments", permissionChecker([GUEST_USER]), createPaymentController);
+subscription.put("/:client_id/subscription-payments", permissionChecker([GUEST_USER]), updatePaymentController);
+subscription.delete("/:client_id/subscription-payments", permissionChecker([GUEST_USER]), deletePaymentController);
 
 export default subscription;

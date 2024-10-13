@@ -18,18 +18,18 @@ export interface SubscriptionPrisma {
 
 export interface SubscriptionResponse {
   id: string;
-  userId: string;
-  subscriptionPlanId: string;
-  externalSubscriptionId: string;
-  billingCycle: string;
+  user_id: string;
+  subscription_plan_id: string;
+  external_subscription_id: string;
+  billing_cycle: string;
   status: string;
-  isActive: boolean;
-  renewsAt: Date;
-  startsAt: Date;
-  endsAt: Date;
-  organizationClientId: string;
-  createdAt: Date;
-  updatedAt: Date;
+  is_active: boolean;
+  renews_at: Date;
+  starts_at: Date;
+  ends_at: Date;
+  client_id: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export class SubscriptionEntity extends Entity {

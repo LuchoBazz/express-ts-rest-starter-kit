@@ -5,12 +5,12 @@ sidebar_label: Subscription Plan
 ---
 
 ```bash
-curl -X GET "http://localhost:3000/subscriptions/{client_id}/plans/{slug}" \
+curl -X GET "http://localhost:3000/organizations/{client_id}/subscription-plans/{slug}" \
 -H "Content-Type: application/json"
 ```
 
 ```bash
-curl -X POST "http://localhost:3000/subscriptions/{client_id}/plans" \
+curl -X POST "http://localhost:3000/organizations/{client_id}/subscription-plans" \
 -H "Content-Type: application/json" \
 -d '{
   "name": "Your Plan Name",
@@ -29,7 +29,7 @@ curl -X POST "http://localhost:3000/subscriptions/{client_id}/plans" \
 ```
 
 ```bash
-curl -X PUT "http://localhost:3000/subscriptions/{client_id}/plans/{slug}" \
+curl -X PUT "http://localhost:3000/organizations/{client_id}/subscription-plans/{slug}" \
 -H "Content-Type: application/json" \
 -d '{
   "price": 99.99,
@@ -44,6 +44,6 @@ curl -X PUT "http://localhost:3000/subscriptions/{client_id}/plans/{slug}" \
 ```
 
 ```bash
-curl -X DELETE "http://localhost:3000/subscriptions/{client_id}/plans/{slug}" \
+curl -X DELETE "http://localhost:3000/organizations/{client_id}/subscription-plans/{slug}" \
   -H "Content-Type: application/json"
 ```

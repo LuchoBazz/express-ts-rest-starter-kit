@@ -18,7 +18,7 @@ import { organizationSchema } from "../organizations/schemas";
 import { createSubscriptionSchema, subscriptionKeyParamsSchema, updateSubscriptionSchema } from "./schemas";
 
 export const findSubscriptionController = [
-  // validateSchema(organizationSchema),
+  validateSchema(organizationSchema),
   validateSchema(subscriptionKeyParamsSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
@@ -41,27 +41,27 @@ export const createSubscriptionController = [
     try {
       const { client_id: clientId } = request.params;
       const {
-        userId,
-        subscriptionPlanId,
-        externalSubscriptionId,
-        billingCycle,
+        user_id,
+        subscription_plan_id,
+        external_subscription_id,
+        billing_cycle,
         status,
-        isActive,
-        renewsAt,
-        startsAt,
-        endsAt,
+        is_active,
+        renews_at,
+        starts_at,
+        ends_at,
       } = request.body;
 
       const subscription = new SubscriptionEntity(
-        userId as string,
-        subscriptionPlanId as string,
-        externalSubscriptionId as string,
-        billingCycle as string,
+        user_id as string,
+        subscription_plan_id as string,
+        external_subscription_id as string,
+        billing_cycle as string,
         status as string,
-        isActive as boolean,
-        renewsAt as Date,
-        startsAt as Date,
-        endsAt as Date,
+        is_active as boolean,
+        renews_at as Date,
+        starts_at as Date,
+        ends_at as Date,
         clientId,
         new Date(),
         new Date(),
@@ -76,9 +76,8 @@ export const createSubscriptionController = [
     }
   },
 ];
-
 export const updateSubscriptionController = [
-  // validateSchema(organizationSchema),
+  validateSchema(organizationSchema),
   validateSchema(subscriptionKeyParamsSchema),
   validateSchema(updateSubscriptionSchema),
   async (request: Request, response: Response, next: NextFunction) => {
@@ -86,29 +85,29 @@ export const updateSubscriptionController = [
       const { id } = request.params;
 
       const {
-        userId,
-        subscriptionPlanId,
-        externalSubscriptionId,
-        billingCycle,
+        user_id,
+        subscription_plan_id,
+        external_subscription_id,
+        billing_cycle,
         status,
-        isActive,
-        renewsAt,
-        startsAt,
-        endsAt,
+        is_active,
+        renews_at,
+        starts_at,
+        ends_at,
       } = request.body;
 
       const searchCriteria: SubscriptionSearchCriteriaInput = { id };
 
       const subscription: UpdateSubscriptionInput = {
-        userId,
-        subscriptionPlanId,
-        externalSubscriptionId,
-        billingCycle,
+        userId: user_id,
+        subscriptionPlanId: subscription_plan_id,
+        externalSubscriptionId: external_subscription_id,
+        billingCycle: billing_cycle,
         status,
-        isActive,
-        renewsAt,
-        startsAt,
-        endsAt,
+        isActive: is_active,
+        renewsAt: renews_at,
+        startsAt: starts_at,
+        endsAt: ends_at,
       };
 
       const subscriptionUpdated = await updateSubscriptionInteractor(searchCriteria, subscription);
@@ -122,7 +121,7 @@ export const updateSubscriptionController = [
 ];
 
 export const deleteSubscriptionController = [
-  // validateSchema(organizationSchema),
+  validateSchema(organizationSchema),
   validateSchema(subscriptionKeyParamsSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
