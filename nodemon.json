@@ -1,0 +1,11 @@
+{
+  "watch": [
+    "src"
+  ],
+  "ext": "js,ts,json",
+  "exec": "npm run build && node ./build/src/app/server.js",
+  "ignore": [
+    "build/*"
+  ],
+  "delay": "1000"
+}
