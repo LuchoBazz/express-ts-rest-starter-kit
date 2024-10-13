@@ -4,18 +4,18 @@ exports.presentSubscription = void 0;
 const presentSubscription = (entity) => {
     return {
         id: entity.getId(),
-        userId: entity.getUserId(),
-        subscriptionPlanId: entity.getSubscriptionPlanId(),
-        externalSubscriptionId: entity.getExternalSubscriptionId(),
-        billingCycle: entity.getBillingCycle(),
+        user_id: entity.getUserId(),
+        subscription_plan_id: entity.getSubscriptionPlanId(),
+        external_subscription_id: entity.getExternalSubscriptionId(),
+        billing_cycle: entity.getBillingCycle(),
         status: entity.getStatus(),
-        isActive: entity.getIsActive(),
-        renewsAt: entity.getRenewsAt(),
-        startsAt: entity.getStartsAt(),
-        endsAt: entity.getEndsAt(),
-        organizationClientId: entity.getOrganizationClientId(),
-        createdAt: entity.getCreatedAt(),
-        updatedAt: entity.getUpdatedAt(),
+        is_active: entity.getIsActive(),
+        renews_at: entity.getRenewsAt(),
+        starts_at: entity.getStartsAt(),
+        ends_at: entity.getEndsAt(),
+        client_id: entity.getOrganizationClientId(),
+        created_at: entity.getCreatedAt(),
+        updated_at: entity.getUpdatedAt(),
     };
 };
 exports.presentSubscription = presentSubscription;

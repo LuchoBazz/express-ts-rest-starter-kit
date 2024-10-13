@@ -24,53 +24,53 @@ exports.subscriptionKeyParamsSchema = (0, express_validator_1.checkSchema)({
     },
 });
 exports.createSubscriptionSchema = (0, express_validator_1.checkSchema)({
-    userId: {
+    user_id: {
         in: ["body"],
         isEmpty: {
             options: { ignore_whitespace: true },
             negated: true,
-            errorMessage: "Missing user ID.",
+            errorMessage: "Missing user_id.",
         },
         exists: {
             options: {
                 checkFalsy: true,
             },
-            errorMessage: "user ID cannot be null.",
+            errorMessage: "user_id cannot be null.",
             bail: true,
         },
         isString: {
-            errorMessage: "user ID is not a string.",
+            errorMessage: "user_id is not a string.",
         },
     },
-    subscriptionPlanId: {
+    subscription_plan_id: {
         in: ["body"],
         isEmpty: {
             options: { ignore_whitespace: true },
             negated: true,
-            errorMessage: "Missing subscription plan ID.",
+            errorMessage: "Missing subscription_plan_id.",
         },
         exists: {
             options: {
                 checkFalsy: true,
             },
-            errorMessage: "subscription plan ID cannot be null.",
+            errorMessage: "subscription_plan_id cannot be null.",
             bail: true,
         },
         isString: {
-            errorMessage: "subscription plan ID is not a string.",
+            errorMessage: "subscription_plan_id is not a string.",
         },
     },
-    externalSubscriptionId: {
+    external_subscription_id: {
         in: ["body"],
         optional: true,
         isString: {
-            errorMessage: "external subscription ID is not a string.",
+            errorMessage: "external_subscription_id is not a string.",
         },
     },
-    billingCycle: {
+    billing_cycle: {
         in: ["body"],
         isString: {
-            errorMessage: "billing cycle is not a string.",
+            errorMessage: "billing_cycle is not a string.",
         },
     },
     status: {
@@ -79,57 +79,57 @@ exports.createSubscriptionSchema = (0, express_validator_1.checkSchema)({
             errorMessage: "status is not a string.",
         },
     },
-    isActive: {
+    is_active: {
         in: ["body"],
         isBoolean: {
-            errorMessage: "isActive is not a boolean.",
+            errorMessage: "is_active is not a boolean.",
         },
     },
-    renewsAt: {
+    renews_at: {
         in: ["body"],
         isISO8601: {
-            errorMessage: "renewsAt is not a valid date.",
-        },
-        toDate: true,
-    },
-    startsAt: {
-        in: ["body"],
-        isISO8601: {
-            errorMessage: "startsAt is not a valid date.",
+            errorMessage: "renews_at is not a valid date.",
         },
         toDate: true,
     },
-    endsAt: {
+    starts_at: {
         in: ["body"],
         isISO8601: {
-            errorMessage: "endsAt is not a valid date.",
+            errorMessage: "starts_at is not a valid date.",
+        },
+        toDate: true,
+    },
+    ends_at: {
+        in: ["body"],
+        isISO8601: {
+            errorMessage: "ends_at is not a valid date.",
         },
         toDate: true,
     },
 });
 exports.updateSubscriptionSchema = (0, express_validator_1.checkSchema)({
-    userId: {
+    user_id: {
         in: ["body"],
         optional: true,
         isString: {
             errorMessage: "user ID is not a string.",
         },
     },
-    subscriptionPlanId: {
+    subscription_plan_id: {
         in: ["body"],
         optional: true,
         isString: {
             errorMessage: "subscription plan ID is not a string.",
         },
     },
-    externalSubscriptionId: {
+    external_subscription_id: {
         in: ["body"],
         optional: true,
         isString: {
             errorMessage: "external subscription ID is not a string.",
         },
     },
-    billingCycle: {
+    billing_cycle: {
         in: ["body"],
         optional: true,
         isString: {
@@ -143,34 +143,34 @@ exports.updateSubscriptionSchema = (0, express_validator_1.checkSchema)({
             errorMessage: "status is not a string.",
         },
     },
-    isActive: {
+    is_active: {
         in: ["body"],
         optional: true,
         isBoolean: {
-            errorMessage: "isActive is not a boolean.",
+            errorMessage: "is_active is not a boolean.",
         },
     },
-    renewsAt: {
+    renews_at: {
         in: ["body"],
         optional: true,
         isISO8601: {
-            errorMessage: "renewsAt is not a valid date.",
-        },
-        toDate: true,
-    },
-    startsAt: {
-        in: ["body"],
-        optional: true,
-        isISO8601: {
-            errorMessage: "startsAt is not a valid date.",
+            errorMessage: "renews_at is not a valid date.",
         },
         toDate: true,
     },
-    endsAt: {
+    starts_at: {
         in: ["body"],
         optional: true,
         isISO8601: {
-            errorMessage: "endsAt is not a valid date.",
+            errorMessage: "starts_at is not a valid date.",
+        },
+        toDate: true,
+    },
+    ends_at: {
+        in: ["body"],
+        optional: true,
+        isISO8601: {
+            errorMessage: "ends_at is not a valid date.",
         },
         toDate: true,
     },

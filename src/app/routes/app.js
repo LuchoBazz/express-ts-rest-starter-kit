@@ -21,7 +21,7 @@ router.use(express_1.default.urlencoded({ extended: false }));
 router.get("/", basics_1.healthCheck);
 router.get("/health", basics_1.healthCheck);
 router.use("/organizations", organization_router_1.default);
-router.use("/subscriptions", subscription_router_1.default);
+router.use("/organizations", subscription_router_1.default);
 router.use((0, morgan_1.default)(logFormat));
 router.use(basics_1.logRequest);
 router.use(basics_1.notFound);
