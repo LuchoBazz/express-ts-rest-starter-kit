@@ -33,8 +33,6 @@ curl -X PUT "http://localhost:3000/organizations/{client_id}/subscription-paymen
 }'
 ```
 
-
-
 ```bash
 curl -X DELETE "http://localhost:3000/organizations/{client_id}/subscription-payments/{payment_id}" \
 -H "Content-Type: application/json"

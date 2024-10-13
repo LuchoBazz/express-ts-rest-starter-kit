@@ -9,6 +9,26 @@ import {
   UpdateSubscriptionInput,
 } from "../../types/subscriptions/subscripition.types";
 
+export const findSubscriptionByOrganizationService = async (
+  client: PrismaClient,
+  clientId: string,
+): Promise<SubscriptionEntity[]> => {
+  try {
+    const records = await client.subscription.findMany({
+      where: {
+        subscriptions_organization_client_id: clientId,
+      },
+    });
+
+    return records.map((record) => {
+      return SubscriptionEntity.fromPrisma(record);
+    });
+  } catch (error) {
+    prismaGlobalExceptionFilter(error);
+    throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
+  }
+};
+
 export const findSubscriptionService = async (
   client: PrismaClient,
   searchCriteria: SubscriptionSearchCriteriaInput,

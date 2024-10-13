@@ -5,6 +5,11 @@ sidebar_label: Subscription
 ---
 
 ```bash
+curl -X GET "http://localhost:3000/organizations/{client_id}/subscriptions" \
+-H "Content-Type: application/json"
+```
+
+```bash
 curl -X GET "http://localhost:3000/organizations/{client_id}/subscriptions/{id}" \
   -H "Content-Type: application/json"
 ```

@@ -68,7 +68,13 @@ export const updatePaymentController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const { payment_id: id, client_id: clientId } = request.params;
-      const { subscription_id: subscriptionId, amount, currency, external_payment_id: externalPaymentId, status } = request.body;
+      const {
+        subscription_id: subscriptionId,
+        amount,
+        currency,
+        external_payment_id: externalPaymentId,
+        status,
+      } = request.body;
 
       const searchCriteria: PaymentSearchCriteriaInput = { id };
 

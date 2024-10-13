@@ -7,6 +7,7 @@ import {
 import {
   createSubscriptionService,
   deleteSubscriptionService,
+  findSubscriptionByOrganizationService,
   findSubscriptionService,
   updateSubscriptionService,
 } from "../../../../../src/core/services/subscriptions/subscription.service";
@@ -25,6 +26,7 @@ jest.mock("@prisma/client", () => {
           create: subscriptionMock,
           update: subscriptionMock,
           delete: subscriptionMock,
+          findMany: subscriptionMock,
         },
         $transaction: transactionMock,
         $disconnect: disconnectMock,
@@ -105,5 +107,20 @@ describe("Given a subscription service", () => {
     expect(subscriptionMock).toHaveBeenCalledTimes(1);
   });
 
-  // TODO: Add tests for testing errors
+  it("should find subscriptions by organization successfully", async () => {
+    const clientId = "DEMO";
+    subscriptionMock.mockImplementationOnce(() => {
+      return [subscriptionPrisma, subscriptionPrisma];
+    });
+
+    const foundSubscriptions = await findSubscriptionByOrganizationService(prismaClient, clientId);
+
+    expect(foundSubscriptions).toEqual([subscription, subscription]);
+    expect(subscriptionMock).toHaveBeenCalledTimes(1);
+    expect(subscriptionMock).toHaveBeenCalledWith({
+      where: {
+        subscriptions_organization_client_id: clientId,
+      },
+    });
+  });
 });

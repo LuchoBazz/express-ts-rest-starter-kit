@@ -6,6 +6,7 @@ import { SubscriptionEntity } from "../../../../../src/core/entities/subscriptio
 import {
   createSubscriptionInteractor,
   deleteSubscriptionInteractor,
+  findSubscriptionByOrganizationInteractor,
   findSubscriptionInteractor,
   updateSubscriptionInteractor,
 } from "../../../../../src/core/interactors/subscriptions/subscription.interactor";
@@ -19,6 +20,7 @@ jest.mock("../../../../../src/core/services/subscriptions/subscription.service",
     createSubscriptionService: subscriptionServiceMock,
     updateSubscriptionService: subscriptionServiceMock,
     deleteSubscriptionService: subscriptionServiceMock,
+    findSubscriptionByOrganizationService: subscriptionServiceMock,
   };
 });
 
@@ -112,6 +114,34 @@ describe("Given a SubscriptionInteractor", () => {
     ).rejects.toThrow(new NotFoundError(ErrorMessage.SUBSCRIPTION_NOT_FOUND));
 
     expect(subscriptionServiceMock).toHaveBeenCalledTimes(1);
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should find subscriptions by organization successfully", async () => {
+    const clientId = "client123";
+    subscriptionServiceMock.mockImplementationOnce(() => {
+      return Promise.resolve([subscription]);
+    });
+
+    const subscriptionsFound = await findSubscriptionByOrganizationInteractor(clientId);
+
+    expect(subscriptionsFound).toEqual([subscription]);
+    expect(subscriptionServiceMock).toHaveBeenCalledTimes(1);
+    expect(subscriptionServiceMock).toHaveBeenCalledWith(expect.anything(), clientId);
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should return an empty array when no subscriptions are found", async () => {
+    const clientId = "client123";
+    subscriptionServiceMock.mockImplementationOnce(() => {
+      return Promise.resolve([]);
+    });
+
+    const subscriptionsFound = await findSubscriptionByOrganizationInteractor(clientId);
+
+    expect(subscriptionsFound).toEqual([]);
+    expect(subscriptionServiceMock).toHaveBeenCalledTimes(1);
+    expect(subscriptionServiceMock).toHaveBeenCalledWith(expect.anything(), clientId);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 });

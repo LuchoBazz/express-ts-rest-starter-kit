@@ -461,6 +461,5 @@ export const updatePaymentSchema = checkSchema({
     isString: {
       errorMessage: "status is not a string.",
     },
-  }
+  },
 });
-

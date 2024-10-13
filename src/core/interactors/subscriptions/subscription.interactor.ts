@@ -7,6 +7,7 @@ import { SubscriptionEntity } from "../../entities/subscriptions/subscription.en
 import {
   createSubscriptionService,
   deleteSubscriptionService,
+  findSubscriptionByOrganizationService,
   findSubscriptionService,
   updateSubscriptionService,
 } from "../../services/subscriptions/subscription.service";
@@ -14,6 +15,14 @@ import {
   SubscriptionSearchCriteriaInput,
   UpdateSubscriptionInput,
 } from "../../types/subscriptions/subscripition.types";
+
+export const findSubscriptionByOrganizationInteractor = async (clientId: string): Promise<SubscriptionEntity[]> => {
+  const subscriptionFound = await onSession(async (client: PrismaClient) => {
+    return findSubscriptionByOrganizationService(client, clientId);
+  });
+
+  return subscriptionFound;
+};
 
 export const findSubscriptionInteractor = async (
   searchCriteria: SubscriptionSearchCriteriaInput,

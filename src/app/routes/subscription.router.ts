@@ -9,6 +9,7 @@ import {
 import {
   createSubscriptionController,
   deleteSubscriptionController,
+  findSubscriptionByOrganizationsController,
   findSubscriptionController,
   updateSubscriptionController,
 } from "../../adapters/api/controllers/subscriptions/subscription.controller";
@@ -26,6 +27,11 @@ const { GUEST_USER } = PermissionsValues;
 const subscription = Router();
 
 // Subscription
+subscription.get(
+  "/:client_id/subscriptions",
+  permissionChecker([GUEST_USER]),
+  findSubscriptionByOrganizationsController,
+);
 subscription.get("/:client_id/subscriptions/:id", permissionChecker([GUEST_USER]), findSubscriptionController);
 subscription.post("/:client_id/subscriptions", permissionChecker([GUEST_USER]), createSubscriptionController);
 subscription.put("/:client_id/subscriptions/:id", permissionChecker([GUEST_USER]), updateSubscriptionController);
