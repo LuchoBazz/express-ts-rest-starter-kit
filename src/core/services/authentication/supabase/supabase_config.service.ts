@@ -1,11 +1,11 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
-import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
+import { ErrorMessage } from "../../../../adapters/api/errors/errors.enum";
+import { NotFoundError } from "../../../../adapters/api/errors/not_found.error";
 import {
   OrganizationsSupabaseAuthClient,
   OrganizationsSupabaseAuthEnv,
-} from "../../types/authentication/supabase.types";
+} from "../../../types/authentication/supabase.types";
 
 export class SupabaseClientManager {
   private static instance: SupabaseClientManager;

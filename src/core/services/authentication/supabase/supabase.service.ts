@@ -1,11 +1,11 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 
-import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
-import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
-import { encodeJSON } from "../../shared/utils/encode_json.util";
-import { AuthUser, DeleteUserPayload, ValidateTokenPayload } from "../../types/authentication/base.types";
-import { OrganizationsSupabaseAuthEnv } from "../../types/authentication/supabase.types";
-import { BaseAuthService } from "./base_auth.service";
+import { ErrorMessage } from "../../../../adapters/api/errors/errors.enum";
+import { UnauthorizedError } from "../../../../adapters/api/errors/unauthorized.error";
+import { encodeJSON } from "../../../shared/utils/encode_json.util";
+import { AuthUser, DeleteUserPayload, ValidateTokenPayload } from "../../../types/authentication/base.types";
+import { OrganizationsSupabaseAuthEnv } from "../../../types/authentication/supabase.types";
+import { BaseAuthService } from "../base_auth.service";
 import { SupabaseClientManager } from "./supabase_config.service";
 
 export class SupabaseAuthService extends BaseAuthService {
