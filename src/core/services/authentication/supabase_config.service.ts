@@ -1,31 +1,44 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
+
 import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
-import { OrganizationsSupabaseAuthClient, OrganizationsSupabaseAuthEnv } from "../../types/authentication/supabase.types";
+import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
+import {
+  OrganizationsSupabaseAuthClient,
+  OrganizationsSupabaseAuthEnv,
+} from "../../types/authentication/supabase.types";
 
 export interface SupabaseConfigEnv {
   url: string;
   key: string;
 }
 
-export const createSupabaseClients = (config: OrganizationsSupabaseAuthEnv): OrganizationsSupabaseAuthClient => {
-  const clients: OrganizationsSupabaseAuthClient = {};
+export class SupabaseClientManager {
+  private static instance: SupabaseClientManager;
+  private clients: OrganizationsSupabaseAuthClient = {};
 
-  Object.keys(config).forEach((clientId: string) => {
-    const { url: supabaseUrl, key: supabaseKey } = config[clientId];
-    clients[clientId] = createClient(supabaseUrl, supabaseKey);
-  });
-
-  return clients;
-};
-
-export const getSupabaseApp = (
-  clients: OrganizationsSupabaseAuthClient,
-  clientId: string,
-): SupabaseClient => {
-  const supabaseClient = clients[clientId];
-  if(!supabaseClient) {
-    throw new NotFoundError(ErrorMessage.SUPABASE_CONFIGURATION_NOT_FOUND);
+  private constructor(config: OrganizationsSupabaseAuthEnv) {
+    this.initializeClients(config);
   }
-  return supabaseClient;
-};
+
+  public static getInstance(config: OrganizationsSupabaseAuthEnv): SupabaseClientManager {
+    if (!SupabaseClientManager.instance) {
+      SupabaseClientManager.instance = new SupabaseClientManager(config);
+    }
+    return SupabaseClientManager.instance;
+  }
+
+  private initializeClients(config: OrganizationsSupabaseAuthEnv): void {
+    Object.keys(config).forEach((clientId: string) => {
+      const { url: supabaseUrl, key: supabaseKey } = config[clientId];
+      this.clients[clientId] = createClient(supabaseUrl, supabaseKey);
+    });
+  }
+
+  public getClient(clientId: string): SupabaseClient {
+    const supabaseClient = this.clients[clientId];
+    if (!supabaseClient) {
+      throw new NotFoundError(ErrorMessage.SUPABASE_CONFIGURATION_NOT_FOUND);
+    }
+    return supabaseClient;
+  }
+}
