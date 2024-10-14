@@ -9,17 +9,17 @@ import { BaseAuthService } from "../base_auth.service";
 import { SupabaseClientManager } from "./supabase_config.service";
 
 export class SupabaseAuthService extends BaseAuthService {
-  public supabaseManager: SupabaseClientManager;
+  public manager: SupabaseClientManager;
 
   constructor() {
     super();
-    const supabaseConfig = encodeJSON<OrganizationsSupabaseAuthEnv>(process.env.SUPABASE_CONFIG || "{}", {});
-    this.supabaseManager = SupabaseClientManager.getInstance(supabaseConfig);
+    const supabaseConfig = encodeJSON<OrganizationsSupabaseAuthEnv>(process.env.SUPABASE_CREDENTIALS || "{}", {});
+    this.manager = SupabaseClientManager.getInstance(supabaseConfig);
   }
 
   public async validateToken({ clientId, accessToken }: ValidateTokenPayload): Promise<AuthUser> {
     try {
-      const supabase: SupabaseClient = this.supabaseManager.getClient(clientId);
+      const supabase: SupabaseClient = this.manager.getClient(clientId);
       const { data } = await supabase.auth.getUser(accessToken);
       const { user } = data;
       if (!user) {
@@ -33,7 +33,7 @@ export class SupabaseAuthService extends BaseAuthService {
 
   public async deleteUser({ clientId, authId }: DeleteUserPayload): Promise<boolean> {
     try {
-      const supabase: SupabaseClient = this.supabaseManager.getClient(clientId);
+      const supabase: SupabaseClient = this.manager.getClient(clientId);
       const { error } = await supabase.auth.admin.deleteUser(authId);
       return !error;
     } catch (error) {
