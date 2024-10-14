@@ -1,6 +1,9 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 
-import { SupabaseConfigEnv } from "../../services/authentication/supabase_config.service";
+export interface SupabaseConfigEnv {
+  url: string;
+  key: string;
+}
 
 export type OrganizationsSupabaseAuthEnv = Record<string, SupabaseConfigEnv>;
 export type OrganizationsSupabaseAuthClient = Record<string, SupabaseClient>;

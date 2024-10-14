@@ -7,11 +7,6 @@ import {
   OrganizationsSupabaseAuthEnv,
 } from "../../types/authentication/supabase.types";
 
-export interface SupabaseConfigEnv {
-  url: string;
-  key: string;
-}
-
 export class SupabaseClientManager {
   private static instance: SupabaseClientManager;
   private clients: OrganizationsSupabaseAuthClient = {};
