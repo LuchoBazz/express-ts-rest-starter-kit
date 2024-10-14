@@ -8,6 +8,7 @@ import { OrganizationsSupabaseAuthEnv } from "../../../types/authentication/supa
 import { BaseAuthService } from "../base_auth.service";
 import { SupabaseClientManager } from "./supabase_config.service";
 
+// TODO: Add tests
 export class SupabaseAuthService extends BaseAuthService {
   public manager: SupabaseClientManager;
 

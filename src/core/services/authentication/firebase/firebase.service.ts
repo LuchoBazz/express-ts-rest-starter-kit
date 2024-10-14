@@ -6,6 +6,7 @@ import { OrganizationsFirebaseAuthEnv } from "../../../types/authentication/fire
 import { BaseAuthService } from "../base_auth.service";
 import { FirebaseClientManager } from "./firebase_config.service";
 
+// TODO: Add tests
 export class FirebaseAuthService extends BaseAuthService {
   public manager: FirebaseClientManager;
 

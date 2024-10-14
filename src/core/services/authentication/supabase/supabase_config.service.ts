@@ -7,6 +7,7 @@ import {
   OrganizationsSupabaseAuthEnv,
 } from "../../../types/authentication/supabase.types";
 
+// TODO: Add tests
 export class SupabaseClientManager {
   private static instance: SupabaseClientManager;
   private clients: OrganizationsSupabaseAuthClient = {};

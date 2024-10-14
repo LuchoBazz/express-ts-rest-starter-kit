@@ -8,6 +8,7 @@ import {
   OrganizationsFirebaseAuthEnv,
 } from "../../../types/authentication/firebase.types";
 
+// TODO: Add tests
 export class FirebaseClientManager {
   private static instance: FirebaseClientManager;
   private clients: OrganizationsFirebaseAuthClient = {};
