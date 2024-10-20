@@ -6,22 +6,23 @@ import { BaseAuthService } from "./base_auth.service";
 import { FirebaseAuthService } from "./firebase/firebase.service";
 import { SupabaseAuthService } from "./supabase/supabase.service";
 
-export class AuthGatewayService {
+// TODO: Add tests
+export class AuthService {
   private providers!: Record<AuthProvider, BaseAuthService>;
-  private static instance: AuthGatewayService;
+  private static instance: AuthService;
 
   private constructor() {
-    if (AuthGatewayService.instance) {
-      return AuthGatewayService.instance;
-    }
-
     this.providers = {
       [AuthProvider.FIREBASE]: new FirebaseAuthService(),
       [AuthProvider.SUPABASE]: new SupabaseAuthService(),
     };
+  }
 
-    AuthGatewayService.instance = this;
-    return AuthGatewayService.instance;
+  public static getInstance(): AuthService {
+    if (!AuthService.instance) {
+      AuthService.instance = new AuthService();
+    }
+    return AuthService.instance;
   }
 
   private async getAuthService(_client: PrismaClient, _clientId: string): Promise<BaseAuthService> {
@@ -29,7 +30,7 @@ export class AuthGatewayService {
     // if(!authProvider) {
     //   throw new NotFoundError("");
     // }
-    // return this.providers[ authProvider.getValue() as AuthProvider];
+    // return this.providers[authProvider.getValue() as AuthProvider];
     return Promise.resolve(this.providers[AuthProvider.FIREBASE]);
   }
 
