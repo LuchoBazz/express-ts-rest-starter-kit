@@ -3,8 +3,47 @@ import { PrismaClient } from "@prisma/client";
 import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
 import { onSession } from "../../../infrastructure/database/prisma";
+import { AuthProvider, AuthType, CommonUserEntity, UserPrisma } from "../../entities/users/common_user.entity";
+import { UserRole } from "../../entities/users/role.enum";
 import { AuthService } from "../../services/authentication/auth.service";
 import { AuthUser } from "../../types/authentication/base.types";
+import { SignUpUser } from "../../types/authentication/user.type";
+
+export const signUpInteractor = async (
+  clientId: string,
+  accessToken: string,
+  data: SignUpUser,
+): Promise<CommonUserEntity> => {
+  const response = await onSession(async (client: PrismaClient) => {
+    const user = await AuthService.getInstance().validateToken(client, { clientId, accessToken, email: data.email });
+    if (!user) {
+      throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
+    }
+
+    const record = client.user.create({
+      data: {
+        user_username: data.username,
+        user_first_name: data.firstName,
+        user_last_name: data.lastName,
+        user_email: data.email,
+        user_identification_number: data.username,
+        user_phone_number: data.username,
+        user_terms: data.terms,
+        user_notifications: data.notifications,
+        user_is_active: true,
+        user_uid: user.authId,
+        user_role: UserRole.COMMON_USER,
+        user_auth_provider: AuthProvider.FIREBASE,
+        user_auth_type: AuthType.EMAIL_AND_PASSWORD,
+        user_organization_client_id: clientId,
+      },
+    });
+
+    const [recordCreated] = await client.$transaction([record]);
+    return CommonUserEntity.fromPrisma(recordCreated as UserPrisma);
+  });
+  return response;
+};
 
 export const validateAuthTokenInteractor = async (
   clientId: string,
