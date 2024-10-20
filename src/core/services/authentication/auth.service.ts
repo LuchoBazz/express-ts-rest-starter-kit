@@ -38,7 +38,9 @@ export class AuthService {
     const { email, clientId } = payload;
     const authService = await this.getAuthService(client, clientId);
     const user = await authService.validateToken(payload);
-    const isValidUser = user && !(!user.authId || (email && user.email !== email));
+    const hasValidAuthId = user && user.authId;
+    const isEmailValid = !email || user.email === email;
+    const isValidUser = hasValidAuthId && isEmailValid;
     return isValidUser ? user : null;
   }
 
