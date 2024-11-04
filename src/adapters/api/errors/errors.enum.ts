@@ -44,4 +44,7 @@ export enum ErrorMessage {
 
   // UTILS
   JSON_DECODING_ERROR = "JSON_DECODING_ERROR",
+
+  // USER
+  USER_NOT_FOUND = "USER_NOT_FOUND",
 }

@@ -6,8 +6,28 @@ import { onSession } from "../../../infrastructure/database/prisma";
 import { AuthProvider, AuthType, CommonUserEntity, UserPrisma } from "../../entities/users/common_user.entity";
 import { UserRole } from "../../entities/users/role.enum";
 import { AuthService } from "../../services/authentication/auth.service";
+import { findCommonUserService } from "../../services/users/users.service";
 import { AuthUser } from "../../types/authentication/base.types";
 import { SignUpUser } from "../../types/authentication/user.type";
+
+export const signInInteractor = async (
+  clientId: string,
+  accessToken: string,
+  email: string,
+): Promise<CommonUserEntity> => {
+  const response = await onSession(async (client: PrismaClient) => {
+    const user = await AuthService.getInstance().validateToken(client, { clientId, accessToken, email });
+    if (!user || (user.email && user.email !== email)) {
+      throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
+    }
+    const commonUser = await findCommonUserService(client, email);
+    if (!commonUser) {
+      throw new UnauthorizedError(ErrorMessage.USER_NOT_FOUND);
+    }
+    return commonUser;
+  });
+  return response;
+};
 
 export const signUpInteractor = async (
   clientId: string,
