@@ -11,7 +11,6 @@ curl -X POST "http://localhost:3000/organizations/DEMO/sign-in" \
         "access_token": "your_access_token",
         "email": "your_email@example.com"
       }'
-
 ```
 
 ```bash
@@ -21,11 +20,9 @@ curl -X POST "http://localhost:3000/organizations/DEMO/sign-up" \
         "access_token": "your_access_token",
         "email": "your_email@example.com"
       }'
-
 ```
 
 ```bash
 curl -X DELETE "http://localhost:3000/organizations/DEMO/delete-my-account/{auth_id}" \
   -H "Content-Type: application/json"
-
 ```
