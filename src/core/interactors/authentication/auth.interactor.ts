@@ -10,6 +10,7 @@ import { findCommonUserService } from "../../services/users/users.service";
 import { AuthUser } from "../../types/authentication/base.types";
 import { SignUpUser } from "../../types/authentication/user.type";
 
+// TODO: Add tests
 export const signInInteractor = async (
   clientId: string,
   accessToken: string,
