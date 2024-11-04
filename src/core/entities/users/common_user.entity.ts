@@ -96,7 +96,7 @@ export class CommonUserEntity extends BaseUserEntity {
   }
 
   public static fromPrisma(payload: UserPrisma): CommonUserEntity {
-    return new CommonUserEntity(
+    const commonUser = new CommonUserEntity(
       payload.user_username,
       payload.user_first_name,
       payload.user_last_name,
@@ -111,6 +111,8 @@ export class CommonUserEntity extends BaseUserEntity {
       payload.user_auth_type,
       payload.user_organization_client_id,
     );
+    commonUser.setId(payload.user_id);
+    return commonUser;
   }
 
   public toResponse(): UserResponse {
