@@ -4,13 +4,7 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
 import { onSession } from "../../../infrastructure/database/prisma";
 import { SubscriptionPlanEntity } from "../../entities/subscriptions/subscription_plan.entity";
-import {
-  createSubscriptionPlanService,
-  deleteSubscriptionPlanService,
-  findSubscriptionPlanByOrganizationService,
-  findSubscriptionPlanService,
-  updateSubscriptionPlanService,
-} from "../../services/subscriptions/subscription_plan.service";
+import { getSubscriptionPlanRepository } from "../../repositories/subscriptions/subscription_plan";
 import {
   SubscriptionPlanSearchCriteriaInput,
   UpdateSubscriptionPlanInput,
@@ -19,8 +13,9 @@ import {
 export const findSubscriptionPlanByOrganizationInteractor = async (
   clientId: string,
 ): Promise<SubscriptionPlanEntity[]> => {
+  const subscriptionPlanRepository = getSubscriptionPlanRepository();
   const subscriptionPlansFound = await onSession(async (client: PrismaClient) => {
-    return findSubscriptionPlanByOrganizationService(client, clientId);
+    return subscriptionPlanRepository.find(client, clientId);
   });
   return subscriptionPlansFound;
 };
@@ -28,8 +23,9 @@ export const findSubscriptionPlanByOrganizationInteractor = async (
 export const findSubscriptionPlanInteractor = async (
   searchCriteria: SubscriptionPlanSearchCriteriaInput,
 ): Promise<SubscriptionPlanEntity> => {
+  const subscriptionPlanRepository = getSubscriptionPlanRepository();
   const subscriptionPlanFound = await onSession(async (client: PrismaClient) => {
-    return findSubscriptionPlanService(client, searchCriteria);
+    return subscriptionPlanRepository.findOne(client, searchCriteria);
   });
 
   if (!subscriptionPlanFound) {
@@ -42,8 +38,9 @@ export const findSubscriptionPlanInteractor = async (
 export const createSubscriptionPlanInteractor = async (
   subscriptionPlan: SubscriptionPlanEntity,
 ): Promise<SubscriptionPlanEntity> => {
+  const subscriptionPlanRepository = getSubscriptionPlanRepository();
   const subscriptionPlanCreated = await onSession((client: PrismaClient) => {
-    return createSubscriptionPlanService(client, subscriptionPlan);
+    return subscriptionPlanRepository.create(client, subscriptionPlan);
   });
 
   return subscriptionPlanCreated;
@@ -53,8 +50,9 @@ export const updateSubscriptionPlanInteractor = async (
   searchCriteria: SubscriptionPlanSearchCriteriaInput,
   subscriptionPlan: UpdateSubscriptionPlanInput,
 ): Promise<SubscriptionPlanEntity> => {
+  const subscriptionPlanRepository = getSubscriptionPlanRepository();
   const subscriptionPlanUpdated = await onSession((client: PrismaClient) => {
-    return updateSubscriptionPlanService(client, searchCriteria, subscriptionPlan);
+    return subscriptionPlanRepository.update(client, searchCriteria, subscriptionPlan);
   });
 
   return subscriptionPlanUpdated;
@@ -63,8 +61,10 @@ export const updateSubscriptionPlanInteractor = async (
 export const deleteSubscriptionPlanInteractor = async (
   searchCriteria: SubscriptionPlanSearchCriteriaInput,
 ): Promise<SubscriptionPlanEntity> => {
+  const subscriptionPlanRepository = getSubscriptionPlanRepository();
+
   const subscriptionPlanDeleted = await onSession((client: PrismaClient) => {
-    return deleteSubscriptionPlanService(client, searchCriteria);
+    return subscriptionPlanRepository.delete(client, searchCriteria);
   });
 
   return subscriptionPlanDeleted;
