@@ -4,15 +4,12 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
 import { onSession } from "../../../infrastructure/database/prisma";
 import { PermissionEntity } from "../../entities/users/permission.entity";
-import {
-  createPermissionService,
-  deletePermissionService,
-  findPermissionService,
-} from "../../services/users/permission.service";
+import { getPermissionRepository } from "../../repositories/users/permissions";
 
 export const findPermissionInteractor = async (name: string): Promise<PermissionEntity> => {
+  const permissionRepository = getPermissionRepository();
   const permissionFound = await onSession(async (client: PrismaClient) => {
-    return findPermissionService(client, name);
+    return permissionRepository.findOne(client, name);
   });
 
   if (!permissionFound) {
@@ -23,16 +20,18 @@ export const findPermissionInteractor = async (name: string): Promise<Permission
 };
 
 export const createPermissionInteractor = async (permission: PermissionEntity): Promise<PermissionEntity> => {
+  const permissionRepository = getPermissionRepository();
   const permissionCreated = await onSession((client: PrismaClient) => {
-    return createPermissionService(client, permission);
+    return permissionRepository.create(client, permission);
   });
 
   return permissionCreated;
 };
 
 export const deletePermissionInteractor = async (name: string): Promise<PermissionEntity> => {
+  const permissionRepository = getPermissionRepository();
   const permissionDeleted = await onSession((client: PrismaClient) => {
-    return deletePermissionService(client, name);
+    return permissionRepository.delete(client, name);
   });
 
   return permissionDeleted;
