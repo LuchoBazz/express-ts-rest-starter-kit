@@ -5,8 +5,8 @@ import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.err
 import { onSession } from "../../../infrastructure/database/prisma";
 import { AuthProvider, AuthType, CommonUserEntity, UserPrisma } from "../../entities/users/common_user.entity";
 import { UserRole } from "../../entities/users/role.enum";
+import { getUserRepository } from "../../repositories/users/users";
 import { AuthService } from "../../services/authentication/auth.service";
-import { findCommonUserService } from "../../services/users/users.service";
 import { AuthUser } from "../../types/authentication/base.types";
 import { SignUpUser } from "../../types/authentication/user.type";
 
@@ -21,7 +21,8 @@ export const signInInteractor = async (
     if (!user || (user.email && user.email !== email)) {
       throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
     }
-    const commonUser = await findCommonUserService(client, email);
+    const userRepository = getUserRepository();
+    const commonUser = await userRepository.findOne(client, email);
     if (!commonUser) {
       throw new UnauthorizedError(ErrorMessage.USER_NOT_FOUND);
     }
