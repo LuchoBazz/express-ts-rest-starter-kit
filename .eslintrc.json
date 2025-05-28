@@ -115,7 +115,7 @@
     "@typescript-eslint/type-annotation-spacing": "off",
     "@typescript-eslint/unified-signatures": "error",
     "@typescript-eslint/unbound-method": "off",
-    "arrow-body-style": ["error", "always"],
+    "arrow-body-style": "off",
     "arrow-parens": ["off", "always"],
     "brace-style": ["off", "off"],
     "camelcase": "off",
