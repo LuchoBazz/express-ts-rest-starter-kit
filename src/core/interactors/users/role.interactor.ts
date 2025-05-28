@@ -4,11 +4,13 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
 import { onSession } from "../../../infrastructure/database/prisma";
 import { RoleEntity } from "../../entities/users/role.enum";
-import { createRoleService, deleteRoleService, findRoleService } from "../../services/users/role.service";
+import { getRoleRepository } from "../../repositories/users/roles";
 
 export const findRoleInteractor = async (name: string): Promise<RoleEntity> => {
+  const roleRepository = getRoleRepository();
+
   const roleFound = await onSession(async (client: PrismaClient) => {
-    return findRoleService(client, name);
+    return roleRepository.findOne(client, name);
   });
 
   if (!roleFound) {
@@ -19,16 +21,20 @@ export const findRoleInteractor = async (name: string): Promise<RoleEntity> => {
 };
 
 export const createRoleInteractor = async (role: RoleEntity): Promise<RoleEntity> => {
+  const roleRepository = getRoleRepository();
+
   const roleCreated = await onSession((client: PrismaClient) => {
-    return createRoleService(client, role);
+    return roleRepository.create(client, role);
   });
 
   return roleCreated;
 };
 
 export const deleteRoleInteractor = async (name: string): Promise<RoleEntity> => {
+  const roleRepository = getRoleRepository();
+
   const roleDeleted = await onSession((client: PrismaClient) => {
-    return deleteRoleService(client, name);
+    return roleRepository.delete(client, name);
   });
 
   return roleDeleted;
