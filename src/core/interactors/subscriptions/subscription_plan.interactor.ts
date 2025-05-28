@@ -4,7 +4,7 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
 import { onSession } from "../../../infrastructure/database/prisma";
 import { SubscriptionPlanEntity } from "../../entities/subscriptions/subscription_plan.entity";
-import { getSubscriptionPlanRepository } from "../../repositories/subscriptions/subscription_plan";
+import { getSubscriptionPlanRepository } from "../../repositories/subscriptions/subscription_plans";
 import {
   SubscriptionPlanSearchCriteriaInput,
   UpdateSubscriptionPlanInput,

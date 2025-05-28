@@ -4,7 +4,7 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
 import { onSession } from "../../../infrastructure/database/prisma";
 import { PaymentEntity } from "../../entities/subscriptions/payment.entity";
-import { getPaymentRepository } from "../../repositories/subscriptions/payment";
+import { getPaymentRepository } from "../../repositories/subscriptions/payments";
 import { PaymentSearchCriteriaInput, UpdatePaymentInput } from "../../types/subscriptions/payment.types";
 
 export const findPaymentInteractor = async (searchCriteria: PaymentSearchCriteriaInput): Promise<PaymentEntity> => {
