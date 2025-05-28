@@ -4,17 +4,13 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
 import { onSession } from "../../../infrastructure/database/prisma";
 import { OrganizationEntity } from "../../entities/organizations/organization.entity";
-import {
-  createOrganizationService,
-  deleteOrganizationService,
-  findOrganizationService,
-  updateOrganizationService,
-} from "../../services/organizations/organizations.service";
+import { getOrganizationRepository } from "../../repositories/organizations/organizations";
 import { UpdateOrganizationInput } from "../../types/organizations/organization.types";
 
 export const findOrganizationInteractor = async (clientId: string): Promise<OrganizationEntity> => {
+  const organizationRepository = getOrganizationRepository();
   const organizationFound = await onSession(async (client: PrismaClient) => {
-    return findOrganizationService(client, clientId);
+    return organizationRepository.findOne(client, clientId);
   });
 
   if (!organizationFound) {
@@ -25,8 +21,9 @@ export const findOrganizationInteractor = async (clientId: string): Promise<Orga
 };
 
 export const createOrganizationInteractor = async (organization: OrganizationEntity): Promise<OrganizationEntity> => {
+  const organizationRepository = getOrganizationRepository();
   const organizationCreated = await onSession((client: PrismaClient) => {
-    return createOrganizationService(client, organization);
+    return organizationRepository.create(client, organization);
   });
 
   return organizationCreated;
@@ -35,16 +32,18 @@ export const createOrganizationInteractor = async (organization: OrganizationEnt
 export const updateOrganizationInteractor = async (
   organization: UpdateOrganizationInput,
 ): Promise<OrganizationEntity> => {
+  const organizationRepository = getOrganizationRepository();
   const organizationUpdated = await onSession((client: PrismaClient) => {
-    return updateOrganizationService(client, organization);
+    return organizationRepository.update(client, organization);
   });
 
   return organizationUpdated;
 };
 
 export const deleteOrganizationInteractor = async (clientId: string): Promise<OrganizationEntity> => {
+  const organizationRepository = getOrganizationRepository();
   const organizationDeleted = await onSession((client: PrismaClient) => {
-    return deleteOrganizationService(client, clientId);
+    return organizationRepository.delete(client, clientId);
   });
 
   return organizationDeleted;
