@@ -4,19 +4,15 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
 import { onSession } from "../../../infrastructure/database/prisma";
 import { FeatureFlagEntity } from "../../entities/organizations/feature_flag.entity";
-import {
-  createFeatureFlagService,
-  deleteFeatureFlagService,
-  findFeatureFlagService,
-  updateFeatureFlagService,
-} from "../../services/organizations/feature_flag.service";
+import { getFeatureFlagRepository } from "../../repositories/organizations/feature_flags";
 import { FeatureFlagSearchCriteriaInput, UpdateFeatureFlagInput } from "../../types/organizations/feature_flag.types";
 
 export const findFeatureFlagInteractor = async (
   searchCriteria: FeatureFlagSearchCriteriaInput,
 ): Promise<FeatureFlagEntity> => {
+  const featureFlagRepository = getFeatureFlagRepository();
   const featureFlagFound = await onSession(async (client: PrismaClient) => {
-    return findFeatureFlagService(client, searchCriteria);
+    return featureFlagRepository.findOne(client, searchCriteria);
   });
 
   if (!featureFlagFound) {
@@ -27,16 +23,18 @@ export const findFeatureFlagInteractor = async (
 };
 
 export const createFeatureFlagInteractor = async (featureFlag: FeatureFlagEntity): Promise<FeatureFlagEntity> => {
+  const featureFlagRepository = getFeatureFlagRepository();
   const featureFlagCreated = await onSession((client: PrismaClient) => {
-    return createFeatureFlagService(client, featureFlag);
+    return featureFlagRepository.create(client, featureFlag);
   });
 
   return featureFlagCreated;
 };
 
 export const updateFeatureFlagInteractor = async (featureFlag: UpdateFeatureFlagInput): Promise<FeatureFlagEntity> => {
+  const featureFlagRepository = getFeatureFlagRepository();
   const featureFlagUpdated = await onSession((client: PrismaClient) => {
-    return updateFeatureFlagService(client, featureFlag);
+    return featureFlagRepository.update(client, featureFlag);
   });
 
   return featureFlagUpdated;
@@ -45,8 +43,9 @@ export const updateFeatureFlagInteractor = async (featureFlag: UpdateFeatureFlag
 export const deleteFeatureFlagInteractor = async (
   searchCriteria: FeatureFlagSearchCriteriaInput,
 ): Promise<FeatureFlagEntity> => {
+  const featureFlagRepository = getFeatureFlagRepository();
   const featureFlagDeleted = await onSession((client: PrismaClient) => {
-    return deleteFeatureFlagService(client, searchCriteria);
+    return featureFlagRepository.delete(client, searchCriteria);
   });
 
   return featureFlagDeleted;
