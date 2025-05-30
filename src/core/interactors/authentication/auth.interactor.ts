@@ -16,7 +16,7 @@ export const signInInteractor = async (
   accessToken: string,
   email: string,
 ): Promise<CommonUserEntity> => {
-  const authRepository = getAuthRepository();
+  const authRepository = getAuthRepository(AuthProvider.FIREBASE);
   const response = await onSession(async (client: PrismaClient) => {
     const user = await authRepository.validateToken({ clientId, accessToken, email });
     if (!user || (user.email && user.email !== email)) {
@@ -37,7 +37,7 @@ export const signUpInteractor = async (
   accessToken: string,
   data: SignUpUser,
 ): Promise<CommonUserEntity> => {
-  const authRepository = getAuthRepository();
+  const authRepository = getAuthRepository(AuthProvider.FIREBASE);
   const response = await onSession(async (client: PrismaClient) => {
     const user = await authRepository.validateToken({ clientId, accessToken, email: data.email });
     if (!user) {
@@ -74,7 +74,7 @@ export const validateAuthTokenInteractor = async (
   accessToken: string,
   email?: string,
 ): Promise<AuthUser> => {
-  const authRepository = getAuthRepository();
+  const authRepository = getAuthRepository(AuthProvider.FIREBASE);
   const user = await authRepository.validateToken({ clientId, accessToken, email });
 
   if (!user) {
@@ -85,7 +85,7 @@ export const validateAuthTokenInteractor = async (
 };
 
 export const deleteAuthUserInteractor = async (clientId: string, authId: string): Promise<boolean> => {
-  const authRepository = getAuthRepository();
+  const authRepository = getAuthRepository(AuthProvider.FIREBASE);
   const isDeleted = await authRepository.deleteUser({ clientId, authId });
   return isDeleted;
 };

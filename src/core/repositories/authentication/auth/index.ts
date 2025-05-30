@@ -1,4 +1,11 @@
+import { AuthProvider } from "../../../entities/users/common_user.entity";
 import { AuthRepository } from "./auth_repository.interface";
 import { FirebaseAuthRepository } from "./firebase";
+import { SupabaseAuthRepository } from "./supabase";
 
-export const getAuthRepository = (): AuthRepository => FirebaseAuthRepository;
+const authRepositoryMap: Record<AuthProvider, AuthRepository> = {
+  [AuthProvider.FIREBASE]: FirebaseAuthRepository,
+  [AuthProvider.SUPABASE]: SupabaseAuthRepository,
+};
+
+export const getAuthRepository = (target: AuthProvider): AuthRepository => authRepositoryMap[target];
