@@ -1,12 +1,12 @@
 import admin, { AppOptions } from "firebase-admin";
 
-import { ErrorMessage } from "../../../../adapters/api/errors/errors.enum";
-import { NotFoundError } from "../../../../adapters/api/errors/not_found.error";
+import { ErrorMessage } from "../../../../../adapters/api/errors/errors.enum";
+import { NotFoundError } from "../../../../../adapters/api/errors/not_found.error";
 import {
   AdminApp,
   OrganizationsFirebaseAuthClient,
   OrganizationsFirebaseAuthEnv,
-} from "../../../types/authentication/firebase.types";
+} from "../../../../types/authentication/firebase.types";
 
 // TODO: Add tests
 export class FirebaseClientManager {

@@ -2,11 +2,11 @@ import { SupabaseClient } from "@supabase/supabase-js";
 
 import { ErrorMessage } from "../../../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../../../adapters/api/errors/unauthorized.error";
-import { SupabaseClientManager } from "../../../../services/authentication/supabase/supabase_config.service";
 import { encodeJSON } from "../../../../shared/utils/encode_json.util";
 import { AuthUser, DeleteUserPayload, ValidateTokenPayload } from "../../../../types/authentication/base.types";
 import { OrganizationsSupabaseAuthEnv } from "../../../../types/authentication/supabase.types";
 import { AuthRepository } from "../auth_repository.interface";
+import { SupabaseClientManager } from "./supabase_client_manager.config";
 
 const supabaseConfig = encodeJSON<OrganizationsSupabaseAuthEnv>(process.env.SUPABASE_CREDENTIALS || "{}", {});
 const manager = SupabaseClientManager.getInstance(supabaseConfig);

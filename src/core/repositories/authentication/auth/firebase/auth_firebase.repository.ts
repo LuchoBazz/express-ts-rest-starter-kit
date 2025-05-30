@@ -1,10 +1,10 @@
 import { ErrorMessage } from "../../../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../../../adapters/api/errors/unauthorized.error";
-import { FirebaseClientManager } from "../../../../services/authentication/firebase/firebase_config.service";
 import { encodeJSON } from "../../../../shared/utils/encode_json.util";
 import { AuthUser, DeleteUserPayload, ValidateTokenPayload } from "../../../../types/authentication/base.types";
 import { OrganizationsFirebaseAuthEnv } from "../../../../types/authentication/firebase.types";
 import { AuthRepository } from "../auth_repository.interface";
+import { FirebaseClientManager } from "./firebase_client_manager.config";
 
 const firebaseConfig = encodeJSON<OrganizationsFirebaseAuthEnv>(process.env.FIREBASE_CREDENTIALS || "{}", {});
 const manager = FirebaseClientManager.getInstance(firebaseConfig);

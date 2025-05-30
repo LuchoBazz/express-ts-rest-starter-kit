@@ -5,8 +5,8 @@ import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.err
 import { onSession } from "../../../infrastructure/database/prisma";
 import { AuthProvider, AuthType, CommonUserEntity, UserPrisma } from "../../entities/users/common_user.entity";
 import { UserRole } from "../../entities/users/role.enum";
+import { getAuthRepository } from "../../repositories/authentication/auth";
 import { getUserRepository } from "../../repositories/users/users";
-import { AuthService } from "../../services/authentication/auth.service";
 import { AuthUser } from "../../types/authentication/base.types";
 import { SignUpUser } from "../../types/authentication/user.type";
 
@@ -16,8 +16,9 @@ export const signInInteractor = async (
   accessToken: string,
   email: string,
 ): Promise<CommonUserEntity> => {
+  const authRepository = getAuthRepository();
   const response = await onSession(async (client: PrismaClient) => {
-    const user = await AuthService.getInstance().validateToken(client, { clientId, accessToken, email });
+    const user = await authRepository.validateToken({ clientId, accessToken, email });
     if (!user || (user.email && user.email !== email)) {
       throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
     }
@@ -36,8 +37,9 @@ export const signUpInteractor = async (
   accessToken: string,
   data: SignUpUser,
 ): Promise<CommonUserEntity> => {
+  const authRepository = getAuthRepository();
   const response = await onSession(async (client: PrismaClient) => {
-    const user = await AuthService.getInstance().validateToken(client, { clientId, accessToken, email: data.email });
+    const user = await authRepository.validateToken({ clientId, accessToken, email: data.email });
     if (!user) {
       throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
     }
@@ -72,9 +74,8 @@ export const validateAuthTokenInteractor = async (
   accessToken: string,
   email?: string,
 ): Promise<AuthUser> => {
-  const user = await onSession(async (client: PrismaClient) => {
-    return AuthService.getInstance().validateToken(client, { clientId, accessToken, email });
-  });
+  const authRepository = getAuthRepository();
+  const user = await authRepository.validateToken({ clientId, accessToken, email });
 
   if (!user) {
     throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
@@ -84,9 +85,7 @@ export const validateAuthTokenInteractor = async (
 };
 
 export const deleteAuthUserInteractor = async (clientId: string, authId: string): Promise<boolean> => {
-  const isDeleted = await onSession(async (client: PrismaClient) => {
-    return AuthService.getInstance().deleteUser(client, { clientId, authId });
-  });
-
+  const authRepository = getAuthRepository();
+  const isDeleted = await authRepository.deleteUser({ clientId, authId });
   return isDeleted;
 };
