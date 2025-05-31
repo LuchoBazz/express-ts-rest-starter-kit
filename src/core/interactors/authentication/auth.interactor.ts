@@ -9,6 +9,7 @@ import { getAuthRepository } from "../../repositories/authentication/auth";
 import { getUserRepository } from "../../repositories/users/users";
 import { AuthUser } from "../../types/authentication/base.types";
 import { SignUpUser } from "../../types/authentication/user.type";
+import { ConfigManager } from "../../usecases/organizations/configurations";
 
 // TODO: Add tests
 export const signInInteractor = async (
@@ -16,7 +17,8 @@ export const signInInteractor = async (
   accessToken: string,
   email: string,
 ): Promise<CommonUserEntity> => {
-  const authRepository = getAuthRepository(AuthProvider.FIREBASE);
+  const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
+  const authRepository = getAuthRepository(authProviderLabel);
   const response = await onSession(async (client: PrismaClient) => {
     const user = await authRepository.validateToken({ clientId, accessToken, email });
     if (!user || (user.email && user.email !== email)) {
@@ -37,7 +39,8 @@ export const signUpInteractor = async (
   accessToken: string,
   data: SignUpUser,
 ): Promise<CommonUserEntity> => {
-  const authRepository = getAuthRepository(AuthProvider.FIREBASE);
+  const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
+  const authRepository = getAuthRepository(authProviderLabel);
   const response = await onSession(async (client: PrismaClient) => {
     const user = await authRepository.validateToken({ clientId, accessToken, email: data.email });
     if (!user) {
@@ -74,7 +77,8 @@ export const validateAuthTokenInteractor = async (
   accessToken: string,
   email?: string,
 ): Promise<AuthUser> => {
-  const authRepository = getAuthRepository(AuthProvider.FIREBASE);
+  const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
+  const authRepository = getAuthRepository(authProviderLabel);
   const user = await authRepository.validateToken({ clientId, accessToken, email });
 
   if (!user) {
@@ -85,7 +89,8 @@ export const validateAuthTokenInteractor = async (
 };
 
 export const deleteAuthUserInteractor = async (clientId: string, authId: string): Promise<boolean> => {
-  const authRepository = getAuthRepository(AuthProvider.FIREBASE);
+  const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
+  const authRepository = getAuthRepository(authProviderLabel);
   const isDeleted = await authRepository.deleteUser({ clientId, authId });
   return isDeleted;
 };
