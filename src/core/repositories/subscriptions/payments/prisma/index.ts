@@ -1,1 +1,1 @@
-export * from "./payment-prisma.repository";
+export * from "./payment_prisma.repository";

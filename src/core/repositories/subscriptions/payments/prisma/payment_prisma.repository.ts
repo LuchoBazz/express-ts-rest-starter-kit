@@ -5,7 +5,7 @@ import { InternalServerError } from "../../../../../adapters/api/errors/internal
 import { prismaGlobalExceptionFilter } from "../../../../../adapters/api/errors/prisma_global_exception_filter";
 import { PaymentEntity } from "../../../../entities/subscriptions/payment.entity";
 import { PaymentSearchCriteriaInput, UpdatePaymentInput } from "../../../../types/subscriptions/payment.types";
-import { PaymentRepository } from "../payment-repository.interface";
+import { PaymentRepository } from "../payment_repository.interface";
 
 export const PrismaPaymentRepository: PaymentRepository = {
   async findOne(client: unknown, searchCriteria: PaymentSearchCriteriaInput): Promise<PaymentEntity | null> {
