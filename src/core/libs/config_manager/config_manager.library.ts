@@ -1,9 +1,10 @@
 import { PrismaClient } from "@prisma/client";
-import { onSession } from "../../../../infrastructure/database/prisma";
-import { getConfigurationRepository } from "../../../repositories/organizations/configurations";
+
+import { onSession } from "../../../infrastructure/database/prisma";
+import { ConfigurationKey } from "../../entities/organizations/configuration.enum";
+import { AuthProvider } from "../../entities/users/common_user.entity";
+import { getConfigurationRepository } from "../../repositories/organizations/configurations";
 import { ConfigManagerSignature } from "./config_manager.interface";
-import { ConfigurationKey } from "../../../entities/organizations/configuration.enum";
-import { AuthProvider } from "../../../entities/users/common_user.entity";
 
 export const ConfigManager: ConfigManagerSignature = {
   async findAuthProvider(clientId: string): Promise<AuthProvider> {
