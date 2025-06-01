@@ -41,16 +41,10 @@ export const createFeatureFlagController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const { client_id: clientId } = request.params;
-      const { key, percentage, is_experimental: isExperimental } = request.body;
+      const { key, is_experimental: isExperimental } = request.body;
       const isActive = true;
 
-      const featureFlag = new FeatureFlagEntity(
-        key as string,
-        percentage as number,
-        isExperimental as boolean,
-        isActive,
-        clientId,
-      );
+      const featureFlag = new FeatureFlagEntity(key as string, isExperimental as boolean, isActive, clientId);
 
       const featureFlagCreated = await createFeatureFlagInteractor(featureFlag);
 

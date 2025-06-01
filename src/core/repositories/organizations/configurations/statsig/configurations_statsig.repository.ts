@@ -1,4 +1,5 @@
 import { ConfigurationTypeEnum } from "@prisma/client";
+import { StatsigUser } from "@statsig/statsig-node-core";
 
 import { ErrorMessage } from "../../../../../adapters/api/errors/errors.enum";
 import { statsig } from "../../../../../infrastructure/configurations/statsig";
@@ -8,7 +9,6 @@ import {
   UpdateConfigurationInput,
 } from "../../../../types/organizations/configuration.types";
 import { ConfigurationRepository } from "../configurations_repository.interface";
-import { StatsigUser } from "@statsig/statsig-node-core";
 
 export const StatSigConfigurationRepository: ConfigurationRepository = {
   findOne(_client: unknown, searchCriteria: ConfigurationSearchCriteriaInput): Promise<ConfigurationEntity | null> {

@@ -37,10 +37,8 @@ export const PrismaFeatureFlagRepository: FeatureFlagRepository = {
         data: {
           feature_flag_id: featureFlag.getId(),
           feature_flag_key: featureFlag.getKey(),
-          feature_flag_percentage: featureFlag.getPercentage(),
           feature_flag_is_active: featureFlag.getIsActive(),
           feature_flag_organization_client_id: featureFlag.getClientId(),
-          feature_flag_is_experimental: featureFlag.getIsExperimental(),
         },
       });
 
@@ -63,9 +61,8 @@ export const PrismaFeatureFlagRepository: FeatureFlagRepository = {
         },
         data: {
           feature_flag_key: featureFlag.key,
-          feature_flag_percentage: featureFlag.percentage,
           feature_flag_is_active: featureFlag.isActive,
-          feature_flag_is_experimental: featureFlag.isExperimental,
+          feature_flag_value: featureFlag.isExperimental,
         },
       });
 

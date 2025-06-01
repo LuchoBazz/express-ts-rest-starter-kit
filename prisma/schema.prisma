@@ -102,8 +102,7 @@ model Role {
 model FeatureFlag {
   feature_flag_id                        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   feature_flag_key                       String       @db.VarChar(255)
-  feature_flag_percentage                Int          @default(0)
-  feature_flag_is_experimental           Boolean      @default(false)
+  feature_flag_value                     Boolean      @default(false)
   feature_flag_is_active                 Boolean      @default(true)
   feature_flag_organization_client_id    String       @db.VarChar(63)
   feature_flag_created_at                DateTime     @default(now()) @db.Timestamptz

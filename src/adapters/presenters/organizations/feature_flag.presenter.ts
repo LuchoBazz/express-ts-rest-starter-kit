@@ -4,8 +4,7 @@ export const presentFeatureFlag = (featureFlag: FeatureFlagEntity): FeatureFlagR
   return {
     id: featureFlag.getId(),
     key: featureFlag.getKey(),
-    percentage: featureFlag.getPercentage(),
-    is_experimental: featureFlag.getIsExperimental(),
+    is_experimental: featureFlag.getValue(),
     is_active: featureFlag.getIsActive(),
     organization_client_id: featureFlag.getClientId(),
   };

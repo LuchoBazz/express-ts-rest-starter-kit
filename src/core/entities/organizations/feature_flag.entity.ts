@@ -3,8 +3,7 @@ import { Entity } from "../entity";
 export interface FeatureFlagPrisma {
   feature_flag_id: string;
   feature_flag_key: string;
-  feature_flag_percentage: number;
-  feature_flag_is_experimental: boolean;
+  feature_flag_value: boolean;
   feature_flag_is_active: boolean;
   feature_flag_organization_client_id: string;
   feature_flag_created_at: Date;
@@ -14,7 +13,6 @@ export interface FeatureFlagPrisma {
 export interface FeatureFlagResponse {
   id: string;
   key: string;
-  percentage: number;
   is_experimental: boolean;
   is_active: boolean;
   organization_client_id: string;
@@ -22,16 +20,14 @@ export interface FeatureFlagResponse {
 
 export class FeatureFlagEntity extends Entity {
   protected key: string;
-  protected percentage: number;
-  protected isExperimental: boolean;
+  protected value: boolean;
   protected isActive: boolean;
   protected clientId: string;
 
-  constructor(key: string, percentage: number, isExperimental: boolean, isActive: boolean, clientId: string) {
+  constructor(key: string, value: boolean, isActive: boolean, clientId: string) {
     super();
     this.key = key;
-    this.percentage = percentage;
-    this.isExperimental = isExperimental;
+    this.value = value;
     this.isActive = isActive;
     this.clientId = clientId;
   }
@@ -39,8 +35,7 @@ export class FeatureFlagEntity extends Entity {
   public static fromPrisma(payload: FeatureFlagPrisma): FeatureFlagEntity {
     const featureFlag = new FeatureFlagEntity(
       payload.feature_flag_key,
-      payload.feature_flag_percentage,
-      payload.feature_flag_is_experimental,
+      payload.feature_flag_value,
       payload.feature_flag_is_active,
       payload.feature_flag_organization_client_id,
     );
@@ -56,20 +51,12 @@ export class FeatureFlagEntity extends Entity {
     this.key = key;
   }
 
-  public getPercentage(): number {
-    return this.percentage;
+  public getValue(): boolean {
+    return this.value;
   }
 
-  public setPercentage(percentage: number): void {
-    this.percentage = percentage;
-  }
-
-  public getIsExperimental(): boolean {
-    return this.isExperimental;
-  }
-
-  public setIsExperimental(isExperimental: boolean): void {
-    this.isExperimental = isExperimental;
+  public setValue(value: boolean): void {
+    this.value = value;
   }
 
   public getIsActive(): boolean {

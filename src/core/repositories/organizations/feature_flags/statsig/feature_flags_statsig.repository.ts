@@ -1,4 +1,5 @@
 import { StatsigUser } from "@statsig/statsig-node-core";
+
 import { ErrorMessage } from "../../../../../adapters/api/errors/errors.enum";
 import { statsig } from "../../../../../infrastructure/configurations/statsig";
 import { FeatureFlagEntity } from "../../../../entities/organizations/feature_flag.entity";
@@ -13,7 +14,7 @@ export const StatSigFeatureFlagRepository: FeatureFlagRepository = {
     const { key, clientId } = searchCriteria;
     const statsigUser = new StatsigUser({ userID: clientId });
     const value = statsig.checkGate(statsigUser, key);
-    return Promise.resolve(new FeatureFlagEntity(key, 100, true, value, clientId));
+    return Promise.resolve(new FeatureFlagEntity(key, value, true, clientId));
   },
   create(_client: unknown, _featureFlag: FeatureFlagEntity): Promise<FeatureFlagEntity> {
     throw new Error(ErrorMessage.YOU_CANNOT_CREATE_CONFIGURATIONS);
