@@ -9,4 +9,5 @@ export interface UpdateFeatureFlagInput {
 export interface FeatureFlagSearchCriteriaInput {
   key: string;
   clientId: string;
+  email?: string;
 }

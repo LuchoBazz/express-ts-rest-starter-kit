@@ -10,4 +10,5 @@ export interface UpdateConfigurationInput {
 export interface ConfigurationSearchCriteriaInput {
   key: string;
   clientId: string;
+  email?: string;
 }

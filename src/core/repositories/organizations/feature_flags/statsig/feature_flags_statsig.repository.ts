@@ -11,8 +11,8 @@ import { FeatureFlagRepository } from "../feature_flags_repository.interface";
 
 export const StatSigFeatureFlagRepository: FeatureFlagRepository = {
   async findOne(_client: unknown, searchCriteria: FeatureFlagSearchCriteriaInput): Promise<FeatureFlagEntity | null> {
-    const { key, clientId } = searchCriteria;
-    const statsigUser = new StatsigUser({ userID: clientId });
+    const { key, clientId, email } = searchCriteria;
+    const statsigUser = new StatsigUser({ userID: clientId, email });
     const value = statsig.checkGate(statsigUser, key);
     return Promise.resolve(new FeatureFlagEntity(key, value, true, clientId));
   },

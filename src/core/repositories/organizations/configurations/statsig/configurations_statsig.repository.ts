@@ -12,8 +12,8 @@ import { ConfigurationRepository } from "../configurations_repository.interface"
 
 export const StatSigConfigurationRepository: ConfigurationRepository = {
   findOne(_client: unknown, searchCriteria: ConfigurationSearchCriteriaInput): Promise<ConfigurationEntity | null> {
-    const { key, clientId } = searchCriteria;
-    const statsigUser = new StatsigUser({ userID: clientId });
+    const { key, clientId, email } = searchCriteria;
+    const statsigUser = new StatsigUser({ userID: clientId, email });
     const config = statsig.getDynamicConfig(statsigUser, key);
     if (!config.value) {
       return Promise.resolve(null);
