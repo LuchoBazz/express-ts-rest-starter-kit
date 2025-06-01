@@ -7,6 +7,7 @@ CREATE TABLE "organizations"."configurations" (
     "configuration_key" VARCHAR(255) NOT NULL,
     "configuration_value" TEXT NOT NULL,
     "configuration_type" "organizations"."configuration_type_enum" NOT NULL,
+    "configuration_is_active" BOOLEAN NOT NULL DEFAULT true,
     "configuration_organization_client_id" VARCHAR(63) NOT NULL,
     "configuration_created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "configuration_updated_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,

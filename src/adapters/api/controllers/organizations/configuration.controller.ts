@@ -43,12 +43,13 @@ export const createConfigurationController = [
     try {
       const { client_id: clientId } = request.params;
       const { key, value, type } = request.body;
+      const isActive = true;
 
       const config = new ConfigurationEntity(
         key as string,
         value as string,
         type as ConfigurationTypeEnum,
-        // isActive,
+        isActive,
         clientId,
       );
 

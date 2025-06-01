@@ -6,7 +6,7 @@ export const presentConfiguration = (config: ConfigurationEntity): Configuration
     key: config.getKey(),
     value: config.getValue(),
     type: config.getType(),
-    // is_active: config.getIsActive(),
+    is_active: config.getIsActive(),
     organization_client_id: config.getClientId(),
   };
 };

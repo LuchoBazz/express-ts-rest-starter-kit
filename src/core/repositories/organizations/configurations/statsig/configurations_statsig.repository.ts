@@ -19,7 +19,7 @@ export const StatSigConfigurationRepository: ConfigurationRepository = {
       return Promise.resolve(null);
     }
     return Promise.resolve(
-      new ConfigurationEntity(key, JSON.stringify(config.value), ConfigurationTypeEnum.JSON, clientId),
+      new ConfigurationEntity(key, JSON.stringify(config.value), ConfigurationTypeEnum.JSON, true, clientId),
     );
   },
   create(_client: unknown, _config: ConfigurationEntity): Promise<ConfigurationEntity> {
