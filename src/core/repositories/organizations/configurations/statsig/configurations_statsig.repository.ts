@@ -1,18 +1,20 @@
 import { ConfigurationTypeEnum } from "@prisma/client";
 
 import { ErrorMessage } from "../../../../../adapters/api/errors/errors.enum";
-import { statsigClient } from "../../../../../infrastructure/configurations/statsig";
+import { statsig } from "../../../../../infrastructure/configurations/statsig";
 import { ConfigurationEntity } from "../../../../entities/organizations/configuration.entity";
 import {
   ConfigurationSearchCriteriaInput,
   UpdateConfigurationInput,
 } from "../../../../types/organizations/configuration.types";
 import { ConfigurationRepository } from "../configurations_repository.interface";
+import { StatsigUser } from "@statsig/statsig-node-core";
 
 export const StatSigConfigurationRepository: ConfigurationRepository = {
   findOne(_client: unknown, searchCriteria: ConfigurationSearchCriteriaInput): Promise<ConfigurationEntity | null> {
     const { key, clientId } = searchCriteria;
-    const config = statsigClient.getDynamicConfig(key);
+    const statsigUser = new StatsigUser({ userID: clientId });
+    const config = statsig.getDynamicConfig(statsigUser, key);
     if (!config.value) {
       return Promise.resolve(null);
     }

@@ -1,5 +1,6 @@
+import { StatsigUser } from "@statsig/statsig-node-core";
 import { ErrorMessage } from "../../../../../adapters/api/errors/errors.enum";
-import { statsigClient } from "../../../../../infrastructure/configurations/statsig";
+import { statsig } from "../../../../../infrastructure/configurations/statsig";
 import { FeatureFlagEntity } from "../../../../entities/organizations/feature_flag.entity";
 import {
   FeatureFlagSearchCriteriaInput,
@@ -10,7 +11,8 @@ import { FeatureFlagRepository } from "../feature_flags_repository.interface";
 export const StatSigFeatureFlagRepository: FeatureFlagRepository = {
   async findOne(_client: unknown, searchCriteria: FeatureFlagSearchCriteriaInput): Promise<FeatureFlagEntity | null> {
     const { key, clientId } = searchCriteria;
-    const value = statsigClient.checkGate(key);
+    const statsigUser = new StatsigUser({ userID: clientId });
+    const value = statsig.checkGate(statsigUser, key);
     return Promise.resolve(new FeatureFlagEntity(key, 100, true, value, clientId));
   },
   create(_client: unknown, _featureFlag: FeatureFlagEntity): Promise<FeatureFlagEntity> {

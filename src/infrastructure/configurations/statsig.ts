@@ -1,15 +1,8 @@
-import { StatsigUser } from "@statsig/client-core";
-import { StatsigClient, StatsigOptions } from "@statsig/js-client";
-import { StatsigSessionReplayPlugin } from "@statsig/session-replay";
-import { StatsigAutoCapturePlugin } from "@statsig/web-analytics";
-
-const user: StatsigUser = { userID: "HERE_YOUR_CLIENT_ID" };
-
-const options: StatsigOptions = {
-  plugins: [new StatsigSessionReplayPlugin(), new StatsigAutoCapturePlugin()],
-  environment: { tier: "staging" },
-};
+import { Statsig, StatsigOptions } from "@statsig/statsig-node-core";
 
 const STATSIG_SECRET_KEY = process.env.STATSIG_SECRET_KEY ?? "STATSIG_SECRET_KEY";
+const STATSIG_ENVIRONMENT = process.env.STATSIG_ENVIRONMENT ?? "development";
 
-export const statsigClient = new StatsigClient(STATSIG_SECRET_KEY, user, options);
+const options: StatsigOptions = { environment: STATSIG_ENVIRONMENT };
+
+export const statsig = new Statsig(STATSIG_SECRET_KEY, options);
