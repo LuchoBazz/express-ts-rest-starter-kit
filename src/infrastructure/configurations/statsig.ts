@@ -10,4 +10,6 @@ const options: StatsigOptions = {
   environment: { tier: "staging" },
 };
 
-export const statsigClient = new StatsigClient("<YOUR_CLIENT_SDK_KEY>", user, options);
+const STATSIG_SECRET_KEY = process.env.STATSIG_SECRET_KEY ?? "STATSIG_SECRET_KEY";
+
+export const statsigClient = new StatsigClient(STATSIG_SECRET_KEY, user, options);
