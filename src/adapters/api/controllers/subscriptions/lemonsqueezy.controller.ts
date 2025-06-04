@@ -1,3 +1,4 @@
+import logger from "@open-syk/common/logger";
 import { PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 
@@ -5,11 +6,15 @@ import { onSession } from "../../../../infrastructure/database/prisma";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { BadRequestError } from "../../errors/bad_request.error";
 
+const log = logger("LEMON_SQUEEZY:CONTROLLER");
+
 export const lemonSqueezyController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const payload = request.body;
       const eventName = payload.meta?.event_name;
+
+      log.info("LEMON_SQUEEZY_PAYLOAD", { payload });
 
       if (!eventName) {
         throw new BadRequestError("BAD_REQUEST_ERROR");
