@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import logger from "@open-syk/common/logger";
 import { PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
@@ -10,7 +11,7 @@ import { NotFoundError } from "../../errors/not_found.error";
 
 const log = logger("LEMON_SQUEEZY:CONTROLLER");
 
-const unlinkedSubscriptionId = "6a6a1946-edd8-46a8-9340-9c2fa536b5a9";
+// const unlinkedSubscriptionId = "6a6a1946-edd8-46a8-9340-9c2fa536b5a9";
 const mapStoreIdToOrganizationId: Record<number, string> = {
   187083: "SYK",
 };
@@ -62,39 +63,14 @@ export const lemonSqueezyController = [
             throw new NotFoundError(ErrorMessage.SUBSCRIPTION_PLAN_NOT_FOUND);
           }
 
-          await prisma.payment.create({
+          const subscriptionsId = uuid();
+
+           const subscription = await prisma.subscription.create({
             data: {
-              payment_subscription_id: unlinkedSubscriptionId,
-              payment_amount: amount,
-              payment_currency: currency,
-              payment_date: createdAt,
-              payment_external_payment_id: externalPaymentId,
-              payment_status: "completed",
-              payment_organization_client_id: cliendId,
-            },
-          });
-        } else if (eventName === "subscription_created") {
-          const productId = attributes.product_id.toString();
-          const externalPaymentId = attributes.order_id.toString();
-          const externalSubscriptionId = attributes.first_subscription_item.subscription_id.toString();
-
-          const plan = await prisma.subscriptionPlan.findFirst({
-            where: {
-              subscription_plan_product_id: productId,
-              subscription_plan_is_active: true,
-              subscription_plan_organization_client_id: cliendId,
-            },
-          });
-
-          if (!plan) {
-            throw new NotFoundError(ErrorMessage.SUBSCRIPTION_PLAN_NOT_FOUND);
-          }
-
-          const subscription = await prisma.subscription.create({
-            data: {
+              subscriptions_id: subscriptionsId,
               subscriptions_user_id: user.user_id,
               subscriptions_subscription_plan_id: plan.subscription_plan_id,
-              subscriptions_external_subscription_id: externalSubscriptionId,
+              subscriptions_external_subscription_id: 'NA',
               subscriptions_billing_cycle: plan.subscription_plan_billing_cycle,
               subscriptions_status: "active",
               subscriptions_is_active: true,
@@ -104,9 +80,16 @@ export const lemonSqueezyController = [
             },
           });
 
-          await prisma.payment.update({
-            where: { payment_id: externalPaymentId },
-            data: { payment_subscription_id: subscription.subscriptions_id },
+          await prisma.payment.create({
+            data: {
+              payment_subscription_id: subscriptionsId ?? subscription.subscriptions_id,
+              payment_amount: amount,
+              payment_currency: currency,
+              payment_date: createdAt,
+              payment_external_payment_id: externalPaymentId,
+              payment_status: "completed",
+              payment_organization_client_id: cliendId,
+            },
           });
         }
       });
