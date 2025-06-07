@@ -5,6 +5,8 @@ import { NextFunction, Request, Response } from "express";
 import { onSession } from "../../../../infrastructure/database/prisma";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { BadRequestError } from "../../errors/bad_request.error";
+import { ErrorMessage } from "../../errors/errors.enum";
+import { NotFoundError } from "../../errors/not_found.error";
 
 const log = logger("LEMON_SQUEEZY:CONTROLLER");
 
@@ -24,7 +26,7 @@ export const lemonSqueezyController = [
       const stringPayload = JSON.stringify({ payload: body });
       log.debug("LEMON_SQUEEZY_PAYLOAD", { stringPayload });
 
-      if (!eventName || !payload || attributes) {
+      if (!eventName || !payload || !attributes) {
         throw new BadRequestError("BAD_REQUEST_ERROR");
       }
 
@@ -38,7 +40,7 @@ export const lemonSqueezyController = [
         });
 
         if (!user) {
-          throw new BadRequestError("BAD_REQUEST_ERROR");
+          throw new NotFoundError(ErrorMessage.USER_NOT_FOUND);
         }
 
         if (eventName === "order_created") {
@@ -57,7 +59,7 @@ export const lemonSqueezyController = [
           });
 
           if (!plan) {
-            throw new BadRequestError("BAD_REQUEST_ERROR");
+            throw new NotFoundError(ErrorMessage.SUBSCRIPTION_PLAN_NOT_FOUND);
           }
 
           await prisma.payment.create({
@@ -85,7 +87,7 @@ export const lemonSqueezyController = [
           });
 
           if (!plan) {
-            throw new BadRequestError("BAD_REQUEST_ERROR");
+            throw new NotFoundError(ErrorMessage.SUBSCRIPTION_PLAN_NOT_FOUND);
           }
 
           const subscription = await prisma.subscription.create({
