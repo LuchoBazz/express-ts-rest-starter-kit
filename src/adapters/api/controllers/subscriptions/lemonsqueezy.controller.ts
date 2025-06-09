@@ -1,7 +1,7 @@
-import { v4 as uuid } from "uuid";
 import logger from "@open-syk/common/logger";
 import { PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
+import { v4 as uuid } from "uuid";
 
 import { onSession } from "../../../../infrastructure/database/prisma";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
@@ -65,12 +65,12 @@ export const lemonSqueezyController = [
 
           const subscriptionsId = uuid();
 
-           const subscription = await prisma.subscription.create({
+          const subscription = await prisma.subscription.create({
             data: {
               subscriptions_id: subscriptionsId,
               subscriptions_user_id: user.user_id,
               subscriptions_subscription_plan_id: plan.subscription_plan_id,
-              subscriptions_external_subscription_id: 'NA',
+              subscriptions_external_subscription_id: "NA",
               subscriptions_billing_cycle: plan.subscription_plan_billing_cycle,
               subscriptions_status: "active",
               subscriptions_is_active: true,
@@ -93,7 +93,13 @@ export const lemonSqueezyController = [
           });
         }
       });
-      response.status(HttpStatusCode.OK).json({});
+
+      response.status(HttpStatusCode.OK).json({
+        message:
+          eventName === "order_created"
+            ? `Event '${eventName}' processed successfully`
+            : `Event '${eventName}' was received but ignored`,
+      });
     } catch (error) {
       next(error);
     }
