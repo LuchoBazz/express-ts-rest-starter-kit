@@ -70,7 +70,7 @@ export const lemonSqueezyController = [
               subscriptions_id: subscriptionsId,
               subscriptions_user_id: user.user_id,
               subscriptions_subscription_plan_id: plan.subscription_plan_id,
-              subscriptions_external_subscription_id: "NA",
+              subscriptions_external_subscription_id: "NA", // TODO: @legacy: Review this field to update the external subscription ID in future versions
               subscriptions_billing_cycle: plan.subscription_plan_billing_cycle,
               subscriptions_status: "active",
               subscriptions_is_active: true,
