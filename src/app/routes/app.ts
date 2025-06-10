@@ -7,6 +7,7 @@ import authRouter from "./auth.router";
 import lemonSqueezeRouter from "./lemonsqueeze.router";
 import organizationRouter from "./organization.router";
 import subscriptionRouter from "./subscription.router";
+import { addUserToRequestMiddleware } from "../../adapters/api/middlewares/user.middlweare";
 
 const router = express();
 const logFormat =
@@ -14,6 +15,8 @@ const logFormat =
   "HTTP/:http-version :status :res[content-length] - :response-time ms\n" +
   "Referer: :referrer\n" +
   "User-Agent: :user-agent";
+
+router.use(addUserToRequestMiddleware);
 
 router.use(cors());
 router.disable("x-powered-by");
