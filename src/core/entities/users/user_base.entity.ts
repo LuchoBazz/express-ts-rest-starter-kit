@@ -1,5 +1,13 @@
+import { PrismaClient } from "@prisma/client";
+
+import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
+import { NotFoundError } from "../../../adapters/api/errors/not_found.error";
+import { onSession } from "../../../infrastructure/database/prisma";
+import { getPermissionOnRoleRepository } from "../../repositories/users/permissions_on_roles";
+import { getUserRepository } from "../../repositories/users/users";
 import { Entity } from "../entity";
 import { PermissionsValues } from "./authentication.enum";
+import { PermissionEntity } from "./permission.entity";
 import { UserRole } from "./role.enum";
 
 export interface BaseUserPrisma {
@@ -78,5 +86,17 @@ export abstract class BaseUserEntity extends Entity {
     this.clientId = organizationClientId;
   }
 
-  public abstract getPermissions(): Promise<PermissionsValues[]>;
+  public getPermissions(): Promise<PermissionsValues[]> {
+    const userRepository = getUserRepository();
+    const permissionOnRoleRepository = getPermissionOnRoleRepository();
+
+    return onSession(async (client: PrismaClient) => {
+      const user = await userRepository.findOne(client, this.email);
+      if (!user) {
+        throw new NotFoundError(ErrorMessage.USER_NOT_FOUND);
+      }
+      const permissions = await permissionOnRoleRepository.findByRole(client, user.getRole());
+      return permissions.map((permission: PermissionEntity) => permission.getName() as PermissionsValues);
+    });
+  }
 }

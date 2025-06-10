@@ -5,9 +5,10 @@ import { ErrorMessage } from "../errors/errors.enum";
 import { UnauthorizedError } from "../errors/unauthorized.error";
 
 export const permissionChecker = (requiredPermissions: PermissionsValues[]) => {
-  return (_request: Request, _: Response, next: NextFunction): void => {
-    // request.user.getPermissions()
-    const userPermissions: PermissionsValues[] = [PermissionsValues.GUEST_USER];
+  return async (request: Request, _: Response, next: NextFunction): Promise<void> => {
+    const { user } = request;
+
+    const userPermissions: PermissionsValues[] = user ? await user.getPermissions() : [PermissionsValues.GUEST_USER];
 
     const hasRequiredPermissions: boolean = requiredPermissions.every((permission) => {
       return userPermissions.includes(permission);

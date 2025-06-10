@@ -1,4 +1,3 @@
-import { PermissionsValues } from "./authentication.enum";
 import { UserRole } from "./role.enum";
 import { BaseUserEntity } from "./user_base.entity";
 
@@ -205,9 +204,5 @@ export class CommonUserEntity extends BaseUserEntity {
 
   public setAuthType(authType: AuthType): void {
     this.authType = authType;
-  }
-
-  public getPermissions(): Promise<PermissionsValues[]> {
-    return Promise.resolve([PermissionsValues.GUEST_USER]);
   }
 }
