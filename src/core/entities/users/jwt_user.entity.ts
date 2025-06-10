@@ -20,6 +20,7 @@ export interface JwtDecodedPayload {
 
 export interface JwtPayload {
   serialized_user: string;
+  sub: string;
   iat: number;
   iss: string;
   aud: string[];
