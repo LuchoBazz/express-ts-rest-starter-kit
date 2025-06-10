@@ -94,12 +94,14 @@ export const lemonSqueezyController = [
         }
       });
 
-      response.status(HttpStatusCode.OK).json({
-        message:
-          eventName === "order_created"
-            ? `Event '${eventName}' processed successfully`
-            : `Event '${eventName}' was received but ignored`,
-      });
+      const message =
+        eventName === "order_created"
+          ? `Event '${eventName}' processed successfully`
+          : `Event '${eventName}' was received but ignored`;
+
+      const status = eventName === "order_created" ? HttpStatusCode.OK : HttpStatusCode.BAD_REQUEST;
+
+      response.status(status).json({ message });
     } catch (error) {
       next(error);
     }
