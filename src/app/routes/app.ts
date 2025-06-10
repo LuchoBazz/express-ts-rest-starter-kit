@@ -3,11 +3,11 @@ import express from "express";
 import morgan from "morgan";
 
 import { healthCheck, logError, logRequest, notFound } from "../../adapters/api/middlewares/basics";
+import { addUserToRequestMiddleware } from "../../adapters/api/middlewares/user.middlweare";
 import authRouter from "./auth.router";
 import lemonSqueezeRouter from "./lemonsqueeze.router";
 import organizationRouter from "./organization.router";
 import subscriptionRouter from "./subscription.router";
-import { addUserToRequestMiddleware } from "../../adapters/api/middlewares/user.middlweare";
 
 const router = express();
 const logFormat =
