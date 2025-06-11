@@ -25,7 +25,7 @@ export const signInInteractor = async (
       throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
     }
     const userRepository = getUserRepository();
-    const commonUser = await userRepository.findOne(client, email);
+    const commonUser = await userRepository.findOne(client, clientId, email);
     if (!commonUser) {
       throw new UnauthorizedError(ErrorMessage.USER_NOT_FOUND);
     }

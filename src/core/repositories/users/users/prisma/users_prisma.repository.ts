@@ -7,11 +7,18 @@ import { CommonUserEntity, UserPrisma } from "../../../../entities/users/common_
 import { UserRepository } from "../users_repository.interface";
 
 export const PrismaUserRepository: UserRepository = {
-  async findOne(client: unknown, email: string): Promise<CommonUserEntity | null> {
+  async findOne(client: unknown, clientId: string, email: string): Promise<CommonUserEntity | null> {
     try {
       const prismaClient = client as PrismaClient;
-      // TODO: Use Find Unique Instead
-      const record = await prismaClient.user.findFirst({ where: { user_email: email } });
+
+      const record = await prismaClient.user.findUnique({
+        where: {
+          user_email_user_organization_client_id: {
+            user_email: email,
+            user_organization_client_id: clientId,
+          },
+        },
+      });
 
       return record ? CommonUserEntity.fromPrisma(record as UserPrisma) : null;
     } catch (error) {

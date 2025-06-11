@@ -77,6 +77,8 @@ model User {
   @@schema("users")
   @@map(name: "users")
 
+  @@unique([user_email, user_organization_client_id], name: "user_email_user_organization_client_id")
+
   user_organization            Organization @relation(fields: [user_organization_client_id], references: [organization_client_id], onDelete: Cascade,  name: "users_organizations_fk")
   user_role_reference          Role @relation(fields: [user_role], references: [role_name],  name: "users_roles_fk")
   authTokens                   AuthTokenStatus[]  @relation(name: "auth_token_statuses_users_fk")

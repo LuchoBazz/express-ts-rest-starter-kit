@@ -91,7 +91,7 @@ export abstract class BaseUserEntity extends Entity {
     const permissionOnRoleRepository = getPermissionOnRoleRepository();
 
     return onSession(async (client: PrismaClient) => {
-      const user = await userRepository.findOne(client, this.email);
+      const user = await userRepository.findOne(client, this.clientId, this.email);
       if (!user) {
         throw new NotFoundError(ErrorMessage.USER_NOT_FOUND);
       }
