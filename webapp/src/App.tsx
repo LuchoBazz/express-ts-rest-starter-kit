@@ -1,11 +1,13 @@
+import { Route, Routes } from "react-router-dom";
+
+import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp.tsx/SignUp";
 
-function App() {
-  return (
-    <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-      <SignUp />
-    </div>
-  );
-}
+const App: React.FC = () => (
+  <Routes>
+    <Route path="/" element={<SignUp />} />
+    <Route path="*" element={<SignIn />} />
+  </Routes>
+);
 
 export default App;
