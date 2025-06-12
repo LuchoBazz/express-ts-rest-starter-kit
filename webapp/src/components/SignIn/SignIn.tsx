@@ -10,7 +10,7 @@ function SignIn() {
           />
         </div>
         <div className="mt-12 flex flex-col items-center">
-          <h1 className="text-2xl xl:text-3xl font-extrabold">Sign up</h1>
+          <h1 className="text-2xl xl:text-3xl font-extrabold">Sign in</h1>
           <div className="w-full flex-1 mt-8">
             <div className="flex flex-col items-center">
               <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
@@ -34,7 +34,7 @@ function SignIn() {
                     />
                   </svg>
                 </div>
-                <span className="ml-4">Sign Up with Google</span>
+                <span className="ml-4">Sign In with Google</span>
               </button>
 
               <button className="mt-5 w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
@@ -46,27 +46,17 @@ function SignIn() {
                     />
                   </svg>
                 </div>
-                <span className="ml-4">Sign Up with GitHub</span>
+                <span className="ml-4">Sign In with GitHub</span>
               </button>
             </div>
 
             <div className="my-12 border-b text-center">
               <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
-                Or sign up with e-mail
+                Or sign in with e-mail
               </div>
             </div>
 
             <div className="mx-auto max-w-xs">
-              <input
-                className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                type="text"
-                placeholder="First Name"
-              />
-              <input
-                className="mt-5 w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                type="text"
-                placeholder="Last Name"
-              />
               <input
                 className="mt-5 w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                 type="email"
@@ -90,7 +80,7 @@ function SignIn() {
                   <circle cx="8.5" cy="7" r="4" />
                   <path d="M20 8v6M23 11h-6" />
                 </svg>
-                <span className="ml-3">Sign Up</span>
+                <span className="ml-3">Sign In</span>
               </button>
               <p className="mt-6 text-xs text-gray-600 text-center">
                 I agree to abide by Templatana's{" "}
