@@ -1,6 +1,8 @@
 import axios from "axios";
 import React from "react";
 
+import { httpBackendRequest } from "../../infrastructure/rest/backend/api";
+
 interface PropsSignIn {
   email: string;
   accessToken: string;
@@ -29,13 +31,12 @@ export const useSignIn = (): PropsResponse => {
     setError(undefined);
 
     try {
-      const response = await axios.post<AuthSignUpResponse>(
-        `http://localhost:3000/organizations/${clientId}/sign-in`,
-        { email, access_token: accessToken },
-        { headers: { "Content-Type": "application/json" } },
-      );
+      const response = await httpBackendRequest<AuthSignUpResponse>("POST", `/organizations/${clientId}/sign-in`, {
+        email,
+        access_token: accessToken,
+      });
 
-      setData(response.data);
+      setData(response);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(err);

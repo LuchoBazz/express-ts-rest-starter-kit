@@ -1,6 +1,8 @@
 import axios from "axios";
 import React from "react";
 
+import { httpBackendRequest } from "../../infrastructure/rest/backend/api";
+
 interface User {
   user_name: string;
   first_name: string;
@@ -26,17 +28,17 @@ export const useCustomerLoggedIn = (): PropsToolsResponse => {
   const [error, setError] = React.useState<Error | undefined>();
   const [user, setUser] = React.useState<User | null>(null);
 
-  const fetchUser = async (token: string) => {
+  const fetchUser = async () => {
     setLoading(true);
     setError(undefined);
 
     try {
-      const response = await axios.post<PropsCustomerLoggedInResponse>(
-        `http://localhost:3000/organizations/${clientId}/customer-logged-in`,
+      const response = await httpBackendRequest<PropsCustomerLoggedInResponse>(
+        "GET",
+        `/organizations/${clientId}/customer-logged-in`,
         {},
-        { headers: { "Content-Type": "application/json", Authentication: `Bearer ${token}` } },
       );
-      setUser(response.data.user);
+      setUser(response.user);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(err);
