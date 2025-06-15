@@ -8,6 +8,7 @@ import { JwtUserPayload } from "../../entities/users/jwt_user.entity";
 import { UserRole } from "../../entities/users/role.enum";
 import { ConfigManager } from "../../libs/config_manager";
 import { getAuthRepository } from "../../repositories/authentication/auth";
+import { getTokenRepository } from "../../repositories/authentication/token";
 import { getUserRepository } from "../../repositories/users/users";
 import { AuthUser } from "../../types/authentication/base.types";
 import { SignUpUser } from "../../types/authentication/user.type";
@@ -90,10 +91,13 @@ export const validateAuthTokenInteractor = async (
 };
 
 export const userLoggedInInteractor = async (clientId: string, token: string): Promise<JwtUserPayload> => {
-  const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
-  const authRepository = getAuthRepository(authProviderLabel);
-  const user = await authRepository.userLoggedIn({ clientId, token });
-  return user;
+  const tokenRepository = getTokenRepository();
+  const decodedUser = await tokenRepository.decode(clientId, token);
+  const { jwtToken } = decodedUser;
+  if (!jwtToken) {
+    throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
+  }
+  return jwtToken.user;
 };
 
 export const deleteAuthUserInteractor = async (clientId: string, authId: string): Promise<boolean> => {
