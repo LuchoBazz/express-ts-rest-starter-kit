@@ -4,6 +4,7 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
 import { onSession } from "../../../infrastructure/database/prisma";
 import { AuthProvider, AuthType, CommonUserEntity, UserPrisma } from "../../entities/users/common_user.entity";
+import { JwtUserPayload } from "../../entities/users/jwt_user.entity";
 import { UserRole } from "../../entities/users/role.enum";
 import { ConfigManager } from "../../libs/config_manager";
 import { getAuthRepository } from "../../repositories/authentication/auth";
@@ -85,6 +86,13 @@ export const validateAuthTokenInteractor = async (
     throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
   }
 
+  return user;
+};
+
+export const userLoggedInInteractor = async (clientId: string, token: string): Promise<JwtUserPayload> => {
+  const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
+  const authRepository = getAuthRepository(authProviderLabel);
+  const user = await authRepository.userLoggedIn({ clientId, token });
   return user;
 };
 

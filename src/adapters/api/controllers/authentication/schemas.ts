@@ -214,3 +214,42 @@ export const deleteAuthUserSchema = checkSchema({
     },
   },
 });
+
+export const userLogguedInSchema = checkSchema({
+  client_id: {
+    in: ["params"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing client_id.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "client_id cannot be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "client_id must be a string.",
+    },
+  },
+  Authentication: {
+    in: ["headers"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing Authentication.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "Authentication cannot be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "Authentication must be a string.",
+    },
+  },
+});

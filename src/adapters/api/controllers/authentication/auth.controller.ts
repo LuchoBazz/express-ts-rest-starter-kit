@@ -4,11 +4,12 @@ import {
   deleteAuthUserInteractor,
   signInInteractor,
   signUpInteractor,
+  userLoggedInInteractor,
 } from "../../../../core/interactors/authentication/auth.interactor";
 import { SignUpUser } from "../../../../core/types/authentication/user.type";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { validateSchema } from "../../validator";
-import { deleteAuthUserSchema, signInSchema, signUpSchema } from "./schemas";
+import { deleteAuthUserSchema, signInSchema, signUpSchema, userLogguedInSchema } from "./schemas";
 
 export const signInController = [
   validateSchema(signInSchema),
@@ -58,6 +59,24 @@ export const signUpController = [
       const user = await signUpInteractor(clientId, accessToken as string, data);
 
       response.status(HttpStatusCode.OK).json({ data: user });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
+
+export const userLoggedInController = [
+  validateSchema(userLogguedInSchema),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const { client_id: clientId } = request.params;
+      const { Authorization: authorization } = request.headers;
+
+      const token = authorization?.length ? authorization.toString() : "";
+
+      const user = await userLoggedInInteractor(clientId, token);
+
+      response.status(HttpStatusCode.OK).json({ data: { user } });
     } catch (error) {
       next(error);
     }
