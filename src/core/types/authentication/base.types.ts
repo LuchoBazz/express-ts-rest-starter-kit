@@ -8,7 +8,7 @@ export interface ValidateTokenPayload {
 
 export interface UserLoggedInPayload {
   clientId: string;
-  jwtToken: JwtDecodedPayload | null;
+  jwtDecoded: JwtDecodedPayload | null;
 }
 
 export interface DeleteUserPayload {

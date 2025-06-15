@@ -93,11 +93,11 @@ export const validateAuthTokenInteractor = async (
 export const userLoggedInInteractor = async (clientId: string, token: string): Promise<JwtUserPayload> => {
   const tokenRepository = getTokenRepository();
   const decodedUser = await tokenRepository.decode(clientId, token);
-  const { jwtToken } = decodedUser;
-  if (!jwtToken) {
+  const { jwtDecoded } = decodedUser;
+  if (!jwtDecoded) {
     throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
   }
-  return jwtToken.user;
+  return jwtDecoded.user;
 };
 
 export const deleteAuthUserInteractor = async (clientId: string, authId: string): Promise<boolean> => {
