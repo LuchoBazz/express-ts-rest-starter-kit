@@ -18,7 +18,7 @@ export interface JwtDecodedPayload {
   aud: string[];
 }
 
-export interface JwtPayload {
+export interface JwtAuthPayload {
   serialized_user: string;
   sub: string;
   iat: number;
