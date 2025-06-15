@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-import { JwtDecodedPayload, JwtAuthPayload, JwtUserPayload } from "../../../../entities/users/jwt_user.entity";
+import { JwtAuthPayload, JwtDecodedPayload, JwtUserPayload } from "../../../../entities/users/jwt_user.entity";
 import { decrypt } from "../../../../libs/crypto";
 import { UserLoggedInPayload } from "../../../../types/authentication/base.types";
 import { TokenRepository } from "../token_repository.interface";
