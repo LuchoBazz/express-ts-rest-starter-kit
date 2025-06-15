@@ -97,6 +97,7 @@ export const userLoggedInInteractor = async (clientId: string, token: string): P
   if (!jwtDecoded) {
     throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
   }
+  // TODO: Add Token Validation Using Data from auth_token_statuses Table
   return jwtDecoded.user;
 };
 
