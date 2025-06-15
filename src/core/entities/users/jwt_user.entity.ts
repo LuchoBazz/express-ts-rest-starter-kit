@@ -13,6 +13,7 @@ export interface JwtUserPayload {
 
 export interface JwtDecodedPayload {
   user: JwtUserPayload;
+  sub: string;
   iat: number;
   iss: string;
   aud: string[];

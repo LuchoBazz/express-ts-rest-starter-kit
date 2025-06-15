@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
+import moment from "moment";
 
+import { CommonUserEntity } from "../../../../entities/users/common_user.entity";
 import { JwtAuthPayload, JwtDecodedPayload, JwtUserPayload } from "../../../../entities/users/jwt_user.entity";
 import { decrypt } from "../../../../libs/crypto";
 import { UserLoggedInPayload } from "../../../../types/authentication/base.types";
@@ -23,5 +25,30 @@ export const JwtTokenRepository: TokenRepository = {
       return Promise.resolve(invalidTokenResponse);
     }
     return Promise.resolve({ clientId, jwtDecoded });
+  },
+  encoded(user: CommonUserEntity): Promise<string> {
+    const iatDate = moment();
+    const payload: JwtDecodedPayload = {
+      user: {
+        id: user.getId(),
+        auth_id: user.getUid(),
+        email: user.getEmail(),
+        username: user.getUsername(),
+        first_name: user.getFirstName(),
+        last_name: user.getLastName(),
+        client_id: user.getClientId(),
+        role: user.getRole(),
+        auth_provider: user.getAuthProvider(),
+        auth_type: user.getAuthType(),
+      },
+      iat: iatDate.unix(),
+      sub: user.getId(),
+      iss: "express-ts-rest-starter-kit", // TODO: Replace with the real name or identifier of your application or service
+      aud: ["express-ts-rest-starter-kit"], // TODO: Replace with the actual audience(s) allowed to use this token (e.g. frontend app, mobile client)
+    };
+
+    const options: jwt.SignOptions = { expiresIn: "7d", algorithm: "HS256" };
+    const token = jwt.sign(payload, JWT_SECRET, options);
+    return Promise.resolve(token);
   },
 };
