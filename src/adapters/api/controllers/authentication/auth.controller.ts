@@ -18,9 +18,9 @@ export const signInController = [
       const { client_id: clientId } = request.params;
       const { access_token: accessToken, email } = request.body;
 
-      const user = await signInInteractor(clientId, accessToken as string, email as string);
+      const token = await signInInteractor(clientId, accessToken as string, email as string);
 
-      response.status(HttpStatusCode.OK).json({ data: user });
+      response.status(HttpStatusCode.OK).json({ data: { token } });
     } catch (error) {
       next(error);
     }
@@ -56,9 +56,9 @@ export const signUpController = [
         clientId,
       };
 
-      const user = await signUpInteractor(clientId, accessToken as string, data);
+      const token = await signUpInteractor(clientId, accessToken as string, data);
 
-      response.status(HttpStatusCode.OK).json({ data: user });
+      response.status(HttpStatusCode.OK).json({ data: { token } });
     } catch (error) {
       next(error);
     }

@@ -14,11 +14,7 @@ import { AuthUser } from "../../types/authentication/base.types";
 import { SignUpUser } from "../../types/authentication/user.type";
 
 // TODO: Add tests
-export const signInInteractor = async (
-  clientId: string,
-  accessToken: string,
-  email: string,
-): Promise<CommonUserEntity> => {
+export const signInInteractor = async (clientId: string, accessToken: string, email: string): Promise<string> => {
   const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
   const authRepository = getAuthRepository(authProviderLabel);
   const response = await onSession(async (client: PrismaClient) => {
@@ -33,14 +29,11 @@ export const signInInteractor = async (
     }
     return commonUser;
   });
-  return response;
+  const tokenRepository = getTokenRepository();
+  return tokenRepository.encoded(response);
 };
 
-export const signUpInteractor = async (
-  clientId: string,
-  accessToken: string,
-  data: SignUpUser,
-): Promise<CommonUserEntity> => {
+export const signUpInteractor = async (clientId: string, accessToken: string, data: SignUpUser): Promise<string> => {
   const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
   const authRepository = getAuthRepository(authProviderLabel);
   const response = await onSession(async (client: PrismaClient) => {
@@ -71,7 +64,8 @@ export const signUpInteractor = async (
     const [recordCreated] = await client.$transaction([record]);
     return CommonUserEntity.fromPrisma(recordCreated as UserPrisma);
   });
-  return response;
+  const tokenRepository = getTokenRepository();
+  return tokenRepository.encoded(response);
 };
 
 export const validateAuthTokenInteractor = async (
