@@ -1,6 +1,6 @@
 export interface UpdateAuthTokenStatusesInput {
   clientId: string;
-  userId: string;
+  authTokenStatusId: string;
   issuedAt?: number;
   expirationTime?: number;
 }

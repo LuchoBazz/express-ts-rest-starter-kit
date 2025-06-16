@@ -7,7 +7,7 @@ import {
 export interface AuthTokenStatusesRepository {
   findOne(client: unknown, searchCriteria: AuthTokenStatusesSearchCriteriaInput): Promise<AuthTokenStatusEntity | null>;
   find(client: unknown, searchCriteria: AuthTokenStatusesSearchCriteriaInput): Promise<AuthTokenStatusEntity[]>;
-  create(client: unknown, featureFlag: AuthTokenStatusEntity): Promise<AuthTokenStatusEntity>;
-  update(client: unknown, featureFlag: UpdateAuthTokenStatusesInput): Promise<AuthTokenStatusEntity>;
-  delete(client: unknown, searchCriteria: AuthTokenStatusesSearchCriteriaInput): Promise<AuthTokenStatusEntity>;
+  create(client: unknown, authTokenStatus: AuthTokenStatusEntity): Promise<AuthTokenStatusEntity>;
+  update(client: unknown, authTokenStatus: UpdateAuthTokenStatusesInput): Promise<AuthTokenStatusEntity>;
+  logOut(client: unknown, authTokenStatusId: string): Promise<AuthTokenStatusEntity>;
 }

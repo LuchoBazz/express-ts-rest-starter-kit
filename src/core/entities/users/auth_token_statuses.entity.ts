@@ -3,8 +3,8 @@ import { Entity } from "../entity";
 export interface AuthTokenStatusPrisma {
   auth_token_id: string;
   auth_token_user: string;
-  auth_token_issued_at: number;
-  auth_token_expiration_time: number;
+  auth_token_issued_at: bigint;
+  auth_token_expiration_time: bigint;
   auth_token_created_at: Date;
   auth_token_updated_at: Date;
 }
@@ -12,20 +12,20 @@ export interface AuthTokenStatusPrisma {
 export interface AuthTokenStatusResponse {
   id: string;
   user_id: string;
-  issued_at: number;
-  expiration_time: number;
+  issued_at: bigint;
+  expiration_time: bigint;
   created_at: Date;
   updated_at: Date;
 }
 
 export class AuthTokenStatusEntity extends Entity {
   protected userId: string;
-  protected issuedAt: number;
-  protected expirationTime: number;
+  protected issuedAt: bigint;
+  protected expirationTime: bigint;
   protected createdAt: Date;
   protected updatedAt: Date;
 
-  constructor(userId: string, issuedAt: number, expirationTime: number, createdAt: Date, updatedAt: Date) {
+  constructor(userId: string, issuedAt: bigint, expirationTime: bigint, createdAt: Date, updatedAt: Date) {
     super();
     this.userId = userId;
     this.issuedAt = issuedAt;
@@ -65,19 +65,19 @@ export class AuthTokenStatusEntity extends Entity {
     this.userId = userId;
   }
 
-  public getIssuedAt(): number {
+  public getIssuedAt(): bigint {
     return this.issuedAt;
   }
 
-  public setIssuedAt(issuedAt: number): void {
+  public setIssuedAt(issuedAt: bigint): void {
     this.issuedAt = issuedAt;
   }
 
-  public getExpirationTime(): number {
+  public getExpirationTime(): bigint {
     return this.expirationTime;
   }
 
-  public setExpirationTime(expirationTime: number): void {
+  public setExpirationTime(expirationTime: bigint): void {
     this.expirationTime = expirationTime;
   }
 
