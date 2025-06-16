@@ -42,12 +42,13 @@ export const JwtTokenRepository: TokenRepository = {
         auth_type: user.getAuthType(),
       },
       iat: iatDate.unix(),
+      exp: iatDate.add(7, "days").unix(),
       sub: user.getId(),
       iss: "express-ts-rest-starter-kit", // TODO: Replace with the real name or identifier of your application or service
       aud: ["express-ts-rest-starter-kit"], // TODO: Replace with the actual audience(s) allowed to use this token (e.g. frontend app, mobile client)
     };
 
-    const options: jwt.SignOptions = { expiresIn: "7d", algorithm: "HS256" };
+    const options: jwt.SignOptions = { algorithm: "HS256" };
     const token = jwt.sign(payload, JWT_SECRET, options);
     return Promise.resolve(token);
   },

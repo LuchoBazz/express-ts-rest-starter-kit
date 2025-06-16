@@ -15,6 +15,7 @@ export interface JwtDecodedPayload {
   user: JwtUserPayload;
   sub: string;
   iat: number;
+  exp: number;
   iss: string;
   aud: string[];
 }
@@ -23,6 +24,7 @@ export interface JwtAuthPayload {
   serialized_user: string;
   sub: string;
   iat: number;
+  exp: number;
   iss: string;
   aud: string[];
 }

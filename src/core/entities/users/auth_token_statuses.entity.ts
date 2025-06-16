@@ -25,7 +25,13 @@ export class AuthTokenStatusEntity extends Entity {
   protected createdAt: Date;
   protected updatedAt: Date;
 
-  constructor(userId: string, issuedAt: bigint, expirationTime: bigint, createdAt: Date, updatedAt: Date) {
+  constructor(
+    userId: string,
+    issuedAt: bigint,
+    expirationTime: bigint,
+    createdAt: Date = new Date(),
+    updatedAt: Date = new Date(),
+  ) {
     super();
     this.userId = userId;
     this.issuedAt = issuedAt;

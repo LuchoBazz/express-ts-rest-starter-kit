@@ -3,11 +3,13 @@ import { PrismaClient } from "@prisma/client";
 import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
 import { onSession } from "../../../infrastructure/database/prisma";
+import { AuthTokenStatusEntity } from "../../entities/users/auth_token_statuses.entity";
 import { AuthProvider, AuthType, CommonUserEntity, UserPrisma } from "../../entities/users/common_user.entity";
 import { JwtUserPayload } from "../../entities/users/jwt_user.entity";
 import { UserRole } from "../../entities/users/role.enum";
 import { ConfigManager } from "../../libs/config_manager";
 import { getAuthRepository } from "../../repositories/authentication/auth";
+import { getAuthTokenStatusesRepository } from "../../repositories/authentication/auth_token_statuses";
 import { getTokenRepository } from "../../repositories/authentication/token";
 import { getUserRepository } from "../../repositories/users/users";
 import { SignUpUser } from "../../types/authentication/user.type";
@@ -16,7 +18,10 @@ import { SignUpUser } from "../../types/authentication/user.type";
 export const signInInteractor = async (clientId: string, accessToken: string, email: string): Promise<string> => {
   const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
   const authRepository = getAuthRepository(authProviderLabel);
-  const response = await onSession(async (client: PrismaClient) => {
+  const authTokenStatusRepository = getAuthTokenStatusesRepository();
+  const tokenRepository = getTokenRepository();
+
+  return onSession(async (client: PrismaClient) => {
     const user = await authRepository.validateToken({ clientId, accessToken, email });
     if (!user || (user.email && user.email !== email)) {
       throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
@@ -26,10 +31,18 @@ export const signInInteractor = async (clientId: string, accessToken: string, em
     if (!commonUser) {
       throw new UnauthorizedError(ErrorMessage.USER_NOT_FOUND);
     }
-    return commonUser;
+    // TODO: In the decode return the object and token to avoid these 2 asynchronous calls.
+    const tokenEncoded = await tokenRepository.encoded(commonUser);
+    const tokenDecoded = await tokenRepository.decode(clientId, tokenEncoded);
+    const { jwtDecoded } = tokenDecoded;
+    const authTokenStatus = new AuthTokenStatusEntity(
+      commonUser.getId(),
+      BigInt(jwtDecoded?.iat ?? 0),
+      BigInt(jwtDecoded?.exp ?? 0),
+    );
+    await authTokenStatusRepository.create(client, authTokenStatus);
+    return tokenEncoded;
   });
-  const tokenRepository = getTokenRepository();
-  return tokenRepository.encoded(response);
 };
 
 export const signUpInteractor = async (clientId: string, accessToken: string, data: SignUpUser): Promise<string> => {
