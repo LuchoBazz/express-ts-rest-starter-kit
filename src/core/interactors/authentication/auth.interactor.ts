@@ -10,7 +10,6 @@ import { ConfigManager } from "../../libs/config_manager";
 import { getAuthRepository } from "../../repositories/authentication/auth";
 import { getTokenRepository } from "../../repositories/authentication/token";
 import { getUserRepository } from "../../repositories/users/users";
-import { AuthUser } from "../../types/authentication/base.types";
 import { SignUpUser } from "../../types/authentication/user.type";
 
 // TODO: Add tests
@@ -66,22 +65,6 @@ export const signUpInteractor = async (clientId: string, accessToken: string, da
   });
   const tokenRepository = getTokenRepository();
   return tokenRepository.encoded(response);
-};
-
-export const validateAuthTokenInteractor = async (
-  clientId: string,
-  accessToken: string,
-  email?: string,
-): Promise<AuthUser> => {
-  const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
-  const authRepository = getAuthRepository(authProviderLabel);
-  const user = await authRepository.validateToken({ clientId, accessToken, email });
-
-  if (!user) {
-    throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
-  }
-
-  return user;
 };
 
 export const userLoggedInInteractor = async (clientId: string, token: string): Promise<JwtUserPayload> => {
