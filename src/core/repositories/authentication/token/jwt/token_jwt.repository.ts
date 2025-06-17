@@ -5,6 +5,7 @@ import { CommonUserEntity } from "../../../../entities/users/common_user.entity"
 import { JwtAuthPayload, JwtDecodedPayload, JwtUserPayload } from "../../../../entities/users/jwt_user.entity";
 import { decrypt } from "../../../../libs/crypto";
 import { UserLoggedInPayload } from "../../../../types/authentication/base.types";
+import { TokenEncodedResponse } from "../../../../types/authentication/token.types";
 import { TokenRepository } from "../token_repository.interface";
 
 const JWT_SECRET = process.env.TOKEN_JWT_SECRET_KEY ?? "TOKEN_JWT_SECRET_KEY";
@@ -26,7 +27,7 @@ export const JwtTokenRepository: TokenRepository = {
     }
     return Promise.resolve({ clientId, jwtDecoded });
   },
-  encoded(user: CommonUserEntity): Promise<string> {
+  encoded(user: CommonUserEntity): Promise<TokenEncodedResponse> {
     const iatDate = moment();
     const payload: JwtDecodedPayload = {
       user: {
@@ -50,6 +51,6 @@ export const JwtTokenRepository: TokenRepository = {
 
     const options: jwt.SignOptions = { algorithm: "HS256" };
     const token = jwt.sign(payload, JWT_SECRET, options);
-    return Promise.resolve(token);
+    return Promise.resolve({ token, payload });
   },
 };

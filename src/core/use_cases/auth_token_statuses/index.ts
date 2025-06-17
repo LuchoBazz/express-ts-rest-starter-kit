@@ -11,16 +11,9 @@ export const generateAndSaveAuthTokenStatusUseCase = async (
   client: PrismaClient,
   user: CommonUserEntity,
 ): Promise<string> => {
-  const clientId = user.getClientId();
-  // TODO: In the decode return the object and token to avoid these 2 asynchronous calls.
-  const tokenEncoded = await tokenRepository.encoded(user);
-  const tokenDecoded = await tokenRepository.decode(clientId, tokenEncoded);
-  const { jwtDecoded } = tokenDecoded;
-  const authTokenStatus = new AuthTokenStatusEntity(
-    user.getId(),
-    BigInt(jwtDecoded?.iat ?? 0),
-    BigInt(jwtDecoded?.exp ?? 0),
-  );
+  const tokenEncodedResponse = await tokenRepository.encoded(user);
+  const { payload, token } = tokenEncodedResponse;
+  const authTokenStatus = new AuthTokenStatusEntity(user.getId(), BigInt(payload?.iat ?? 0), BigInt(payload?.exp ?? 0));
   await authTokenStatusRepository.create(client, authTokenStatus);
-  return tokenEncoded;
+  return token;
 };
