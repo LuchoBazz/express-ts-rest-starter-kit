@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import moment from "moment";
 
 import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
@@ -84,10 +85,22 @@ export const userLoggedInInteractor = async (clientId: string, token: string): P
   const tokenRepository = getTokenRepository();
   const decodedUser = await tokenRepository.decode(clientId, token);
   const { jwtDecoded } = decodedUser;
-  if (!jwtDecoded) {
+  if (!jwtDecoded || clientId !== jwtDecoded.user.client_id) {
     throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
   }
-  // TODO: Add Token Validation Using Data from auth_token_statuses Table
+  const authTokenStatusRepository = getAuthTokenStatusesRepository();
+  const ats = await onSession(async (client: PrismaClient) => {
+    return authTokenStatusRepository.findOne(client, {
+      clientId,
+      userId: jwtDecoded.user.id,
+      issuedAt: jwtDecoded.iat,
+    });
+  });
+
+  if (!ats || moment().isAfter(moment(Number(ats.getExpirationTime())))) {
+    throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
+  }
+
   return jwtDecoded.user;
 };
 
