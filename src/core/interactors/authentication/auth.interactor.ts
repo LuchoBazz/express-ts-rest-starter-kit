@@ -4,7 +4,6 @@ import moment from "moment";
 import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
 import { onSession } from "../../../infrastructure/database/prisma";
-import { AuthTokenStatusEntity } from "../../entities/users/auth_token_statuses.entity";
 import { AuthProvider, AuthType, CommonUserEntity, UserPrisma } from "../../entities/users/common_user.entity";
 import { JwtUserPayload } from "../../entities/users/jwt_user.entity";
 import { UserRole } from "../../entities/users/role.enum";
@@ -14,6 +13,7 @@ import { getAuthTokenStatusesRepository } from "../../repositories/authenticatio
 import { getTokenRepository } from "../../repositories/authentication/token";
 import { getUserRepository } from "../../repositories/users/users";
 import { SignUpUser } from "../../types/authentication/user.type";
+import { generateAndSaveAuthTokenStatusUseCase } from "../../use_cases/auth_token_statuses";
 
 // TODO: Add tests
 export const signInInteractor = async (clientId: string, accessToken: string, email: string): Promise<string> => {
@@ -21,35 +21,28 @@ export const signInInteractor = async (clientId: string, accessToken: string, em
   const authRepository = getAuthRepository(authProviderLabel);
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
   const tokenRepository = getTokenRepository();
+  const userRepository = getUserRepository();
 
   return onSession(async (client: PrismaClient) => {
     const user = await authRepository.validateToken({ clientId, accessToken, email });
     if (!user || (user.email && user.email !== email)) {
       throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
     }
-    const userRepository = getUserRepository();
     const commonUser = await userRepository.findOne(client, clientId, email);
     if (!commonUser) {
       throw new UnauthorizedError(ErrorMessage.USER_NOT_FOUND);
     }
-    // TODO: In the decode return the object and token to avoid these 2 asynchronous calls.
-    const tokenEncoded = await tokenRepository.encoded(commonUser);
-    const tokenDecoded = await tokenRepository.decode(clientId, tokenEncoded);
-    const { jwtDecoded } = tokenDecoded;
-    const authTokenStatus = new AuthTokenStatusEntity(
-      commonUser.getId(),
-      BigInt(jwtDecoded?.iat ?? 0),
-      BigInt(jwtDecoded?.exp ?? 0),
-    );
-    await authTokenStatusRepository.create(client, authTokenStatus);
-    return tokenEncoded;
+    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, commonUser);
   });
 };
 
 export const signUpInteractor = async (clientId: string, accessToken: string, data: SignUpUser): Promise<string> => {
   const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
   const authRepository = getAuthRepository(authProviderLabel);
-  const response = await onSession(async (client: PrismaClient) => {
+  const authTokenStatusRepository = getAuthTokenStatusesRepository();
+  const tokenRepository = getTokenRepository();
+
+  return onSession(async (client: PrismaClient) => {
     const user = await authRepository.validateToken({ clientId, accessToken, email: data.email });
     if (!user) {
       throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
@@ -75,10 +68,9 @@ export const signUpInteractor = async (clientId: string, accessToken: string, da
     });
 
     const [recordCreated] = await client.$transaction([record]);
-    return CommonUserEntity.fromPrisma(recordCreated as UserPrisma);
+    const commonUser = CommonUserEntity.fromPrisma(recordCreated as UserPrisma);
+    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, commonUser);
   });
-  const tokenRepository = getTokenRepository();
-  return tokenRepository.encoded(response);
 };
 
 export const userLoggedInInteractor = async (clientId: string, token: string): Promise<JwtUserPayload> => {
