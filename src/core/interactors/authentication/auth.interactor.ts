@@ -102,6 +102,5 @@ export const userLoggedInInteractor = async (clientId: string, token: string): P
 export const deleteAuthUserInteractor = async (clientId: string, authId: string): Promise<boolean> => {
   const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
   const authRepository = getAuthRepository(authProviderLabel);
-  const isDeleted = await authRepository.deleteUser({ clientId, authId });
-  return isDeleted;
+  return authRepository.deleteUser({ clientId, authId });
 };
