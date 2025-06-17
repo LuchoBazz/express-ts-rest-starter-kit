@@ -97,7 +97,10 @@ export const userLoggedInInteractor = async (clientId: string, token: string): P
     });
   });
 
-  if (!ats || moment().isAfter(moment(Number(ats.getExpirationTime())))) {
+  const expirationTime = Number(ats?.getExpirationTime() ?? 0);
+  const isTokenExpired = moment().isAfter(moment(expirationTime));
+
+  if (!ats || isTokenExpired) {
     throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
   }
 
