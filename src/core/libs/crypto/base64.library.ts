@@ -1,14 +1,10 @@
 import crypto from "crypto";
 
-// const secretKey = crypto.randomBytes(32);
-// const iv = crypto.randomBytes(16);
-// TODO: Replace hardcoded secretKey and IV with secure values loaded from environment variables.
-
-const secretKey = Buffer.from([
-  17, 86, 34, 218, 171, 61, 59, 113, 252, 108, 200, 161, 214, 240, 217, 230, 137, 79, 144, 43, 47, 90, 128, 16, 90, 128,
-  27, 182, 24, 234, 17, 24,
-]);
-const iv = Buffer.from([223, 119, 160, 210, 230, 34, 208, 117, 39, 71, 79, 250, 73, 107, 97, 240]);
+// length: 32
+const secretKey = process.env.BASE64_ENCRYPTION_SECRET_KEY ?? "BASE64_ENCRYPTION_SECRET_KEY";
+// length: 16
+const encryptionIv = process.env.BASE64_ENCRYPTION_IV ?? "abcdef1234567890";
+const iv = Buffer.from(encryptionIv, "utf8");
 
 export const encrypt = (text: string): string => {
   const cipher = crypto.createCipheriv("aes-256-cbc", secretKey, iv);
