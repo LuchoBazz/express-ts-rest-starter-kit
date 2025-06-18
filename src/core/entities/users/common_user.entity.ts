@@ -25,9 +25,9 @@ export interface UserPrisma {
   user_notifications: boolean;
   user_is_active: boolean;
   user_uid: string;
-  user_role: UserRole;
-  user_auth_provider: AuthProvider;
-  user_auth_type: AuthType;
+  user_role: string;
+  user_auth_provider: string;
+  user_auth_type: string;
   user_organization_client_id: string;
   user_created_at: Date;
   user_updated_at: Date;
@@ -106,8 +106,8 @@ export class CommonUserEntity extends BaseUserEntity {
       payload.user_notifications,
       payload.user_is_active,
       payload.user_uid,
-      payload.user_auth_provider,
-      payload.user_auth_type,
+      payload.user_auth_provider as AuthProvider,
+      payload.user_auth_type as AuthType,
       payload.user_organization_client_id,
     );
     commonUser.setId(payload.user_id);
