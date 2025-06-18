@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { v4 as uuid } from "uuid";
 
+import { getUserRepository } from "../../../../core/repositories/users/users";
 import { onSession } from "../../../../infrastructure/database/prisma";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { BadRequestError } from "../../errors/bad_request.error";
@@ -11,7 +12,6 @@ import { NotFoundError } from "../../errors/not_found.error";
 
 const log = logger("LEMON_SQUEEZY:CONTROLLER");
 
-// const unlinkedSubscriptionId = "6a6a1946-edd8-46a8-9340-9c2fa536b5a9";
 const mapStoreIdToOrganizationId: Record<number, string> = {
   187083: "SYK",
 };
@@ -33,12 +33,12 @@ export const lemonSqueezyController = [
 
       const cliendId = mapStoreIdToOrganizationId[attributes.store_id];
 
+      const userRepository = getUserRepository();
+
       await onSession(async (prisma: PrismaClient) => {
         const userEmail = attributes.user_email as string;
 
-        const user = await prisma.user.findFirst({
-          where: { user_email: userEmail, user_organization_client_id: cliendId },
-        });
+        const user = await userRepository.findOne(prisma, cliendId, userEmail);
 
         if (!user) {
           throw new NotFoundError(ErrorMessage.USER_NOT_FOUND);
@@ -68,7 +68,7 @@ export const lemonSqueezyController = [
           const subscription = await prisma.subscription.create({
             data: {
               subscriptions_id: subscriptionsId,
-              subscriptions_user_id: user.user_id,
+              subscriptions_user_id: user.getId(),
               subscriptions_subscription_plan_id: plan.subscription_plan_id,
               subscriptions_external_subscription_id: "NA", // TODO: @legacy: Review this field to update the external subscription ID in future versions
               subscriptions_billing_cycle: plan.subscription_plan_billing_cycle,

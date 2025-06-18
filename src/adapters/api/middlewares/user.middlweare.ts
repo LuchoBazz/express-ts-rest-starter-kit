@@ -5,6 +5,7 @@ import { AuthProvider, AuthType, CommonUserEntity } from "../../../core/entities
 export const addUserToRequestMiddleware = (request: Request, _response: Response, next: NextFunction) => {
   const authorization = request.headers.Authorization;
 
+  // TODO: Replace placeholder values with actual user information extracted from the token
   request.user = authorization
     ? new CommonUserEntity(
         "",

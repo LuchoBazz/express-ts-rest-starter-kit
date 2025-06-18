@@ -4,9 +4,8 @@ import moment from "moment";
 import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
 import { onSession } from "../../../infrastructure/database/prisma";
-import { AuthProvider, AuthType, CommonUserEntity, UserPrisma } from "../../entities/users/common_user.entity";
+import { AuthType, CommonUserEntity } from "../../entities/users/common_user.entity";
 import { JwtUserPayload } from "../../entities/users/jwt_user.entity";
-import { UserRole } from "../../entities/users/role.enum";
 import { ConfigManager } from "../../libs/config_manager";
 import { getAuthRepository } from "../../repositories/authentication/auth";
 import { getAuthTokenStatusesRepository } from "../../repositories/authentication/auth_token_statuses";
@@ -41,6 +40,7 @@ export const signUpInteractor = async (clientId: string, accessToken: string, da
   const authRepository = getAuthRepository(authProviderLabel);
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
   const tokenRepository = getTokenRepository();
+  const userRepository = getUserRepository();
 
   return onSession(async (client: PrismaClient) => {
     const user = await authRepository.validateToken({ clientId, accessToken, email: data.email });
@@ -48,27 +48,24 @@ export const signUpInteractor = async (clientId: string, accessToken: string, da
       throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
     }
 
-    const record = client.user.create({
-      data: {
-        user_username: data.username,
-        user_first_name: data.firstName,
-        user_last_name: data.lastName,
-        user_email: data.email,
-        user_identification_number: data.username,
-        user_phone_number: data.username,
-        user_terms: data.terms,
-        user_notifications: data.notifications,
-        user_is_active: true,
-        user_uid: user.authId,
-        user_role: UserRole.COMMON_USER,
-        user_auth_provider: AuthProvider.FIREBASE,
-        user_auth_type: AuthType.EMAIL_AND_PASSWORD,
-        user_organization_client_id: clientId,
-      },
-    });
-
-    const [recordCreated] = await client.$transaction([record]);
-    const commonUser = CommonUserEntity.fromPrisma(recordCreated as UserPrisma);
+    const commonUser = await userRepository.create(
+      client,
+      new CommonUserEntity(
+        data.username,
+        data.firstName,
+        data.lastName,
+        data.email,
+        data.identificationNumber,
+        data.phoneNumber,
+        data.terms,
+        data.notifications,
+        true,
+        user.authId,
+        authProviderLabel,
+        AuthType.EMAIL_AND_PASSWORD,
+        clientId,
+      ),
+    );
     return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, commonUser);
   });
 };
