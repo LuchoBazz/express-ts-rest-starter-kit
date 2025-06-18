@@ -4,6 +4,7 @@ export enum UserRole {
   INTERNAL_ADMIN = "INTERNAL_ADMIN",
   EXTERNAL_ADMIN = "EXTERNAL_ADMIN",
   COMMON_USER = "COMMON_USER",
+  GUEST_USER = "GUEST_USER",
 }
 
 export interface RolePrisma {
