@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 
 import { AuthProvider, AuthType, CommonUserEntity } from "../../../core/entities/users/common_user.entity";
-import { getTokenRepository } from "../../../core/repositories/authentication/token";
 import { GuestUserEntity } from "../../../core/entities/users/guest_user.entity";
+import { getTokenRepository } from "../../../core/repositories/authentication/token";
 
 export const addUserToRequestMiddleware = async (request: Request, _response: Response, next: NextFunction) => {
   const authorization = (request.headers.Authorization ?? "").toString();
@@ -12,7 +12,7 @@ export const addUserToRequestMiddleware = async (request: Request, _response: Re
 
   const { clientId, jwtDecoded } = tokenDecoded;
 
-  if(!jwtDecoded) {
+  if (!jwtDecoded) {
     request.user = new GuestUserEntity(clientId);
     return next();
   }
