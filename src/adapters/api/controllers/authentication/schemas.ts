@@ -1,24 +1,6 @@
 import { checkSchema } from "express-validator";
 
 export const signInSchema = checkSchema({
-  client_id: {
-    in: ["params"],
-    isEmpty: {
-      options: { ignore_whitespace: true },
-      negated: true,
-      errorMessage: "Missing client_id.",
-    },
-    exists: {
-      options: {
-        checkFalsy: true,
-      },
-      errorMessage: "client_id cannot be null.",
-      bail: true,
-    },
-    isString: {
-      errorMessage: "client_id must be a string.",
-    },
-  },
   access_token: {
     in: ["body"],
     isEmpty: {
@@ -47,24 +29,6 @@ export const signInSchema = checkSchema({
 });
 
 export const signUpSchema = checkSchema({
-  client_id: {
-    in: ["params"],
-    isEmpty: {
-      options: { ignore_whitespace: true },
-      negated: true,
-      errorMessage: "Missing client_id.",
-    },
-    exists: {
-      options: {
-        checkFalsy: true,
-      },
-      errorMessage: "client_id cannot be null.",
-      bail: true,
-    },
-    isString: {
-      errorMessage: "client_id must be a string.",
-    },
-  },
   access_token: {
     in: ["body"],
     isEmpty: {
@@ -216,24 +180,6 @@ export const deleteAuthUserSchema = checkSchema({
 });
 
 export const userLogguedInSchema = checkSchema({
-  client_id: {
-    in: ["params"],
-    isEmpty: {
-      options: { ignore_whitespace: true },
-      negated: true,
-      errorMessage: "Missing client_id.",
-    },
-    exists: {
-      options: {
-        checkFalsy: true,
-      },
-      errorMessage: "client_id cannot be null.",
-      bail: true,
-    },
-    isString: {
-      errorMessage: "client_id must be a string.",
-    },
-  },
   Authentication: {
     in: ["headers"],
     isEmpty: {

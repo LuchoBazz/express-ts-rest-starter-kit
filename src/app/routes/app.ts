@@ -31,7 +31,7 @@ router.use("/organizations", organizationRouter);
 router.use("/subscriptions", subscriptionRouter);
 router.use("/subscription-plans", subscriptionPlanRouter);
 router.use("/subscription-payments", subscriptionPaymentRouter);
-router.use("/organizations", authRouter);
+router.use("/authentication", authRouter);
 router.use("/webhooks", lemonSqueezeRouter);
 
 router.use(morgan(logFormat));

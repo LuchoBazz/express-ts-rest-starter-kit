@@ -13,12 +13,8 @@ const { GUEST_USER } = PermissionsValues;
 const organization = Router();
 
 // Auth
-organization.post("/:client_id/sign-in", permissionChecker([GUEST_USER]), signInController);
-organization.post("/:client_id/sign-up", permissionChecker([GUEST_USER]), signUpController);
-organization.delete(
-  "/:client_id/delete-my-account/:auth_id",
-  permissionChecker([GUEST_USER]),
-  deleteMyAccountController,
-);
+organization.post("/sign-in", permissionChecker([GUEST_USER]), signInController);
+organization.post("/sign-up", permissionChecker([GUEST_USER]), signUpController);
+organization.delete("/delete-my-account/:auth_id", permissionChecker([GUEST_USER]), deleteMyAccountController);
 
 export default organization;
