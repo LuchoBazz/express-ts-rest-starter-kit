@@ -15,14 +15,14 @@ import {
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentSubscription } from "../../../presenters/subscriptions/subscription.presenter";
 import { validateSchema } from "../../validator";
-import { organizationSchema } from "../organizations/schemas";
+import { clientIdInHeaderSchema } from "../organizations/schemas";
 import { createSubscriptionSchema, subscriptionKeyParamsSchema, updateSubscriptionSchema } from "./schemas";
 
 export const findSubscriptionByOrganizationsController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { client_id: clientId } = request.params;
+      const clientId = request.headers["client-id"]?.toString() ?? "";
 
       const subscriptionsFound = await findSubscriptionByOrganizationInteractor(clientId);
 
@@ -35,7 +35,7 @@ export const findSubscriptionByOrganizationsController = [
 ];
 
 export const findSubscriptionController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(subscriptionKeyParamsSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
@@ -52,11 +52,11 @@ export const findSubscriptionController = [
 ];
 
 export const createSubscriptionController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(createSubscriptionSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { client_id: clientId } = request.params;
+      const clientId = request.headers["client-id"]?.toString() ?? "";
       const {
         user_id,
         subscription_plan_id,
@@ -94,7 +94,7 @@ export const createSubscriptionController = [
   },
 ];
 export const updateSubscriptionController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(subscriptionKeyParamsSchema),
   validateSchema(updateSubscriptionSchema),
   async (request: Request, response: Response, next: NextFunction) => {
@@ -138,7 +138,7 @@ export const updateSubscriptionController = [
 ];
 
 export const deleteSubscriptionController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(subscriptionKeyParamsSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {

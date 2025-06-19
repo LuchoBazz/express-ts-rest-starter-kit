@@ -22,6 +22,27 @@ export const organizationSchema = checkSchema({
   },
 });
 
+export const clientIdInHeaderSchema = checkSchema({
+  "client-id": {
+    in: ["headers"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing client-id.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "client-id can not be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "client-id is not a string.",
+    },
+  },
+});
+
 // FEATURE FLAGS
 
 export const featureFlagKeyParamsSchema = checkSchema({

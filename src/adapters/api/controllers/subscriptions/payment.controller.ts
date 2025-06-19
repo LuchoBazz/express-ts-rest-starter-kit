@@ -11,11 +11,11 @@ import { PaymentSearchCriteriaInput, UpdatePaymentInput } from "../../../../core
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentPayment } from "../../../presenters/subscriptions/payment.presenter";
 import { validateSchema } from "../../validator";
-import { organizationSchema } from "../organizations/schemas";
+import { clientIdInHeaderSchema } from "../organizations/schemas";
 import { createPaymentSchema, paymentKeyParamsSchema, updatePaymentSchema } from "./schemas";
 
 export const findPaymentController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(paymentKeyParamsSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
@@ -32,11 +32,11 @@ export const findPaymentController = [
 ];
 
 export const createPaymentController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(createPaymentSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { client_id: clientId } = request.params;
+      const clientId = request.headers["client-id"]?.toString() ?? "";
       const { subscription_id, amount, currency, external_payment_id, status } = request.body;
 
       const payment = new PaymentEntity(
@@ -62,12 +62,13 @@ export const createPaymentController = [
 ];
 
 export const updatePaymentController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(paymentKeyParamsSchema),
   validateSchema(updatePaymentSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { payment_id: id, client_id: clientId } = request.params;
+      const { payment_id: id } = request.params;
+      const clientId = request.headers["client-id"]?.toString() ?? "";
       const {
         subscription_id: subscriptionId,
         amount,
@@ -98,7 +99,7 @@ export const updatePaymentController = [
 ];
 
 export const deletePaymentController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(paymentKeyParamsSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {

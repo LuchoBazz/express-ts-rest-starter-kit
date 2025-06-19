@@ -15,14 +15,14 @@ import {
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentSubscriptionPlan } from "../../../presenters/subscriptions/subscription_plan.presenter";
 import { validateSchema } from "../../validator";
-import { organizationSchema } from "../organizations/schemas";
+import { clientIdInHeaderSchema } from "../organizations/schemas";
 import { createSubscriptionPlanSchema, subscriptionPlanKeyParamsSchema, updateSubscriptionPlanSchema } from "./schemas";
 
 export const findSubscriptionPlanByOrganizationController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { client_id: clientId } = request.params;
+      const clientId = request.headers["client-id"]?.toString() ?? "";
 
       const subscriptionPlansFound = await findSubscriptionPlanByOrganizationInteractor(clientId);
 
@@ -35,11 +35,12 @@ export const findSubscriptionPlanByOrganizationController = [
 ];
 
 export const findSubscriptionPlanController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(subscriptionPlanKeyParamsSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { client_id: clientId, slug } = request.params;
+      const { slug } = request.params;
+      const clientId = request.headers["client-id"]?.toString() ?? "";
 
       const subscriptionPlanFound = await findSubscriptionPlanInteractor({ id: slug, clientId });
 
@@ -52,11 +53,11 @@ export const findSubscriptionPlanController = [
 ];
 
 export const createSubscriptionPlanController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(createSubscriptionPlanSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { client_id: clientId } = request.params;
+      const clientId = request.headers["client-id"]?.toString() ?? "";
       const {
         name,
         product_id: productId,
@@ -105,12 +106,13 @@ export const createSubscriptionPlanController = [
 ];
 
 export const updateSubscriptionPlanController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(subscriptionPlanKeyParamsSchema),
   validateSchema(updateSubscriptionPlanSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { client_id: clientId, slug } = request.params;
+      const { slug } = request.params;
+      const clientId = request.headers["client-id"]?.toString() ?? "";
       const { price, billing_cycle, description, node_quota, features, most_popular, tier, is_active } = request.body;
 
       const searchCriteria: SubscriptionPlanSearchCriteriaInput = { id: slug, clientId };
@@ -138,11 +140,12 @@ export const updateSubscriptionPlanController = [
 ];
 
 export const deleteSubscriptionPlanController = [
-  validateSchema(organizationSchema),
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(subscriptionPlanKeyParamsSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { client_id: clientId, slug } = request.params;
+      const { slug } = request.params;
+      const clientId = request.headers["client-id"]?.toString() ?? "";
 
       const subscriptionPlanDeleted = await deleteSubscriptionPlanInteractor({ id: slug, clientId });
 

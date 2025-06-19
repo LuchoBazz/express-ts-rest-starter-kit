@@ -8,6 +8,8 @@ import authRouter from "./auth.router";
 import lemonSqueezeRouter from "./lemonsqueeze.router";
 import organizationRouter from "./organization.router";
 import subscriptionRouter from "./subscription.router";
+import subscriptionPaymentRouter from "./subscription_payment.router";
+import subscriptionPlanRouter from "./subscription_plan.router";
 
 const router = express();
 const logFormat =
@@ -26,7 +28,9 @@ router.use(express.urlencoded({ extended: false }));
 router.get("/", healthCheck);
 router.get("/health", healthCheck);
 router.use("/organizations", organizationRouter);
-router.use("/organizations", subscriptionRouter);
+router.use("/subscriptions", subscriptionRouter);
+router.use("/subscription-plans", subscriptionPlanRouter);
+router.use("/subscription-payments", subscriptionPaymentRouter);
 router.use("/organizations", authRouter);
 router.use("/webhooks", lemonSqueezeRouter);
 
