@@ -5,18 +5,21 @@ sidebar_label: Subscription Plan
 ---
 
 ```bash
-curl -X GET "http://localhost:3000/organizations/{client_id}/subscription-plans" \
-  -H "Accept: application/json"
+curl -X GET "http://localhost:3000/subscription-plans" \
+-H "Accept: application/json" \
+-H "client-id: DEMO" \
 ```
 
 ```bash
-curl -X GET "http://localhost:3000/organizations/{client_id}/subscription-plans/{slug}" \
--H "Content-Type: application/json"
-```
-
-```bash
-curl -X POST "http://localhost:3000/organizations/{client_id}/subscription-plans" \
+curl -X GET "http://localhost:3000/subscription-plans/{slug}" \
 -H "Content-Type: application/json" \
+-H "client-id: DEMO"
+```
+
+```bash
+curl -X POST "http://localhost:3000/subscription-plans" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO" \
 -d '{
   "name": "Your Plan Name",
   "product_id": "12345",
@@ -34,8 +37,9 @@ curl -X POST "http://localhost:3000/organizations/{client_id}/subscription-plans
 ```
 
 ```bash
-curl -X PUT "http://localhost:3000/organizations/{client_id}/subscription-plans/{slug}" \
+curl -X PUT "http://localhost:3000/subscription-plans/{slug}" \
 -H "Content-Type: application/json" \
+-H "client-id: DEMO" \
 -d '{
   "price": 99.99,
   "billing_cycle": "weekly",
@@ -49,6 +53,7 @@ curl -X PUT "http://localhost:3000/organizations/{client_id}/subscription-plans/
 ```
 
 ```bash
-curl -X DELETE "http://localhost:3000/organizations/{client_id}/subscription-plans/{slug}" \
-  -H "Content-Type: application/json"
+curl -X DELETE "http://localhost:3000/subscription-plans/{slug}" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO" \
 ```

@@ -5,18 +5,21 @@ sidebar_label: Subscription
 ---
 
 ```bash
-curl -X GET "http://localhost:3000/organizations/{client_id}/subscriptions" \
--H "Content-Type: application/json"
+curl -X GET "http://localhost:3000/subscriptions" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO"
 ```
 
 ```bash
-curl -X GET "http://localhost:3000/organizations/{client_id}/subscriptions/{id}" \
-  -H "Content-Type: application/json"
+curl -X GET "http://localhost:3000/subscriptions/{id}" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO"
 ```
 
 ```bash
-curl -X POST 'http://localhost:3000/organizations/{client_id}/subscriptions' \
+curl -X POST 'http://localhost:3000/subscriptions' \
 -H 'Content-Type: application/json' \
+-H "client-id: DEMO" \
 -d '{
   "user_id": "your_user_id",
   "subscription_plan_id": "your_subscription_plan_id",
@@ -31,22 +34,24 @@ curl -X POST 'http://localhost:3000/organizations/{client_id}/subscriptions' \
 ```
 
 ```bash
-curl -X PUT "http://localhost:3000/organizations/{client_id}/subscriptions/{id}" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "user_id": "987e6543-a21c-43b5-987f-765321098fbc",
-    "subscription_plan_id": "876e5432-a21c-43b5-987f-765432109fbc",
-    "external_subscription_id": "EXTERNAL-123456789",
-    "billing_cycle": "monthly",
-    "status": "active",
-    "is_active": true,
-    "renews_at": "2024-10-13T00:00:00.000Z",
-    "starts_at": "2023-10-13T00:00:00.000Z",
-    "ends_at": "2025-10-13T00:00:00.000Z"
-  }'
+curl -X PUT "http://localhost:3000/subscriptions/{id}" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO" \
+-d '{
+  "user_id": "987e6543-a21c-43b5-987f-765321098fbc",
+  "subscription_plan_id": "876e5432-a21c-43b5-987f-765432109fbc",
+  "external_subscription_id": "EXTERNAL-123456789",
+  "billing_cycle": "monthly",
+  "status": "active",
+  "is_active": true,
+  "renews_at": "2024-10-13T00:00:00.000Z",
+  "starts_at": "2023-10-13T00:00:00.000Z",
+  "ends_at": "2025-10-13T00:00:00.000Z"
+}'
 ```
 
 ```bash
-curl -X DELETE 'http://localhost:3000/organizations/{client_id}/subscriptions/{id}' \
--H 'Content-Type: application/json'
+curl -X DELETE 'http://localhost:3000/subscriptions/{id}' \
+-H 'Content-Type: application/json' \
+-H "client-id: DEMO" \
 ```

@@ -5,13 +5,15 @@ sidebar_label: Payment
 ---
 
 ```bash
-curl -X GET "http://localhost:3000/organizations/{client_id}/subscription-payments/{payment_id}" \
--H "Content-Type: application/json"
+curl -X GET "http://localhost:3000/subscription-payments/{payment_id}" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO"
 ```
 
 ```bash
-curl -X POST "http://localhost:3000/organizations/{client_id}/subscription-payments" \
+curl -X POST "http://localhost:3000/subscription-payments" \
 -H "Content-Type: application/json" \
+-H "client-id: DEMO" \
 -d '{
   "subscription_id": "sub_123456789",
   "amount": 99.99,
@@ -22,8 +24,9 @@ curl -X POST "http://localhost:3000/organizations/{client_id}/subscription-payme
 ```
 
 ```bash
-curl -X PUT "http://localhost:3000/organizations/{client_id}/subscription-payments/{payment_id}" \
+curl -X PUT "http://localhost:3000/subscription-payments/{payment_id}" \
 -H "Content-Type: application/json" \
+-H "client-id: DEMO" \
 -d '{
   "subscription_id": "8663c4c2-914b-4fed-b5f3-af9bd17b884d",
   "amount": 99.99,
@@ -34,6 +37,7 @@ curl -X PUT "http://localhost:3000/organizations/{client_id}/subscription-paymen
 ```
 
 ```bash
-curl -X DELETE "http://localhost:3000/organizations/{client_id}/subscription-payments/{payment_id}" \
--H "Content-Type: application/json"
+curl -X DELETE "http://localhost:3000/subscription-payments/{payment_id}" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO"
 ```
