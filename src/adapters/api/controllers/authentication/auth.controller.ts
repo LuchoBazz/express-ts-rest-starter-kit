@@ -88,6 +88,7 @@ export const userLoggedInController = [
 ];
 
 export const deleteMyAccountController = [
+  validateSchema(clientIdInHeaderSchema),
   validateSchema(deleteAuthUserSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
