@@ -8,6 +8,7 @@ import {
   findSubscriptionInteractor,
   updateSubscriptionInteractor,
 } from "../../../../core/interactors/subscriptions/subscription.interactor";
+import { getClientIdFromHeaders } from "../../../../core/shared/utils/router.util";
 import {
   SubscriptionSearchCriteriaInput,
   UpdateSubscriptionInput,
@@ -22,7 +23,7 @@ export const findSubscriptionByOrganizationsController = [
   validateSchema(clientIdInHeaderSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
 
       const subscriptionsFound = await findSubscriptionByOrganizationInteractor(clientId);
 
@@ -56,7 +57,7 @@ export const createSubscriptionController = [
   validateSchema(createSubscriptionSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
       const {
         user_id,
         subscription_plan_id,

@@ -8,6 +8,7 @@ import {
   findSubscriptionPlanInteractor,
   updateSubscriptionPlanInteractor,
 } from "../../../../core/interactors/subscriptions/subscription_plan.interactor";
+import { getClientIdFromHeaders } from "../../../../core/shared/utils/router.util";
 import {
   SubscriptionPlanSearchCriteriaInput,
   UpdateSubscriptionPlanInput,
@@ -22,7 +23,7 @@ export const findSubscriptionPlanByOrganizationController = [
   validateSchema(clientIdInHeaderSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
 
       const subscriptionPlansFound = await findSubscriptionPlanByOrganizationInteractor(clientId);
 
@@ -40,7 +41,7 @@ export const findSubscriptionPlanController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const { slug } = request.params;
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
 
       const subscriptionPlanFound = await findSubscriptionPlanInteractor({ id: slug, clientId });
 
@@ -57,7 +58,7 @@ export const createSubscriptionPlanController = [
   validateSchema(createSubscriptionPlanSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
       const {
         name,
         product_id: productId,
@@ -112,7 +113,7 @@ export const updateSubscriptionPlanController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const { slug } = request.params;
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
       const { price, billing_cycle, description, node_quota, features, most_popular, tier, is_active } = request.body;
 
       const searchCriteria: SubscriptionPlanSearchCriteriaInput = { id: slug, clientId };
@@ -145,7 +146,7 @@ export const deleteSubscriptionPlanController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const { slug } = request.params;
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
 
       const subscriptionPlanDeleted = await deleteSubscriptionPlanInteractor({ id: slug, clientId });
 

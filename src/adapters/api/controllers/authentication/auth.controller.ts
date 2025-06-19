@@ -6,6 +6,7 @@ import {
   signUpInteractor,
   userLoggedInInteractor,
 } from "../../../../core/interactors/authentication/auth.interactor";
+import { getClientIdFromHeaders } from "../../../../core/shared/utils/router.util";
 import { SignUpUser } from "../../../../core/types/authentication/user.type";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { validateSchema } from "../../validator";
@@ -17,7 +18,7 @@ export const signInController = [
   validateSchema(signInSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
       const { access_token: accessToken, email } = request.body;
 
       const token = await signInInteractor(clientId, accessToken as string, email as string);
@@ -34,7 +35,7 @@ export const signUpController = [
   validateSchema(signUpSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
       const {
         access_token: accessToken,
         username,
@@ -73,7 +74,7 @@ export const userLoggedInController = [
   validateSchema(userLogguedInSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
       const { Authorization: authorization } = request.headers;
 
       const token = authorization?.length ? authorization.toString() : "";
@@ -93,7 +94,7 @@ export const deleteMyAccountController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const { auth_id: authId } = request.params;
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
 
       const isDeleted = await deleteAuthUserInteractor(clientId, authId);
 

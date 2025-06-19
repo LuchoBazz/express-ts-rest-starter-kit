@@ -7,6 +7,7 @@ import {
   findPaymentInteractor,
   updatePaymentInteractor,
 } from "../../../../core/interactors/subscriptions/payment.interactor";
+import { getClientIdFromHeaders } from "../../../../core/shared/utils/router.util";
 import { PaymentSearchCriteriaInput, UpdatePaymentInput } from "../../../../core/types/subscriptions/payment.types";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentPayment } from "../../../presenters/subscriptions/payment.presenter";
@@ -36,7 +37,7 @@ export const createPaymentController = [
   validateSchema(createPaymentSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
       const { subscription_id, amount, currency, external_payment_id, status } = request.body;
 
       const payment = new PaymentEntity(
@@ -68,7 +69,7 @@ export const updatePaymentController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const { payment_id: id } = request.params;
-      const clientId = request.headers["client-id"]?.toString() ?? "";
+      const clientId = getClientIdFromHeaders(request.headers);
       const {
         subscription_id: subscriptionId,
         amount,
