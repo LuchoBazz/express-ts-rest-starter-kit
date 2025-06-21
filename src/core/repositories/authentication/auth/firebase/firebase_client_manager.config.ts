@@ -35,10 +35,10 @@ export class FirebaseClientManager {
   }
 
   public getClient(clientId: string): AdminApp {
-    const supabaseClient = this.clients[clientId];
-    if (!supabaseClient) {
-      throw new NotFoundError(ErrorMessage.SUPABASE_CONFIGURATION_NOT_FOUND);
+    const firebaseClient = this.clients[clientId];
+    if (!firebaseClient) {
+      throw new NotFoundError(ErrorMessage.FIREBASE_CONFIGURATION_NOT_FOUND);
     }
-    return supabaseClient;
+    return firebaseClient;
   }
 }

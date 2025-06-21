@@ -6,19 +6,24 @@ import { UnauthorizedError } from "../errors/unauthorized.error";
 
 export const permissionChecker = (requiredPermissions: PermissionsValues[]) => {
   return async (request: Request, _: Response, next: NextFunction): Promise<void> => {
-    const { user } = request;
+    const unauthorizedError = new UnauthorizedError(ErrorMessage.INSUFFICIENT_ACCESS_PERMISSIONS, []);
+    try {
+      const { user } = request;
 
-    const userPermissions: PermissionsValues[] = user ? await user.getPermissions() : [PermissionsValues.GUEST_USER];
+      const userPermissions: PermissionsValues[] = user ? await user.getPermissions() : [PermissionsValues.GUEST_USER];
 
-    const hasRequiredPermissions: boolean = requiredPermissions.every((permission) => {
-      return userPermissions.includes(permission);
-    });
+      const hasRequiredPermissions: boolean = requiredPermissions.every((permission) => {
+        return userPermissions.includes(permission);
+      });
 
-    if (hasRequiredPermissions) {
-      return next();
+      if (hasRequiredPermissions) {
+        return next();
+      }
+
+      return next(unauthorizedError);
+    } catch (error) {
+      console.log(error);
+      return next(unauthorizedError);
     }
-
-    const error = new UnauthorizedError(ErrorMessage.INSUFFICIENT_ACCESS_PERMISSIONS, []);
-    return next(error);
   };
 };

@@ -17,6 +17,7 @@ export const FirebaseAuthRepository: AuthRepository = {
       const firebaseResponse = await admin.auth().verifyIdToken(accessToken);
       return { authId: firebaseResponse.uid, email: firebaseResponse.email };
     } catch (error) {
+      console.log(error);
       throw new UnauthorizedError(ErrorMessage.INVALID_JWT_TOKEN);
     }
   },

@@ -110,14 +110,14 @@ export const signUpSchema = checkSchema({
   },
   identification_number: {
     in: ["body"],
-    optional: true,
+    optional: {options: { nullable: true }},
     isString: {
       errorMessage: "identification_number must be a string.",
     },
   },
   phone_number: {
     in: ["body"],
-    optional: true,
+    optional: {options: { nullable: true }},
     isString: {
       errorMessage: "phone_number must be a string.",
     },
