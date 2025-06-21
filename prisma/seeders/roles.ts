@@ -11,6 +11,7 @@ export const seedRoles = async () => {
     { role_name: "EXTERNAL_ADMIN" },
     { role_name: "READ_ONLY_FULL_ACCESS_ADMIN" },
     { role_name: "GUEST_USER" },
+    { role_name: "COMMON_USER" },
   ];
 
   const roleNames = roles.map((role) => {
