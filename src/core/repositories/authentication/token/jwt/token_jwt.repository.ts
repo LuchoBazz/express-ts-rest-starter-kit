@@ -3,7 +3,7 @@ import moment from "moment";
 
 import { CommonUserEntity } from "../../../../entities/users/common_user.entity";
 import { JwtAuthPayload, JwtDecodedPayload, JwtUserPayload } from "../../../../entities/users/jwt_user.entity";
-import { decrypt } from "../../../../libs/crypto";
+import { decrypt, encrypt } from "../../../../libs/crypto";
 import { UserLoggedInPayload } from "../../../../types/authentication/base.types";
 import { TokenEncodedResponse } from "../../../../types/authentication/token.types";
 import { TokenRepository } from "../token_repository.interface";
@@ -49,8 +49,17 @@ export const JwtTokenRepository: TokenRepository = {
       aud: ["express-ts-rest-starter-kit"], // TODO: Replace with the actual audience(s) allowed to use this token (e.g. frontend app, mobile client)
     };
 
+    const jwtAuthPayload: JwtAuthPayload = {
+      serialized_user: encrypt(JSON.stringify(payload.user)),
+      sub: payload.sub,
+      iat: payload.iat,
+      exp: payload.exp,
+      iss: payload.iss,
+      aud: payload.aud,
+    };
+
     const options: jwt.SignOptions = { algorithm: "HS256" };
-    const token = jwt.sign(payload, JWT_SECRET, options);
+    const token = jwt.sign(jwtAuthPayload, JWT_SECRET, options);
     return Promise.resolve({ token, payload });
   },
 };
