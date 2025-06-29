@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import {
   deleteAuthUserInteractor,
+  getActiveTokensInteractor,
   logOutInteractor,
   refreshAuthTokenInteractor,
   revokeAllTokensByUserInteractor,
@@ -182,6 +183,34 @@ export const revokeAllTokensExceptCurrentController = [
       const success = await revokeAllTokensExceptCurrentInteractor(clientId, token);
 
       response.status(HttpStatusCode.OK).json({ data: { success } });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
+
+// TODO: should be dynamic (taking into account subscription type)
+const MAX_ALLOWED_TOKENS = 4;
+
+export const getActiveTokensController = [
+  validateSchema(clientIdInHeaderSchema),
+  validateSchema(userAuthorizationInSchema),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const clientId = getClientIdFromHeaders(request.headers);
+      const token = getAuthorizationTokenFromHeaders(request.headers);
+
+      const tokens = await getActiveTokensInteractor(clientId, token);
+      const shouldRevokeTokens = tokens.length > MAX_ALLOWED_TOKENS;
+      const numberOfTokensToRevoke = Math.max(0, tokens.length - MAX_ALLOWED_TOKENS);
+
+      response.status(HttpStatusCode.OK).json({
+        data: {
+          tokens,
+          should_revoke_tokens: shouldRevokeTokens,
+          number_of_tokens_to_revoke: numberOfTokensToRevoke,
+        },
+      });
     } catch (error) {
       next(error);
     }

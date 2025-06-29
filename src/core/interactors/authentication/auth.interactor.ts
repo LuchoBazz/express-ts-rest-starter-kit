@@ -5,6 +5,7 @@ import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
 import { onSession } from "../../../infrastructure/database/prisma";
 import { AuthType, StandardUserEntity } from "../../entities/users/a_standard_user.entity";
+import { AuthTokenStatusEntity } from "../../entities/users/auth_token_statuses.entity";
 import { JwtUserPayload } from "../../entities/users/jwt_user.entity";
 import { BaseUserEntity } from "../../entities/users/user_base.entity";
 import { ConfigManager } from "../../libs/config_manager";
@@ -205,4 +206,17 @@ export const revokeAllTokensExceptCurrentInteractor = async (clientId: string, t
     });
   });
   return count > 0;
+};
+
+export const getActiveTokensInteractor = async (clientId: string, token: string): Promise<AuthTokenStatusEntity[]> => {
+  const tokenRepository = getTokenRepository();
+  const jwtDecoded = await getAuthorizedTokenPayload(tokenRepository, clientId, token);
+  const authTokenStatusRepository = getAuthTokenStatusesRepository();
+  const authTokenStatuses = await onSession(async (client: PrismaClient) => {
+    return authTokenStatusRepository.find(client, {
+      clientId,
+      email: jwtDecoded.user.email,
+    });
+  });
+  return authTokenStatuses;
 };

@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import {
   deleteMyAccountController,
+  getActiveTokensController,
   logOutController,
   refreshAuthTokenController,
   revokeAllTokensByUserController,
@@ -19,9 +20,12 @@ organization.post("/sign-in", signInController);
 organization.post("/sign-up", signUpController);
 organization.post("/refresh-token", refreshAuthTokenController);
 organization.post("/user-logged-in", userLoggedInController);
-organization.post("/logout", logOutController);
-organization.post("/revoke-all", revokeAllTokensByUserController);
-organization.post("/revoke-all-except-current", revokeAllTokensExceptCurrentController);
-organization.delete("/delete-my-account/:auth_id", permissionChecker([]), deleteMyAccountController);
+
+organization.get("/tokens", getActiveTokensController);
+organization.post("/tokens/logout", logOutController);
+organization.post("/tokens/revoke-all", revokeAllTokensByUserController);
+organization.post("/tokens/revoke-all-except-current", revokeAllTokensExceptCurrentController);
+
+organization.delete("delete-my-account/:auth_id", permissionChecker([]), deleteMyAccountController);
 
 export default organization;
