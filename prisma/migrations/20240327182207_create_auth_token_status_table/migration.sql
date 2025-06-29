@@ -11,4 +11,4 @@ CREATE TABLE "users"."auth_token_statuses" (
 );
 
 -- AddForeignKey
-ALTER TABLE "users"."auth_token_statuses" ADD CONSTRAINT "auth_token_statuses_auth_token_user_fkey" FOREIGN KEY ("auth_token_user") REFERENCES "users"."users"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "users"."auth_token_statuses" ADD CONSTRAINT "auth_token_statuses_auth_token_user_fkey" FOREIGN KEY ("auth_token_user") REFERENCES "users"."users"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
