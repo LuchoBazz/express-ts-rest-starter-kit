@@ -48,3 +48,33 @@ curl -X DELETE "http://localhost:3000/authentication/delete-my-account/{auth_id}
 -H "client-id: DEMO" \
 -H 'Authorization: Bearer JWT_AUTH_TOKEN'
 ```
+
+```bash
+curl -X GET "http://localhost:3000/authentication/tokens" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO" \
+-H "Authorization: Bearer JWT_AUTH_TOKEN"
+```
+
+
+```bash
+curl -X POST "http://localhost:3000/authentication/tokens/logout" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO" \
+-H "Authorization: Bearer JWT_AUTH_TOKEN"
+
+```
+
+```bash
+curl -X POST "http://localhost:3000/authentication/tokens/revoke-all" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO" \
+-H "Authorization: Bearer JWT_AUTH_TOKEN"
+```
+
+```bash
+curl -X POST "http://localhost:3000/authentication/tokens/revoke-all-except-current" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO" \
+-H "Authorization: Bearer JWT_AUTH_TOKEN"
+```
