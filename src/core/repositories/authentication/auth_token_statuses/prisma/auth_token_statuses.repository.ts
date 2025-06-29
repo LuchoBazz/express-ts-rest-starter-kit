@@ -6,7 +6,6 @@ import { prismaGlobalExceptionFilter } from "../../../../../adapters/api/errors/
 import { AuthTokenStatusEntity } from "../../../../entities/users/auth_token_statuses.entity";
 import {
   AuthTokenStatusesSearchCriteriaInput,
-  LogOutSearchCriteriaInput,
   RevokeSearchCriteriaInput,
   UpdateAuthTokenStatusesInput,
 } from "../../../../types/users/auth_token_statuses.types";
@@ -94,28 +93,6 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
 
       const [recordUpdated] = await prismaClient.$transaction([record]);
       return AuthTokenStatusEntity.fromPrisma(recordUpdated);
-    } catch (error) {
-      prismaGlobalExceptionFilter(error);
-      throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
-    }
-  },
-  async logOut(client: unknown, searchCriteria: LogOutSearchCriteriaInput): Promise<AuthTokenStatusEntity> {
-    try {
-      const prismaClient = client as PrismaClient;
-      const { clientId, email, issuedAt } = searchCriteria;
-      const record = prismaClient.authTokenStatus.update({
-        where: {
-          auth_token_email_auth_token_organization_client_id_auth_token_issued_at: {
-            auth_token_email: email,
-            auth_token_organization_client_id: clientId,
-            auth_token_issued_at: issuedAt,
-          },
-        },
-        data: { auth_token_revoked: true },
-      });
-
-      const [recordDeleted] = await prismaClient.$transaction([record]);
-      return AuthTokenStatusEntity.fromPrisma(recordDeleted);
     } catch (error) {
       prismaGlobalExceptionFilter(error);
       throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);

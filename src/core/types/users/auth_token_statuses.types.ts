@@ -13,12 +13,6 @@ export interface AuthTokenStatusesSearchCriteriaInput {
   issuedAt?: Date;
 }
 
-export interface LogOutSearchCriteriaInput {
-  clientId: string;
-  email: string;
-  issuedAt: Date;
-}
-
 export interface RevokeSearchCriteriaInput {
   clientId: string;
   email: string;

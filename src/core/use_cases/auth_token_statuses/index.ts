@@ -34,7 +34,7 @@ export const disabledAuthTokenStatusUseCase = async (
   clientId: string,
   jwtDecoded: JwtDecodedPayload,
 ): Promise<boolean> => {
-  const ats = await authTokenStatusRepository.logOut(client, {
+  const ats = await authTokenStatusRepository.revokeBySession(client, {
     clientId,
     email: jwtDecoded.user.email,
     issuedAt: new Date(jwtDecoded.iat * 1000),
