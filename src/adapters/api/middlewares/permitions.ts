@@ -10,7 +10,7 @@ export const permissionChecker = (requiredPermissions: PermissionsValues[]) => {
     try {
       const { user } = request;
 
-      const userPermissions: PermissionsValues[] = user ? await user.getPermissions() : [PermissionsValues.GUEST_USER];
+      const userPermissions: PermissionsValues[] = user ? await user.getPermissions() : [PermissionsValues.GUEST_MODE];
 
       const hasRequiredPermissions: boolean = requiredPermissions.every((permission) => {
         return userPermissions.includes(permission);

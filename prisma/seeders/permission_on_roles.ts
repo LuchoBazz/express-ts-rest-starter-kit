@@ -20,7 +20,7 @@ export const seedPermissionOnRoles = async () => {
       PermissionsValues.READ_CONFIGURATION,
       PermissionsValues.READ_SUBSCRIPTION_PLAN,
     ],
-    GUEST_USER: [PermissionsValues.GUEST_USER],
+    GUEST_USER: [PermissionsValues.GUEST_MODE],
   };
 
   const rolePromises = Object.entries(permissionOnRoles).flatMap(([role, permissions]) => {

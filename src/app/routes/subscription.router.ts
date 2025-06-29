@@ -10,15 +10,15 @@ import {
 import { permissionChecker } from "../../adapters/api/middlewares/permitions";
 import { PermissionsValues } from "../../core/entities/users/authentication.enum";
 
-const { GUEST_USER } = PermissionsValues;
+const { GUEST_MODE } = PermissionsValues;
 
 const subscription = Router();
 
 // Subscription
-subscription.get("/", permissionChecker([GUEST_USER]), findSubscriptionByOrganizationsController);
-subscription.get("/:id", permissionChecker([GUEST_USER]), findSubscriptionController);
-subscription.post("/", permissionChecker([GUEST_USER]), createSubscriptionController);
-subscription.put("/:id", permissionChecker([GUEST_USER]), updateSubscriptionController);
-subscription.delete("/:id", permissionChecker([GUEST_USER]), deleteSubscriptionController);
+subscription.get("/", permissionChecker([GUEST_MODE]), findSubscriptionByOrganizationsController);
+subscription.get("/:id", permissionChecker([GUEST_MODE]), findSubscriptionController);
+subscription.post("/", permissionChecker([GUEST_MODE]), createSubscriptionController);
+subscription.put("/:id", permissionChecker([GUEST_MODE]), updateSubscriptionController);
+subscription.delete("/:id", permissionChecker([GUEST_MODE]), deleteSubscriptionController);
 
 export default subscription;
