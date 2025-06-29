@@ -64,14 +64,12 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
   async update(client: unknown, authTokenStatus: UpdateAuthTokenStatusesInput): Promise<AuthTokenStatusEntity> {
     try {
       const prismaClient = client as PrismaClient;
-      const { clientId, email, issuedAt, expirationTime, ipAddress, userAgent } = authTokenStatus;
+      const { id, clientId, email, issuedAt, expirationTime, ipAddress, userAgent } = authTokenStatus;
       const record = prismaClient.authTokenStatus.update({
         where: {
-          auth_token_email_auth_token_organization_client_id_auth_token_issued_at: {
-            auth_token_email: email,
-            auth_token_organization_client_id: clientId,
-            auth_token_issued_at: issuedAt,
-          },
+          auth_token_id: id,
+          auth_token_organization_client_id: clientId,
+          auth_token_email: email,
         },
         data: {
           auth_token_issued_at: issuedAt,
@@ -91,14 +89,12 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
   async revokeBySession(client: unknown, searchCriteria: RevokeSearchCriteriaInput): Promise<AuthTokenStatusEntity> {
     try {
       const prismaClient = client as PrismaClient;
-      const { clientId, email, issuedAt } = searchCriteria;
+      const { id, clientId, email } = searchCriteria;
       const record = prismaClient.authTokenStatus.update({
         where: {
-          auth_token_email_auth_token_organization_client_id_auth_token_issued_at: {
-            auth_token_email: email,
-            auth_token_organization_client_id: clientId,
-            auth_token_issued_at: issuedAt,
-          },
+          auth_token_id: id,
+          auth_token_organization_client_id: clientId,
+          auth_token_email: email,
           auth_token_revoked: false,
         },
         data: { auth_token_revoked: true },
@@ -133,13 +129,13 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
   async revokeAllExcept(client: unknown, searchCriteria: RevokeSearchCriteriaInput): Promise<number> {
     try {
       const prismaClient = client as PrismaClient;
-      const { clientId, email, issuedAt } = searchCriteria;
+      const { id, clientId, email } = searchCriteria;
       const record = prismaClient.authTokenStatus.updateMany({
         where: {
-          auth_token_email: email,
+          auth_token_id: { not: id },
           auth_token_organization_client_id: clientId,
+          auth_token_email: email,
           auth_token_revoked: false,
-          auth_token_issued_at: { not: issuedAt },
         },
         data: { auth_token_revoked: true },
       });
