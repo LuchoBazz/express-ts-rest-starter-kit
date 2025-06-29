@@ -23,9 +23,8 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
         where: {
           auth_token_email: email,
           auth_token_organization_client_id: clientId,
-          auth_token_issued_at: {
-            not: issuedAt,
-          },
+          auth_token_issued_at: { equals: issuedAt },
+          auth_token_revoked: false,
         },
       });
       // TODO: Add validation taking into account expiration date
@@ -40,7 +39,7 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
       const prismaClient = client as PrismaClient;
       const { clientId, email } = searchCriteria;
       const records = await prismaClient.authTokenStatus.findMany({
-        where: { auth_token_email: email, auth_token_organization_client_id: clientId },
+        where: { auth_token_email: email, auth_token_organization_client_id: clientId, auth_token_revoked: false },
       });
       // TODO: Add validation taking into account expiration date
       return records.map(AuthTokenStatusEntity.fromPrisma).filter((record) => !record.isRevoked());
