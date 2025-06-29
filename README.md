@@ -16,6 +16,11 @@
 
 This starter kit provides a template for creating Express.js projects with Rest API as the API layer.
 
+
+## ⚠️ Disclaimer
+
+🚧 This project is currently under development and may contain bugs or incomplete features. Use it at your own risk. Contributions and feedback are welcome.
+
 ## Installation
 
 ```bash
