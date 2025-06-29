@@ -31,8 +31,8 @@ export class AuthTokenStatusEntity extends Entity {
   protected organizationClientId: string;
   protected issuedAt: Date;
   protected expirationTime: Date;
-  protected ipAddress?: string | null;
-  protected userAgent?: string | null;
+  protected ipAddress: string | null;
+  protected userAgent: string | null;
   protected revoked: boolean;
   protected createdAt: Date;
   protected updatedAt: Date;
@@ -42,8 +42,8 @@ export class AuthTokenStatusEntity extends Entity {
     organizationClientId: string,
     issuedAt: Date,
     expirationTime: Date,
-    ipAddress?: string | null,
-    userAgent?: string | null,
+    ipAddress: string | null,
+    userAgent: string | null,
     revoked: boolean = false,
     createdAt: Date = new Date(),
     updatedAt: Date = new Date(),
@@ -119,17 +119,17 @@ export class AuthTokenStatusEntity extends Entity {
     this.expirationTime = expirationTime;
   }
 
-  public getIpAddress(): string | null | undefined {
+  public getIpAddress(): string | null {
     return this.ipAddress;
   }
-  public setIpAddress(ipAddress?: string | null): void {
+  public setIpAddress(ipAddress: string | null): void {
     this.ipAddress = ipAddress;
   }
 
-  public getUserAgent(): string | null | undefined {
+  public getUserAgent(): string | null {
     return this.userAgent;
   }
-  public setUserAgent(userAgent?: string | null): void {
+  public setUserAgent(userAgent: string | null): void {
     this.userAgent = userAgent;
   }
 

@@ -7,7 +7,11 @@ import {
   signUpInteractor,
   userLoggedInInteractor,
 } from "../../../../core/interactors/authentication/auth.interactor";
-import { getAuthorizationTokenFromHeaders, getClientIdFromHeaders } from "../../../../core/shared/utils/router.util";
+import {
+  getAuthorizationTokenFromHeaders,
+  getClientIdFromHeaders,
+  getNetworkMetadataFromHeaders,
+} from "../../../../core/shared/utils/router.util";
 import { SignUpUser } from "../../../../core/types/authentication/user.type";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { validateSchema } from "../../validator";
@@ -26,9 +30,10 @@ export const signInController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const clientId = getClientIdFromHeaders(request.headers);
+      const networkMetadata = getNetworkMetadataFromHeaders(request.headers);
       const { access_token: accessToken, email } = request.body;
 
-      const token = await signInInteractor(clientId, accessToken as string, email as string);
+      const token = await signInInteractor(clientId, accessToken as string, email as string, networkMetadata);
 
       response.status(HttpStatusCode.OK).json({ data: { token } });
     } catch (error) {
@@ -43,6 +48,7 @@ export const signUpController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const clientId = getClientIdFromHeaders(request.headers);
+      const networkMetadata = getNetworkMetadataFromHeaders(request.headers);
       const {
         access_token: accessToken,
         username,
@@ -67,7 +73,7 @@ export const signUpController = [
         clientId,
       };
 
-      const token = await signUpInteractor(clientId, accessToken as string, data);
+      const token = await signUpInteractor(clientId, accessToken as string, data, networkMetadata);
 
       response.status(HttpStatusCode.OK).json({ data: { token } });
     } catch (error) {
@@ -82,9 +88,10 @@ export const refreshAuthTokenController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const clientId = getClientIdFromHeaders(request.headers);
+      const networkMetadata = getNetworkMetadataFromHeaders(request.headers);
       const { refresh_token: refreshToken } = request.body;
 
-      const newToken = await refreshAuthTokenInteractor(clientId, refreshToken as string);
+      const newToken = await refreshAuthTokenInteractor(clientId, refreshToken as string, networkMetadata);
 
       response.status(HttpStatusCode.OK).json({ data: { token: newToken } });
     } catch (error) {

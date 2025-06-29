@@ -5,12 +5,14 @@ import { JwtDecodedPayload } from "../../entities/users/jwt_user.entity";
 import { StandardUserEntity } from "../../entities/users/standard_user.entity";
 import { AuthTokenStatusesRepository } from "../../repositories/authentication/auth_token_statuses/auth_token_statuses_repository.interface";
 import { TokenRepository } from "../../repositories/authentication/token/token_repository.interface";
+import { RequestNetworkMetadata } from "../../types/authentication/request_network_metadata.types";
 
 export const generateAndSaveAuthTokenStatusUseCase = async (
   tokenRepository: TokenRepository,
   authTokenStatusRepository: AuthTokenStatusesRepository,
   client: PrismaClient,
   user: StandardUserEntity,
+  requestMetadata: RequestNetworkMetadata,
 ): Promise<string> => {
   const tokenEncodedResponse = await tokenRepository.encoded(user);
   const { payload, token } = tokenEncodedResponse;
@@ -19,9 +21,8 @@ export const generateAndSaveAuthTokenStatusUseCase = async (
     user.getClientId(),
     new Date((payload?.iat ?? 0) * 1000),
     new Date((payload?.exp ?? 0) * 1000),
-    // TODO: Update with dynamic data
-    "192.168.1.1",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+    requestMetadata.ipAddress,
+    requestMetadata.userAgent,
   );
   await authTokenStatusRepository.create(client, authTokenStatus);
   return token;
