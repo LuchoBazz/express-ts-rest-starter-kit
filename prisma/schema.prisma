@@ -216,7 +216,7 @@ model SubscriptionPlan {
 }
 
 model Subscription {
-  subscriptions_id                        String      @id @default(uuid()) @db.Uuid
+  subscriptions_id                        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   subscriptions_user_id                   String      @db.Uuid
   subscriptions_subscription_plan_id      String      @db.Uuid
   subscriptions_external_subscription_id  String      @db.VarChar(255)
@@ -243,7 +243,7 @@ model Subscription {
 }
 
 model Payment {
-  payment_id                       String    @id @default(uuid()) @db.Uuid
+  payment_id                       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   payment_subscription_id          String    @db.Uuid
   payment_amount                   Float     @default(0.0)
   payment_currency                 String    @db.VarChar(4)

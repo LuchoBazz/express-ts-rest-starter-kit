@@ -1,6 +1,3 @@
--- AlterTable
-ALTER TABLE "subscriptions"."subscriptions" ALTER COLUMN "subscriptions_id" DROP DEFAULT;
-
 -- CreateTable
 CREATE TABLE "subscriptions"."payments" (
     "payment_id" UUID NOT NULL DEFAULT gen_random_uuid(),
