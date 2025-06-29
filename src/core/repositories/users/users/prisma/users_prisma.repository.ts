@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { ErrorMessage } from "../../../../../adapters/api/errors/errors.enum";
 import { InternalServerError } from "../../../../../adapters/api/errors/internal_server.error";
 import { prismaGlobalExceptionFilter } from "../../../../../adapters/api/errors/prisma_global_exception_filter";
-import { StandardUserEntity, UserPrisma } from "../../../../entities/users/standard_user.entity";
+import { StandardUserEntity, UserPrisma } from "../../../../entities/users/a_standard_user.entity";
 import { UpdateUserInput, UserSearchCriteriaInput } from "../../../../types/users/user.types";
 import { UserRepository } from "../users_repository.interface";
 

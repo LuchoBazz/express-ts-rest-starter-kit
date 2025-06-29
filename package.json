@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rm -rf ./build && ./node_modules/typescript/bin/tsc",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet && prettier --check '{src,test}/**/*.ts' && prettier --check '**/*.{yml,yaml}'",
-    "linter-fix": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix && npm run prettier",
+    "linter-fix": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix && npm run prettier && npx prisma format",
     "prettier": "./node_modules/prettier/bin/prettier.cjs --write .",
     "start:dev": "npm run build && nodemon ./build/src/app/server.js",
     "start:prod": "npm run build && node ./build/src/app/server.js",

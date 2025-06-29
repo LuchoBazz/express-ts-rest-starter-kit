@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["multiSchema"]
 }
 
@@ -17,23 +17,23 @@ datasource db {
 
 // Organizations
 model Organization {
-  organization_id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  organization_name          String    @db.VarChar(127)
-  organization_client_id     String    @db.VarChar(63)
-  organization_created_at    DateTime  @default(now()) @db.Timestamptz
-  organization_updated_at    DateTime  @default(now()) @db.Timestamptz
-  
-  @@schema("organizations")
-  @@map(name: "organizations")
-  @@unique([organization_id], name: "organization_pk") 
-  @@unique([organization_client_id], name: "organization_client_id_unique")
+  organization_id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  organization_name       String   @db.VarChar(127)
+  organization_client_id  String   @db.VarChar(63)
+  organization_created_at DateTime @default(now()) @db.Timestamptz
+  organization_updated_at DateTime @default(now()) @db.Timestamptz
 
-  organization_users         User[]    @relation("users_organizations_fk")
-  feature_flags              FeatureFlag[] @relation("feature_flags_organizations_fk")
-  configurations             Configuration[] @relation("organizations_configurations_fk")
-  subscription_plans         SubscriptionPlan[] @relation("organizations_subscription_plans_fk")
-  subscriptions              Subscription[] @relation("organizations_subscriptions_fk")
-  payments                   Payment[] @relation("organizations_payments_fk")
+  organization_users User[]             @relation("users_organizations_fk")
+  feature_flags      FeatureFlag[]      @relation("feature_flags_organizations_fk")
+  configurations     Configuration[]    @relation("organizations_configurations_fk")
+  subscription_plans SubscriptionPlan[] @relation("organizations_subscription_plans_fk")
+  subscriptions      Subscription[]     @relation("organizations_subscriptions_fk")
+  payments           Payment[]          @relation("organizations_payments_fk")
+
+  @@unique([organization_id], name: "organization_pk")
+  @@unique([organization_client_id], name: "organization_client_id_unique")
+  @@map(name: "organizations")
+  @@schema("organizations")
 }
 
 // User
@@ -56,208 +56,208 @@ enum AuthType {
 }
 
 model User {
-  user_id                      String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_username                String       @db.VarChar(63)
-  user_first_name              String       @db.VarChar(63)
-  user_last_name               String       @db.VarChar(63)
-  user_email                   String       @db.VarChar(63)
-  user_identification_number   String?      @db.VarChar(63)
-  user_phone_number            String?      @db.VarChar(31)
-  user_terms                   Boolean      @default(false)
-  user_notifications           Boolean      @default(false)
-  user_is_active               Boolean      @default(true)
-  user_uid                     String       @db.VarChar(255)
-  user_role                    String       @db.VarChar(63)
-  user_auth_provider           AuthProvider
-  user_auth_type               AuthType
-  user_organization_client_id  String       @db.VarChar(63)
-  user_created_at              DateTime     @default(now()) @db.Timestamptz
-  user_updated_at              DateTime     @default(now()) @db.Timestamptz
+  user_id                     String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_username               String       @db.VarChar(63)
+  user_first_name             String       @db.VarChar(63)
+  user_last_name              String       @db.VarChar(63)
+  user_email                  String       @db.VarChar(63)
+  user_identification_number  String?      @db.VarChar(63)
+  user_phone_number           String?      @db.VarChar(31)
+  user_terms                  Boolean      @default(false)
+  user_notifications          Boolean      @default(false)
+  user_is_active              Boolean      @default(true)
+  user_uid                    String       @db.VarChar(255)
+  user_role                   String       @db.VarChar(63)
+  user_auth_provider          AuthProvider
+  user_auth_type              AuthType
+  user_organization_client_id String       @db.VarChar(63)
+  user_created_at             DateTime     @default(now()) @db.Timestamptz
+  user_updated_at             DateTime     @default(now()) @db.Timestamptz
 
-  @@schema("users")
-  @@map(name: "users")
+  user_organization   Organization      @relation(fields: [user_organization_client_id], references: [organization_client_id], onDelete: Cascade, name: "users_organizations_fk")
+  user_role_reference Role              @relation(fields: [user_role], references: [role_name], name: "users_roles_fk")
+  authTokens          AuthTokenStatus[] @relation(name: "auth_token_statuses_users_fk")
 
   @@unique([user_email, user_organization_client_id], name: "user_email_user_organization_client_id")
-
-  user_organization            Organization @relation(fields: [user_organization_client_id], references: [organization_client_id], onDelete: Cascade,  name: "users_organizations_fk")
-  user_role_reference          Role @relation(fields: [user_role], references: [role_name], name: "users_roles_fk")
-  authTokens                   AuthTokenStatus[]  @relation(name: "auth_token_statuses_users_fk")
+  @@map(name: "users")
+  @@schema("users")
 }
 
 // Roles
 model Role {
-  role_id           String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  role_name         String          @db.VarChar(63)
-  role_created_at   DateTime        @default(now()) @db.Timestamptz
-  role_updated_at   DateTime        @default(now()) @db.Timestamptz
+  role_id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  role_name       String   @db.VarChar(63)
+  role_created_at DateTime @default(now()) @db.Timestamptz
+  role_updated_at DateTime @default(now()) @db.Timestamptz
 
-  @@schema("users")
-  @@map(name: "roles")
+  users              User[]               @relation("users_roles_fk")
+  permissionsOnRoles PermissionsOnRoles[] @relation("role_permission_assignments")
+
   @@unique([role_name], name: "role_name_unique")
-
-  users              User[]                   @relation("users_roles_fk")
-  permissionsOnRoles PermissionsOnRoles[]     @relation("role_permission_assignments")
+  @@map(name: "roles")
+  @@schema("users")
 }
-
 
 // Feature Flag
 model FeatureFlag {
-  feature_flag_id                        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  feature_flag_key                       String       @db.VarChar(255)
-  feature_flag_value                     Boolean      @default(false)
-  feature_flag_is_active                 Boolean      @default(true)
-  feature_flag_organization_client_id    String       @db.VarChar(63)
-  feature_flag_created_at                DateTime     @default(now()) @db.Timestamptz
-  feature_flag_updated_at                DateTime     @default(now()) @db.Timestamptz
+  feature_flag_id                     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  feature_flag_key                    String   @db.VarChar(255)
+  feature_flag_value                  Boolean  @default(false)
+  feature_flag_is_active              Boolean  @default(true)
+  feature_flag_organization_client_id String   @db.VarChar(63)
+  feature_flag_created_at             DateTime @default(now()) @db.Timestamptz
+  feature_flag_updated_at             DateTime @default(now()) @db.Timestamptz
 
-  @@schema("organizations")
-  @@map(name: "feature_flags")
+  organization Organization @relation(fields: [feature_flag_organization_client_id], references: [organization_client_id], name: "feature_flags_organizations_fk")
 
-  organization                           Organization @relation(fields: [feature_flag_organization_client_id], references: [organization_client_id], name: "feature_flags_organizations_fk")
   @@unique([feature_flag_key, feature_flag_organization_client_id], name: "unique_feature_flag_key_and_feature_flag_organization_client_id")
+  @@map(name: "feature_flags")
+  @@schema("organizations")
 }
-
 
 // Configurations
 model Configuration {
-  configuration_id                        String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  configuration_key                       String                   @db.VarChar(255)
-  configuration_value                     String                   @db.Text
-  configuration_type                      ConfigurationTypeEnum
-  configuration_is_active                 Boolean                  @default(true)
-  configuration_organization_client_id    String                   @db.VarChar(63)
-  configuration_created_at                DateTime                 @default(now()) @db.Timestamptz
-  configuration_updated_at                DateTime                 @default(now()) @db.Timestamptz
-  
-  @@schema("organizations")
-  @@map(name: "configurations")
+  configuration_id                     String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  configuration_key                    String                @db.VarChar(255)
+  configuration_value                  String                @db.Text
+  configuration_type                   ConfigurationTypeEnum
+  configuration_is_active              Boolean               @default(true)
+  configuration_organization_client_id String                @db.VarChar(63)
+  configuration_created_at             DateTime              @default(now()) @db.Timestamptz
+  configuration_updated_at             DateTime              @default(now()) @db.Timestamptz
 
-  organization                            Organization             @relation(fields: [configuration_organization_client_id], references: [organization_client_id], name: "organizations_configurations_fk")
+  organization Organization @relation(fields: [configuration_organization_client_id], references: [organization_client_id], name: "organizations_configurations_fk")
+
   @@unique([configuration_key, configuration_organization_client_id], name: "unique_configuration_key_and_configuration_organization_client_id")
-
+  @@map(name: "configurations")
+  @@schema("organizations")
 }
 
 enum ConfigurationTypeEnum {
   ENUM
   JSON
-  @@schema("organizations")
+
   @@map(name: "configuration_type_enum")
+  @@schema("organizations")
 }
 
 // Permissions
 model Permission {
-  permission_id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  permission_name         String      @db.VarChar(63)
-  permission_created_at   DateTime    @default(now()) @db.Timestamptz
-  permission_updated_at   DateTime    @default(now()) @db.Timestamptz 
+  permission_id         String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  permission_name       String               @db.VarChar(63)
+  permission_created_at DateTime             @default(now()) @db.Timestamptz
+  permission_updated_at DateTime             @default(now()) @db.Timestamptz
+  permissionsOnRoles    PermissionsOnRoles[] @relation("permission_roles_assigned")
 
-  @@schema("users")
-  @@map(name: "permissions") 
   @@unique([permission_name], name: "unique_permission_name")
-  permissionsOnRoles PermissionsOnRoles[] @relation("permission_roles_assigned")
+  @@map(name: "permissions")
+  @@schema("users")
 }
 
 model PermissionsOnRoles {
-  role                                  Role        @relation(fields: [permissions_on_roles_role_name], references: [role_name], name: "role_permission_assignments")
-  permissions_on_roles_role_name        String      @db.VarChar(63)
-  permission                            Permission  @relation(fields: [permissions_on_roles_permission_name], references: [permission_name], name: "permission_roles_assigned")
-  permissions_on_roles_permission_name  String      @db.VarChar(63)
-  permissions_on_roles_created_at       DateTime    @default(now()) @db.Timestamptz
-  permissions_on_roles_updated_at       DateTime    @default(now()) @db.Timestamptz 
+  role                                 Role       @relation(fields: [permissions_on_roles_role_name], references: [role_name], name: "role_permission_assignments")
+  permissions_on_roles_role_name       String     @db.VarChar(63)
+  permission                           Permission @relation(fields: [permissions_on_roles_permission_name], references: [permission_name], name: "permission_roles_assigned")
+  permissions_on_roles_permission_name String     @db.VarChar(63)
+  permissions_on_roles_created_at      DateTime   @default(now()) @db.Timestamptz
+  permissions_on_roles_updated_at      DateTime   @default(now()) @db.Timestamptz
 
-  @@schema("users")
-  @@map(name: "permissions_on_roles")
   @@id([permissions_on_roles_role_name, permissions_on_roles_permission_name])
+  @@map(name: "permissions_on_roles")
+  @@schema("users")
 }
 
 // AuthTokenStatuses
 model AuthTokenStatus {
-  auth_token_id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_token_user            String      @db.Uuid
-  auth_token_issued_at       BigInt      @db.BigInt
-  auth_token_expiration_time BigInt      @db.BigInt
-  auth_token_created_at      DateTime    @default(now()) @db.Timestamptz
-  auth_token_updated_at      DateTime    @default(now()) @db.Timestamptz
-  
+  auth_token_id                     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  auth_token_email                  String   @db.VarChar(63)
+  auth_token_organization_client_id String   @db.VarChar(63)
+  auth_token_issued_at              DateTime @db.Timestamptz
+  auth_token_expiration_time        DateTime @db.Timestamptz
+  auth_token_ip_address             String?  @db.VarChar(63)
+  auth_token_user_agent             String?  @db.VarChar(255)
+  auth_token_revoked                Boolean  @default(false)
+  auth_token_created_at             DateTime @default(now()) @db.Timestamptz
+  auth_token_updated_at             DateTime @default(now()) @db.Timestamptz
+
+  user User @relation(fields: [auth_token_email, auth_token_organization_client_id], references: [user_email, user_organization_client_id], name: "auth_token_statuses_users_fk", onDelete: Cascade)
+
+  @@unique([auth_token_email, auth_token_organization_client_id, auth_token_issued_at], map: "unique_auth_token_statuses_email_client_id_issued_at")
   @@map(name: "auth_token_statuses")
   @@schema("users")
-
-  user                       User        @relation(fields: [auth_token_user], references: [user_id], name: "auth_token_statuses_users_fk", onDelete: Cascade)
 }
 
 // Suscriptions
 model SubscriptionPlan {
-  subscription_plan_id                        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  subscription_plan_name                      String      @db.VarChar(63)
-  subscription_plan_product_id                String      @db.VarChar(255)
-  subscription_plan_variants                  String[]    @db.VarChar
-  subscription_plan_slug                      String      @unique @db.VarChar(63)
-  subscription_plan_price                     Float       @default(0.0)
-  subscription_plan_href                      String?     @db.VarChar(255)
-  subscription_plan_billing_cycle             String      @unique @db.VarChar(63) // 'monthly', 'yearly'
-  subscription_plan_description               String      @db.VarChar(255)
-  subscription_plan_node_quota                Int         @default(100)
-  subscription_plan_features                  Json        @default("[]")
-  subscription_plan_most_popular              Boolean     @default(false)
-  subscription_plan_tier                      Int         @default(0)
-  subscription_plan_is_active                 Boolean     @default(true)
-  subscription_plan_organization_client_id    String      @db.VarChar(63)
-  subscription_plan_created_at                DateTime    @default(now()) @db.Timestamptz(6)
-  subscription_plan_updated_at                DateTime    @updatedAt @db.Timestamptz(6)
+  subscription_plan_id                     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subscription_plan_name                   String   @db.VarChar(63)
+  subscription_plan_product_id             String   @db.VarChar(255)
+  subscription_plan_variants               String[] @db.VarChar
+  subscription_plan_slug                   String   @unique @db.VarChar(63)
+  subscription_plan_price                  Float    @default(0.0)
+  subscription_plan_href                   String?  @db.VarChar(255)
+  subscription_plan_billing_cycle          String   @unique @db.VarChar(63) // 'monthly', 'yearly'
+  subscription_plan_description            String   @db.VarChar(255)
+  subscription_plan_node_quota             Int      @default(100)
+  subscription_plan_features               Json     @default("[]")
+  subscription_plan_most_popular           Boolean  @default(false)
+  subscription_plan_tier                   Int      @default(0)
+  subscription_plan_is_active              Boolean  @default(true)
+  subscription_plan_organization_client_id String   @db.VarChar(63)
+  subscription_plan_created_at             DateTime @default(now()) @db.Timestamptz(6)
+  subscription_plan_updated_at             DateTime @updatedAt @db.Timestamptz(6)
 
+  organization  Organization   @relation(fields: [subscription_plan_organization_client_id], references: [organization_client_id], onDelete: Cascade, name: "organizations_subscription_plans_fk")
+  subscriptions Subscription[] @relation("subscription_plans_subscriptions_fk")
 
-  @@schema("subscriptions")
-  @@map(name: "subscription_plans")
-  @@index([subscription_plan_organization_client_id])
   @@unique([subscription_plan_id, subscription_plan_organization_client_id], name: "unique_subscription_plan_id_and_subscription_organization_client_id")
-
-  organization                  Organization   @relation(fields: [subscription_plan_organization_client_id], references: [organization_client_id], onDelete: Cascade,  name: "organizations_subscription_plans_fk")
-  subscriptions                 Subscription[] @relation("subscription_plans_subscriptions_fk")
+  @@index([subscription_plan_organization_client_id])
+  @@map(name: "subscription_plans")
+  @@schema("subscriptions")
 }
 
 model Subscription {
-  subscriptions_id                        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  subscriptions_user_id                   String      @db.Uuid
-  subscriptions_subscription_plan_id      String      @db.Uuid
-  subscriptions_external_subscription_id  String      @db.VarChar(255)
-  subscriptions_billing_cycle             String      @db.VarChar(63) // // 'monthly', 'yearly'
-  subscriptions_status                    String      @db.VarChar(63) // 'active', 'cancelled', 'past_due', 'paused'
-  subscriptions_is_active                 Boolean     @default(true)
-  subscriptions_renews_at                 DateTime    @db.Timestamptz(6)
-  subscriptions_starts_at                 DateTime    @default(now()) @db.Timestamptz(6)
-  subscriptions_ends_at                   DateTime    @db.Timestamptz(6)
-  subscriptions_organization_client_id    String      @db.VarChar(63)
-  subscriptions_created_at                DateTime    @default(now()) @db.Timestamptz(6)
-  subscriptions_updated_at                DateTime    @updatedAt @db.Timestamptz(6)
+  subscriptions_id                       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subscriptions_user_id                  String   @db.Uuid
+  subscriptions_subscription_plan_id     String   @db.Uuid
+  subscriptions_external_subscription_id String   @db.VarChar(255)
+  subscriptions_billing_cycle            String   @db.VarChar(63) // // 'monthly', 'yearly'
+  subscriptions_status                   String   @db.VarChar(63) // 'active', 'cancelled', 'past_due', 'paused'
+  subscriptions_is_active                Boolean  @default(true)
+  subscriptions_renews_at                DateTime @db.Timestamptz(6)
+  subscriptions_starts_at                DateTime @default(now()) @db.Timestamptz(6)
+  subscriptions_ends_at                  DateTime @db.Timestamptz(6)
+  subscriptions_organization_client_id   String   @db.VarChar(63)
+  subscriptions_created_at               DateTime @default(now()) @db.Timestamptz(6)
+  subscriptions_updated_at               DateTime @updatedAt @db.Timestamptz(6)
 
-  @@schema("subscriptions")
-  @@map(name: "subscriptions")
+  organization      Organization     @relation(fields: [subscriptions_organization_client_id], references: [organization_client_id], onDelete: Cascade, name: "organizations_subscriptions_fk")
+  subscription_plan SubscriptionPlan @relation(fields: [subscriptions_subscription_plan_id], references: [subscription_plan_id], onDelete: Cascade, name: "subscription_plans_subscriptions_fk")
+  payments          Payment[]        @relation("subscriptions_payment_fk")
+
   @@index([subscriptions_organization_client_id])
-
   @@index([subscriptions_user_id])
   @@index([subscriptions_subscription_plan_id])
-
-  organization                  Organization       @relation(fields: [subscriptions_organization_client_id], references: [organization_client_id], onDelete: Cascade,  name: "organizations_subscriptions_fk")
-  subscription_plan             SubscriptionPlan   @relation(fields: [subscriptions_subscription_plan_id], references: [subscription_plan_id], onDelete: Cascade,  name: "subscription_plans_subscriptions_fk")
-  payments                      Payment[]          @relation("subscriptions_payment_fk")
+  @@map(name: "subscriptions")
+  @@schema("subscriptions")
 }
 
 model Payment {
-  payment_id                       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  payment_subscription_id          String    @db.Uuid
-  payment_amount                   Float     @default(0.0)
-  payment_currency                 String    @db.VarChar(4)
-  payment_date                     DateTime  @db.Timestamptz(6)
-  payment_external_payment_id      String    @db.VarChar(255)
-  payment_status                   String    @db.VarChar(63) // 'completed', 'failed', 'pending'
-  payment_organization_client_id   String    @db.VarChar(63)
-  payment_created_at               DateTime  @default(now()) @db.Timestamptz(6)
-  payment_updated_at               DateTime  @updatedAt @db.Timestamptz(6)
-
-  @@schema("subscriptions")
-  @@map(name: "payments")
-  @@index([payment_subscription_id])
+  payment_id                     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  payment_subscription_id        String   @db.Uuid
+  payment_amount                 Float    @default(0.0)
+  payment_currency               String   @db.VarChar(4)
+  payment_date                   DateTime @db.Timestamptz(6)
+  payment_external_payment_id    String   @db.VarChar(255)
+  payment_status                 String   @db.VarChar(63) // 'completed', 'failed', 'pending'
+  payment_organization_client_id String   @db.VarChar(63)
+  payment_created_at             DateTime @default(now()) @db.Timestamptz(6)
+  payment_updated_at             DateTime @updatedAt @db.Timestamptz(6)
 
   organization Organization @relation(fields: [payment_organization_client_id], references: [organization_client_id], name: "organizations_payments_fk")
   subscription Subscription @relation(fields: [payment_subscription_id], references: [subscriptions_id], onDelete: Cascade, name: "subscriptions_payment_fk")
+
+  @@index([payment_subscription_id])
+  @@map(name: "payments")
+  @@schema("subscriptions")
 }

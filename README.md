@@ -47,6 +47,9 @@ npx prisma migrate deploy
 
 # Generate Schemas
 npx prisma generate
+
+# Format prisma Schema
+npx prisma format
 ```
 
 ## Seed

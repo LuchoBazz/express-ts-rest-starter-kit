@@ -4,14 +4,15 @@ import moment from "moment";
 import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
 import { onSession } from "../../../infrastructure/database/prisma";
+import { AuthType, StandardUserEntity } from "../../entities/users/a_standard_user.entity";
 import { JwtUserPayload } from "../../entities/users/jwt_user.entity";
-import { AuthType, StandardUserEntity } from "../../entities/users/standard_user.entity";
 import { BaseUserEntity } from "../../entities/users/user_base.entity";
 import { ConfigManager } from "../../libs/config_manager";
 import { getAuthRepository } from "../../repositories/authentication/auth";
 import { getAuthTokenStatusesRepository } from "../../repositories/authentication/auth_token_statuses";
 import { getTokenRepository } from "../../repositories/authentication/token";
 import { getUserRepository } from "../../repositories/users/users";
+import { RequestNetworkMetadata } from "../../types/authentication/request_network_metadata.types";
 import { SignUpUser } from "../../types/authentication/user.type";
 import {
   disabledAuthTokenStatusUseCase,
@@ -19,7 +20,12 @@ import {
 } from "../../use_cases/auth_token_statuses";
 
 // TODO: Add tests
-export const signInInteractor = async (clientId: string, accessToken: string, email: string): Promise<string> => {
+export const signInInteractor = async (
+  clientId: string,
+  accessToken: string,
+  email: string,
+  networkMetadata: RequestNetworkMetadata,
+): Promise<string> => {
   const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
   const authRepository = getAuthRepository(authProviderLabel);
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
@@ -35,11 +41,22 @@ export const signInInteractor = async (clientId: string, accessToken: string, em
     if (!user) {
       throw new UnauthorizedError(ErrorMessage.USER_NOT_FOUND);
     }
-    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, user);
+    return generateAndSaveAuthTokenStatusUseCase(
+      tokenRepository,
+      authTokenStatusRepository,
+      client,
+      user,
+      networkMetadata,
+    );
   });
 };
 
-export const signUpInteractor = async (clientId: string, accessToken: string, data: SignUpUser): Promise<string> => {
+export const signUpInteractor = async (
+  clientId: string,
+  accessToken: string,
+  data: SignUpUser,
+  networkMetadata: RequestNetworkMetadata,
+): Promise<string> => {
   const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
   const authRepository = getAuthRepository(authProviderLabel);
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
@@ -70,11 +87,21 @@ export const signUpInteractor = async (clientId: string, accessToken: string, da
         clientId,
       ),
     );
-    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, user);
+    return generateAndSaveAuthTokenStatusUseCase(
+      tokenRepository,
+      authTokenStatusRepository,
+      client,
+      user,
+      networkMetadata,
+    );
   });
 };
 
-export const refreshAuthTokenInteractor = async (clientId: string, refreshToken: string): Promise<string> => {
+export const refreshAuthTokenInteractor = async (
+  clientId: string,
+  refreshToken: string,
+  networkMetadata: RequestNetworkMetadata,
+): Promise<string> => {
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
   const tokenRepository = getTokenRepository();
   const userRepository = getUserRepository();
@@ -98,7 +125,13 @@ export const refreshAuthTokenInteractor = async (clientId: string, refreshToken:
     if (!user) {
       throw new UnauthorizedError(ErrorMessage.USER_NOT_FOUND);
     }
-    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, user);
+    return generateAndSaveAuthTokenStatusUseCase(
+      tokenRepository,
+      authTokenStatusRepository,
+      client,
+      user,
+      networkMetadata,
+    );
   });
 };
 
@@ -113,8 +146,8 @@ export const userLoggedInInteractor = async (clientId: string, token: string): P
   const ats = await onSession(async (client: PrismaClient) => {
     return authTokenStatusRepository.findOne(client, {
       clientId,
-      userId: jwtDecoded.user.id,
-      issuedAt: jwtDecoded.iat,
+      email: jwtDecoded.user.email,
+      issuedAt: new Date(jwtDecoded.iat * 1000),
     });
   });
 

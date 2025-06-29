@@ -1,7 +1,8 @@
+// eslint-disable import/order
 import { NextFunction, Request, Response } from "express";
 
+import { AuthProvider, AuthType, StandardUserEntity } from "../../../core/entities/users/a_standard_user.entity";
 import { GuestUserEntity } from "../../../core/entities/users/guest_user.entity";
-import { AuthProvider, AuthType, StandardUserEntity } from "../../../core/entities/users/standard_user.entity";
 import { getTokenRepository } from "../../../core/repositories/authentication/token";
 import { getAuthorizationTokenFromHeaders, getClientIdFromHeaders } from "../../../core/shared/utils/router.util";
 

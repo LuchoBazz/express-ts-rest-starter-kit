@@ -128,7 +128,7 @@
     "guard-for-in": "error",
     "id-denylist": ["error", "any", "Number", "String", "string", "Boolean", "boolean", "Undefined", "undefined"],
     "id-match": "error",
-    "import/order": "error",
+    "import/order": ["error", { "groups": ["builtin", "external", "internal"] }],
     "import/no-duplicates": "error",
     "jsdoc/check-alignment": "off",
     "jsdoc/check-indentation": "off",

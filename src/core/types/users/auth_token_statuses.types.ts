@@ -1,12 +1,20 @@
 export interface UpdateAuthTokenStatusesInput {
   clientId: string;
-  authTokenStatusId: string;
-  issuedAt?: number;
-  expirationTime?: number;
+  email: string;
+  issuedAt: Date;
+  expirationTime?: Date;
+  ipAddress?: string | null;
+  userAgent?: string | null;
 }
 
 export interface AuthTokenStatusesSearchCriteriaInput {
   clientId: string;
-  userId: string;
-  issuedAt?: number;
+  email: string;
+  issuedAt?: Date;
+}
+
+export interface LogOutSearchCriteriaInput {
+  clientId: string;
+  email: string;
+  issuedAt: Date;
 }
