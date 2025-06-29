@@ -1,6 +1,7 @@
 export interface JwtUserPayload {
   id: string;
   auth_id: string;
+  auth_token_status_id: string;
   email: string;
   username: string;
   first_name: string;

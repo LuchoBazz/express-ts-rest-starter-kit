@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import moment from "moment";
 
 import { StandardUserEntity } from "../../entities/users/a_standard_user.entity";
 import { AuthTokenStatusEntity } from "../../entities/users/auth_token_statuses.entity";
@@ -14,17 +15,20 @@ export const generateAndSaveAuthTokenStatusUseCase = async (
   user: StandardUserEntity,
   requestMetadata: RequestNetworkMetadata,
 ): Promise<string> => {
-  const tokenEncodedResponse = await tokenRepository.encoded(user);
-  const { payload, token } = tokenEncodedResponse;
+  const iatDate = moment();
+  const issuedAt = iatDate.unix();
+  const expirationTime = iatDate.add(7, "days").unix();
   const authTokenStatus = new AuthTokenStatusEntity(
     user.getEmail(),
     user.getClientId(),
-    new Date((payload?.iat ?? 0) * 1000),
-    new Date((payload?.exp ?? 0) * 1000),
+    new Date(issuedAt * 1000),
+    new Date(expirationTime * 1000),
     requestMetadata.ipAddress,
     requestMetadata.userAgent,
   );
-  await authTokenStatusRepository.create(client, authTokenStatus);
+  const ats = await authTokenStatusRepository.create(client, authTokenStatus);
+  const tokenEncodedResponse = await tokenRepository.encoded(user, issuedAt, expirationTime, ats.getId());
+  const { token } = tokenEncodedResponse;
   return token;
 };
 

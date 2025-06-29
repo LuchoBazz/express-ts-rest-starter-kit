@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import moment from "moment";
 
 import { StandardUserEntity } from "../../../../entities/users/a_standard_user.entity";
 import { JwtAuthPayload, JwtDecodedPayload, JwtUserPayload } from "../../../../entities/users/jwt_user.entity";
@@ -26,12 +25,17 @@ export const JwtTokenRepository: TokenRepository = {
     }
     return Promise.resolve({ clientId, jwtDecoded });
   },
-  encoded(user: StandardUserEntity): Promise<TokenEncodedResponse> {
-    const iatDate = moment();
+  encoded(
+    user: StandardUserEntity,
+    issuedAt: number,
+    expirationTime: number,
+    authTokenStatusId: string,
+  ): Promise<TokenEncodedResponse> {
     const payload: JwtDecodedPayload = {
       user: {
         id: user.getId(),
         auth_id: user.getUid(),
+        auth_token_status_id: authTokenStatusId,
         email: user.getEmail(),
         username: user.getUsername(),
         first_name: user.getFirstName(),
@@ -41,8 +45,8 @@ export const JwtTokenRepository: TokenRepository = {
         auth_provider: user.getAuthProvider(),
         auth_type: user.getAuthType(),
       },
-      iat: iatDate.unix(),
-      exp: iatDate.add(7, "days").unix(),
+      iat: issuedAt,
+      exp: expirationTime,
       sub: user.getId(),
       iss: "express-ts-rest-starter-kit", // TODO: Replace with the real name or identifier of your application or service
       aud: ["express-ts-rest-starter-kit"], // TODO: Replace with the actual audience(s) allowed to use this token (e.g. frontend app, mobile client)

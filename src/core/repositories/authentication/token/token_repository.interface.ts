@@ -4,5 +4,10 @@ import { TokenEncodedResponse } from "../../../types/authentication/token.types"
 
 export interface TokenRepository {
   decode(clientId: string, token: string): Promise<UserLoggedInPayload>;
-  encoded(user: StandardUserEntity): Promise<TokenEncodedResponse>;
+  encoded(
+    user: StandardUserEntity,
+    issuedAt: number,
+    expirationTime: number,
+    authTokenStatusId: string,
+  ): Promise<TokenEncodedResponse>;
 }
