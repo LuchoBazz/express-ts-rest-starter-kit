@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import moment from "moment";
 
+import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
+import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
 import { StandardUserEntity } from "../../entities/users/a_standard_user.entity";
 import { AuthTokenStatusEntity } from "../../entities/users/auth_token_statuses.entity";
 import { JwtDecodedPayload } from "../../entities/users/jwt_user.entity";
@@ -40,8 +42,21 @@ export const disabledAuthTokenStatusUseCase = async (
 ): Promise<boolean> => {
   const ats = await authTokenStatusRepository.revokeBySession(client, {
     clientId,
+    id: jwtDecoded.user.auth_token_status_id,
     email: jwtDecoded.user.email,
-    issuedAt: new Date(jwtDecoded.iat * 1000),
   });
   return ats.isRevoked();
+};
+
+export const getAuthorizedTokenPayload = async (
+  tokenRepository: TokenRepository,
+  clientId: string,
+  token: string,
+): Promise<JwtDecodedPayload> => {
+  const decodedUser = await tokenRepository.decode(clientId, token);
+  const { jwtDecoded } = decodedUser;
+  if (!jwtDecoded || clientId !== jwtDecoded.user.client_id) {
+    throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
+  }
+  return jwtDecoded;
 };

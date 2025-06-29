@@ -17,6 +17,7 @@ import { SignUpUser } from "../../types/authentication/user.type";
 import {
   disabledAuthTokenStatusUseCase,
   generateAndSaveAuthTokenStatusUseCase,
+  getAuthorizedTokenPayload,
 } from "../../use_cases/auth_token_statuses";
 
 // TODO: Add tests
@@ -107,11 +108,7 @@ export const refreshAuthTokenInteractor = async (
   const userRepository = getUserRepository();
 
   return onSession(async (client: PrismaClient) => {
-    const userLoggedIn = await tokenRepository.decode(clientId, refreshToken);
-    const { jwtDecoded } = userLoggedIn;
-    if (!jwtDecoded) {
-      throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
-    }
+    const jwtDecoded = await getAuthorizedTokenPayload(tokenRepository, clientId, refreshToken);
     const tokenInvalidated = await disabledAuthTokenStatusUseCase(
       authTokenStatusRepository,
       client,
@@ -137,11 +134,7 @@ export const refreshAuthTokenInteractor = async (
 
 export const userLoggedInInteractor = async (clientId: string, token: string): Promise<JwtUserPayload> => {
   const tokenRepository = getTokenRepository();
-  const decodedUser = await tokenRepository.decode(clientId, token);
-  const { jwtDecoded } = decodedUser;
-  if (!jwtDecoded || clientId !== jwtDecoded.user.client_id) {
-    throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
-  }
+  const jwtDecoded = await getAuthorizedTokenPayload(tokenRepository, clientId, token);
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
   const ats = await onSession(async (client: PrismaClient) => {
     return authTokenStatusRepository.findOne(client, jwtDecoded.user.auth_token_status_id);
@@ -178,11 +171,7 @@ export const deleteAuthUserInteractor = async (
 
 export const logOutInteractor = async (clientId: string, token: string): Promise<boolean> => {
   const tokenRepository = getTokenRepository();
-  const decodedUser = await tokenRepository.decode(clientId, token);
-  const { jwtDecoded } = decodedUser;
-  if (!jwtDecoded || clientId !== jwtDecoded.user.client_id) {
-    throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
-  }
+  const jwtDecoded = await getAuthorizedTokenPayload(tokenRepository, clientId, token);
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
   await onSession(async (client: PrismaClient) => {
     return authTokenStatusRepository.revokeBySession(client, {
@@ -196,11 +185,7 @@ export const logOutInteractor = async (clientId: string, token: string): Promise
 
 export const revokeAllTokensByUserInteractor = async (clientId: string, token: string): Promise<boolean> => {
   const tokenRepository = getTokenRepository();
-  const decodedUser = await tokenRepository.decode(clientId, token);
-  const { jwtDecoded } = decodedUser;
-  if (!jwtDecoded || clientId !== jwtDecoded.user.client_id) {
-    throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
-  }
+  const jwtDecoded = await getAuthorizedTokenPayload(tokenRepository, clientId, token);
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
   const count = await onSession(async (client: PrismaClient) => {
     return authTokenStatusRepository.revokeAllByUserId(client, clientId, jwtDecoded.user.email);
@@ -210,11 +195,7 @@ export const revokeAllTokensByUserInteractor = async (clientId: string, token: s
 
 export const revokeAllTokensExceptCurrentInteractor = async (clientId: string, token: string): Promise<boolean> => {
   const tokenRepository = getTokenRepository();
-  const decodedUser = await tokenRepository.decode(clientId, token);
-  const { jwtDecoded } = decodedUser;
-  if (!jwtDecoded || clientId !== jwtDecoded.user.client_id) {
-    throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
-  }
+  const jwtDecoded = await getAuthorizedTokenPayload(tokenRepository, clientId, token);
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
   const count = await onSession(async (client: PrismaClient) => {
     return authTokenStatusRepository.revokeAllExcept(client, {
