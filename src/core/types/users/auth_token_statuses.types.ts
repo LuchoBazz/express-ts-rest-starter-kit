@@ -18,3 +18,9 @@ export interface LogOutSearchCriteriaInput {
   email: string;
   issuedAt: Date;
 }
+
+export interface RevokeSearchCriteriaInput {
+  clientId: string;
+  email: string;
+  issuedAt: Date;
+}
