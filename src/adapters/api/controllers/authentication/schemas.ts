@@ -141,24 +141,6 @@ export const signUpSchema = checkSchema({
 });
 
 export const deleteAuthUserSchema = checkSchema({
-  client_id: {
-    in: ["params"],
-    isEmpty: {
-      options: { ignore_whitespace: true },
-      negated: true,
-      errorMessage: "Missing client_id.",
-    },
-    exists: {
-      options: {
-        checkFalsy: true,
-      },
-      errorMessage: "client_id cannot be null.",
-      bail: true,
-    },
-    isString: {
-      errorMessage: "client_id must be a string.",
-    },
-  },
   auth_id: {
     in: ["params"],
     isEmpty: {
