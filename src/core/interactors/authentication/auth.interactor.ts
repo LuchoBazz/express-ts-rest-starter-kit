@@ -75,19 +75,14 @@ export const signUpInteractor = async (clientId: string, accessToken: string, da
 };
 
 export const refreshAuthTokenInteractor = async (clientId: string, refreshToken: string): Promise<string> => {
-  const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
-  const authRepository = getAuthRepository(authProviderLabel);
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
   const tokenRepository = getTokenRepository();
   const userRepository = getUserRepository();
 
   return onSession(async (client: PrismaClient) => {
-    const [user, userLoggedIn] = await Promise.all([
-      authRepository.validateToken({ clientId, accessToken: refreshToken }),
-      tokenRepository.decode(clientId, refreshToken),
-    ]);
+    const userLoggedIn = await tokenRepository.decode(clientId, refreshToken);
     const { jwtDecoded } = userLoggedIn;
-    if (!user || !jwtDecoded) {
+    if (!jwtDecoded) {
       throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
     }
     const tokenInvalidated = await disabledAuthTokenStatusUseCase(
