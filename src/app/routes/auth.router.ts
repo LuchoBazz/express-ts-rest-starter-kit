@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import {
   deleteMyAccountController,
-  refreshAtuhTokenController,
+  refreshAuthTokenController,
   signInController,
   signUpController,
   userLoggedInController,
@@ -17,7 +17,7 @@ const organization = Router();
 // Auth
 organization.post("/sign-in", signInController);
 organization.post("/sign-up", signUpController);
-organization.post("/refresh-token", refreshAtuhTokenController);
+organization.post("/refresh-token", refreshAuthTokenController);
 organization.post("/user-logged-in", userLoggedInController);
 organization.delete("/delete-my-account/:auth_id", permissionChecker([GUEST_USER]), deleteMyAccountController);
 

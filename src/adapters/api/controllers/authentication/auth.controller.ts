@@ -76,7 +76,7 @@ export const signUpController = [
   },
 ];
 
-export const refreshAtuhTokenController = [
+export const refreshAuthTokenController = [
   validateSchema(clientIdInHeaderSchema),
   validateSchema(refreshAuthTokenSchema),
   async (request: Request, response: Response, next: NextFunction) => {
