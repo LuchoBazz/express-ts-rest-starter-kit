@@ -5,6 +5,7 @@ import {
   logOutInteractor,
   refreshAuthTokenInteractor,
   revokeAllTokensByUserInteractor,
+  revokeAllTokensExceptCurrentInteractor,
   signInInteractor,
   signUpInteractor,
   userLoggedInInteractor,
@@ -162,6 +163,23 @@ export const revokeAllTokensByUserController = [
       const token = getAuthorizationTokenFromHeaders(request.headers);
 
       const success = await revokeAllTokensByUserInteractor(clientId, token);
+
+      response.status(HttpStatusCode.OK).json({ data: { success } });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
+
+export const revokeAllTokensExceptCurrentController = [
+  validateSchema(clientIdInHeaderSchema),
+  validateSchema(userAuthorizationInSchema),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const clientId = getClientIdFromHeaders(request.headers);
+      const token = getAuthorizationTokenFromHeaders(request.headers);
+
+      const success = await revokeAllTokensExceptCurrentInteractor(clientId, token);
 
       response.status(HttpStatusCode.OK).json({ data: { success } });
     } catch (error) {

@@ -207,3 +207,21 @@ export const revokeAllTokensByUserInteractor = async (clientId: string, token: s
   });
   return count > 0;
 };
+
+export const revokeAllTokensExceptCurrentInteractor = async (clientId: string, token: string): Promise<boolean> => {
+  const tokenRepository = getTokenRepository();
+  const decodedUser = await tokenRepository.decode(clientId, token);
+  const { jwtDecoded } = decodedUser;
+  if (!jwtDecoded || clientId !== jwtDecoded.user.client_id) {
+    throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
+  }
+  const authTokenStatusRepository = getAuthTokenStatusesRepository();
+  const count = await onSession(async (client: PrismaClient) => {
+    return authTokenStatusRepository.revokeAllExcept(client, {
+      id: jwtDecoded.user.auth_token_status_id,
+      clientId,
+      email: jwtDecoded.user.email,
+    });
+  });
+  return count > 0;
+};
