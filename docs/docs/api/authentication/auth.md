@@ -25,6 +25,13 @@ curl -X POST "http://localhost:3000/authentication/sign-up" \
 ```
 
 ```bash
+curl -X POST 'http://localhost:3000/authentication/user-logged-in' \
+-H 'Content-Type: application/json' \
+-H 'client-id: DEMO' \
+-H 'Authorization: Bearer JWT_AUTH_TOKEN'
+```
+
+```bash
 curl -X POST "http://localhost:3000/authentication/refresh-token" \
 -H "Content-Type: application/json" \
 -H "client-id: DEMO" \
