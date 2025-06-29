@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import {
   deleteMyAccountController,
+  refreshAtuhTokenController,
   signInController,
   signUpController,
 } from "../../adapters/api/controllers/authentication/auth.controller";
@@ -15,6 +16,7 @@ const organization = Router();
 // Auth
 organization.post("/sign-in", signInController);
 organization.post("/sign-up", signUpController);
+organization.post("/refresh-token", refreshAtuhTokenController);
 organization.delete("/delete-my-account/:auth_id", permissionChecker([GUEST_USER]), deleteMyAccountController);
 
 export default organization;
