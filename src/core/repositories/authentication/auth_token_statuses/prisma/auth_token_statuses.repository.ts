@@ -12,20 +12,11 @@ import {
 import { AuthTokenStatusesRepository } from "../auth_token_statuses_repository.interface";
 
 export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
-  async findOne(
-    client: unknown,
-    searchCriteria: AuthTokenStatusesSearchCriteriaInput,
-  ): Promise<AuthTokenStatusEntity | null> {
+  async findOne(client: unknown, id: string): Promise<AuthTokenStatusEntity | null> {
     try {
       const prismaClient = client as PrismaClient;
-      const { clientId, email, issuedAt } = searchCriteria;
-      const record = await prismaClient.authTokenStatus.findFirst({
-        where: {
-          auth_token_email: email,
-          auth_token_organization_client_id: clientId,
-          auth_token_issued_at: { equals: issuedAt },
-          auth_token_revoked: false,
-        },
+      const record = await prismaClient.authTokenStatus.findUnique({
+        where: { auth_token_id: id, auth_token_revoked: false },
       });
       // TODO: Add validation taking into account expiration date
       return record && !record.auth_token_revoked ? AuthTokenStatusEntity.fromPrisma(record) : null;

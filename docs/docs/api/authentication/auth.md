@@ -8,6 +8,7 @@ sidebar_label: Authentication
 curl -X POST "http://localhost:3000/authentication/sign-in" \
 -H "Content-Type: application/json" \
 -H "client-id: DEMO" \
+-H "x-forwarded-for: 127.0.0.1" \
 -d '{
       "access_token": "your_access_token",
       "email": "your_email@example.com"
@@ -18,6 +19,7 @@ curl -X POST "http://localhost:3000/authentication/sign-in" \
 curl -X POST "http://localhost:3000/authentication/sign-up" \
 -H "Content-Type: application/json" \
 -H "client-id: DEMO" \
+-H "x-forwarded-for: 127.0.0.1" \
 -d '{
       "access_token": "your_access_token",
       "email": "your_email@example.com"

@@ -144,11 +144,7 @@ export const userLoggedInInteractor = async (clientId: string, token: string): P
   }
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
   const ats = await onSession(async (client: PrismaClient) => {
-    return authTokenStatusRepository.findOne(client, {
-      clientId,
-      email: jwtDecoded.user.email,
-      issuedAt: new Date(jwtDecoded.iat * 1000),
-    });
+    return authTokenStatusRepository.findOne(client, jwtDecoded.user.auth_token_status_id);
   });
 
   const expirationTime = ats?.getExpirationTime() ?? new Date();
