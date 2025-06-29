@@ -184,8 +184,12 @@ export const logOutInteractor = async (clientId: string, token: string): Promise
     throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
   }
   const authTokenStatusRepository = getAuthTokenStatusesRepository();
-  const count = await onSession(async (client: PrismaClient) => {
-    return authTokenStatusRepository.revokeAllByUserId(client, clientId, jwtDecoded.user.email);
+  await onSession(async (client: PrismaClient) => {
+    return authTokenStatusRepository.revokeBySession(client, {
+      id: jwtDecoded.user.auth_token_status_id,
+      clientId,
+      email: jwtDecoded.user.email,
+    });
   });
-  return count > 0;
+  return true;
 };
