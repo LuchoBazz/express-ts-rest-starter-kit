@@ -175,3 +175,17 @@ export const deleteAuthUserInteractor = async (
   ]);
   return first && second;
 };
+
+export const logOutInteractor = async (clientId: string, token: string): Promise<boolean> => {
+  const tokenRepository = getTokenRepository();
+  const decodedUser = await tokenRepository.decode(clientId, token);
+  const { jwtDecoded } = decodedUser;
+  if (!jwtDecoded || clientId !== jwtDecoded.user.client_id) {
+    throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
+  }
+  const authTokenStatusRepository = getAuthTokenStatusesRepository();
+  const count = await onSession(async (client: PrismaClient) => {
+    return authTokenStatusRepository.revokeAllByUserId(client, clientId, jwtDecoded.user.email);
+  });
+  return count > 0;
+};

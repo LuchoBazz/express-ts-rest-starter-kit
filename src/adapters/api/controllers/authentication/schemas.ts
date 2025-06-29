@@ -161,7 +161,7 @@ export const deleteAuthUserSchema = checkSchema({
   },
 });
 
-export const userLogguedInSchema = checkSchema({
+export const userAuthorizationInSchema = checkSchema({
   Authorization: {
     in: ["headers"],
     isEmpty: {

@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import {
   deleteMyAccountController,
+  logOutController,
   refreshAuthTokenController,
   signInController,
   signUpController,
@@ -16,6 +17,7 @@ organization.post("/sign-in", signInController);
 organization.post("/sign-up", signUpController);
 organization.post("/refresh-token", refreshAuthTokenController);
 organization.post("/user-logged-in", userLoggedInController);
+organization.post("/logout", logOutController);
 organization.delete("/delete-my-account/:auth_id", permissionChecker([]), deleteMyAccountController);
 
 export default organization;

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import {
   deleteAuthUserInteractor,
+  logOutInteractor,
   refreshAuthTokenInteractor,
   signInInteractor,
   signUpInteractor,
@@ -21,7 +22,7 @@ import {
   refreshAuthTokenSchema,
   signInSchema,
   signUpSchema,
-  userLogguedInSchema,
+  userAuthorizationInSchema,
 } from "./schemas";
 
 export const signInController = [
@@ -102,7 +103,7 @@ export const refreshAuthTokenController = [
 
 export const userLoggedInController = [
   validateSchema(clientIdInHeaderSchema),
-  validateSchema(userLogguedInSchema),
+  validateSchema(userAuthorizationInSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const clientId = getClientIdFromHeaders(request.headers);
@@ -128,6 +129,23 @@ export const deleteMyAccountController = [
       const isDeleted = await deleteAuthUserInteractor(clientId, request.user!, authId);
 
       response.status(HttpStatusCode.OK).json({ data: { deleted: isDeleted } });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
+
+export const logOutController = [
+  validateSchema(clientIdInHeaderSchema),
+  validateSchema(userAuthorizationInSchema),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const clientId = getClientIdFromHeaders(request.headers);
+      const token = getAuthorizationTokenFromHeaders(request.headers);
+
+      const success = await logOutInteractor(clientId, token);
+
+      response.status(HttpStatusCode.OK).json({ data: { success } });
     } catch (error) {
       next(error);
     }
