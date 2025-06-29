@@ -23,7 +23,9 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
         where: {
           auth_token_email: email,
           auth_token_organization_client_id: clientId,
-          auth_token_issued_at: { equals: issuedAt },
+          auth_token_issued_at: {
+            not: issuedAt,
+          },
         },
       });
       // TODO: Add validation taking into account expiration date
