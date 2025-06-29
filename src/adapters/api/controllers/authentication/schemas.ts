@@ -199,3 +199,24 @@ export const userLogguedInSchema = checkSchema({
     },
   },
 });
+
+export const refreshAuthTokenSchema = checkSchema({
+  refresh_token: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing refresh_token.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "refresh_token cannot be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "refresh_token must be a string.",
+    },
+  },
+});

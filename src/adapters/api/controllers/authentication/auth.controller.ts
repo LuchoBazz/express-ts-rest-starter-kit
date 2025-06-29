@@ -11,7 +11,13 @@ import { SignUpUser } from "../../../../core/types/authentication/user.type";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { validateSchema } from "../../validator";
 import { clientIdInHeaderSchema } from "../organizations/schemas";
-import { deleteAuthUserSchema, signInSchema, signUpSchema, userLogguedInSchema } from "./schemas";
+import {
+  deleteAuthUserSchema,
+  refreshAuthTokenSchema,
+  signInSchema,
+  signUpSchema,
+  userLogguedInSchema,
+} from "./schemas";
 
 export const signInController = [
   validateSchema(clientIdInHeaderSchema),
@@ -63,6 +69,21 @@ export const signUpController = [
       const token = await signUpInteractor(clientId, accessToken as string, data);
 
       response.status(HttpStatusCode.OK).json({ data: { token } });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
+
+export const refreshAtuhTokenController = [
+  validateSchema(clientIdInHeaderSchema),
+  validateSchema(refreshAuthTokenSchema),
+  (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const clientId = getClientIdFromHeaders(request.headers);
+      const { refresh_token: refreshToken } = request.body;
+
+      response.status(HttpStatusCode.OK).json({ data: { clientId, refreshToken } });
     } catch (error) {
       next(error);
     }

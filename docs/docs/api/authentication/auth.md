@@ -25,6 +25,15 @@ curl -X POST "http://localhost:3000/authentication/sign-up" \
 ```
 
 ```bash
+curl -X POST "http://localhost:3000/authentication/refresh-token" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO" \
+-d '{
+      "refresh_token": "your_refresh_token"
+    }'
+```
+
+```bash
 curl -X DELETE "http://localhost:3000/authentication/delete-my-account/{auth_id}" \
 -H "Content-Type: application/json" \
 -H "client-id: DEMO"
