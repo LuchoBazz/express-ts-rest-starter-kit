@@ -14,7 +14,15 @@ export const generateAndSaveAuthTokenStatusUseCase = async (
 ): Promise<string> => {
   const tokenEncodedResponse = await tokenRepository.encoded(user);
   const { payload, token } = tokenEncodedResponse;
-  const authTokenStatus = new AuthTokenStatusEntity(user.getId(), BigInt(payload?.iat ?? 0), BigInt(payload?.exp ?? 0));
+  const authTokenStatus = new AuthTokenStatusEntity(
+    user.getEmail(),
+    user.getClientId(),
+    new Date((payload?.iat ?? 0) * 1000),
+    new Date((payload?.exp ?? 0) * 1000),
+    // TODO: Update with dynamic data
+    "192.168.1.1",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+  );
   await authTokenStatusRepository.create(client, authTokenStatus);
   return token;
 };
@@ -25,14 +33,10 @@ export const disabledAuthTokenStatusUseCase = async (
   clientId: string,
   jwtDecoded: JwtDecodedPayload,
 ): Promise<boolean> => {
-  const authTokenStatus = await authTokenStatusRepository.findOne(client, {
+  const ats = await authTokenStatusRepository.logOut(client, {
     clientId,
-    userId: jwtDecoded.user.id,
-    issuedAt: jwtDecoded.iat,
+    email: jwtDecoded.user.email,
+    issuedAt: new Date(jwtDecoded.iat * 1000),
   });
-  if (!authTokenStatus) {
-    return false;
-  }
-  await authTokenStatusRepository.logOut(client, authTokenStatus.getId());
-  return true;
+  return ats.isRevoked();
 };

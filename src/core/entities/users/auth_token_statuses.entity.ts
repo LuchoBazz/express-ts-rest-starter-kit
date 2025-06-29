@@ -2,49 +2,73 @@ import { Entity } from "../entity";
 
 export interface AuthTokenStatusPrisma {
   auth_token_id: string;
-  auth_token_user: string;
-  auth_token_issued_at: bigint;
-  auth_token_expiration_time: bigint;
+  auth_token_email: string;
+  auth_token_organization_client_id: string;
+  auth_token_issued_at: Date;
+  auth_token_expiration_time: Date;
+  auth_token_ip_address?: string | null;
+  auth_token_user_agent?: string | null;
+  auth_token_revoked: boolean;
   auth_token_created_at: Date;
   auth_token_updated_at: Date;
 }
 
 export interface AuthTokenStatusResponse {
   id: string;
-  user_id: string;
-  issued_at: bigint;
-  expiration_time: bigint;
+  email: string;
+  organization_client_id: string;
+  issued_at: Date;
+  expiration_time: Date;
+  ip_address?: string | null;
+  user_agent?: string | null;
+  revoked: boolean;
   created_at: Date;
   updated_at: Date;
 }
 
 export class AuthTokenStatusEntity extends Entity {
-  protected userId: string;
-  protected issuedAt: bigint;
-  protected expirationTime: bigint;
+  protected email: string;
+  protected organizationClientId: string;
+  protected issuedAt: Date;
+  protected expirationTime: Date;
+  protected ipAddress?: string | null;
+  protected userAgent?: string | null;
+  protected revoked: boolean;
   protected createdAt: Date;
   protected updatedAt: Date;
 
   constructor(
-    userId: string,
-    issuedAt: bigint,
-    expirationTime: bigint,
+    email: string,
+    organizationClientId: string,
+    issuedAt: Date,
+    expirationTime: Date,
+    ipAddress?: string | null,
+    userAgent?: string | null,
+    revoked: boolean = false,
     createdAt: Date = new Date(),
     updatedAt: Date = new Date(),
   ) {
     super();
-    this.userId = userId;
+    this.email = email;
+    this.organizationClientId = organizationClientId;
     this.issuedAt = issuedAt;
     this.expirationTime = expirationTime;
+    this.revoked = revoked;
+    this.ipAddress = ipAddress;
+    this.userAgent = userAgent;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
 
   public static fromPrisma(payload: AuthTokenStatusPrisma): AuthTokenStatusEntity {
     const authTokenStatus = new AuthTokenStatusEntity(
-      payload.auth_token_user,
+      payload.auth_token_email,
+      payload.auth_token_organization_client_id,
       payload.auth_token_issued_at,
       payload.auth_token_expiration_time,
+      payload.auth_token_ip_address ?? null,
+      payload.auth_token_user_agent ?? null,
+      payload.auth_token_revoked,
       payload.auth_token_created_at,
       payload.auth_token_updated_at,
     );
@@ -55,42 +79,70 @@ export class AuthTokenStatusEntity extends Entity {
   public toResponse(): AuthTokenStatusResponse {
     return {
       id: this.getId(),
-      user_id: this.getUserId(),
+      email: this.getEmail(),
+      organization_client_id: this.getOrganizationClientId(),
       issued_at: this.getIssuedAt(),
       expiration_time: this.getExpirationTime(),
+      revoked: this.isRevoked(),
+      ip_address: this.getIpAddress(),
+      user_agent: this.getUserAgent(),
       created_at: this.getCreatedAt(),
       updated_at: this.getUpdatedAt(),
     };
   }
 
-  public getUserId(): string {
-    return this.userId;
+  public getEmail(): string {
+    return this.email;
+  }
+  public setEmail(email: string): void {
+    this.email = email;
   }
 
-  public setUserId(userId: string): void {
-    this.userId = userId;
+  public getOrganizationClientId(): string {
+    return this.organizationClientId;
+  }
+  public setOrganizationClientId(id: string): void {
+    this.organizationClientId = id;
   }
 
-  public getIssuedAt(): bigint {
+  public getIssuedAt(): Date {
     return this.issuedAt;
   }
-
-  public setIssuedAt(issuedAt: bigint): void {
+  public setIssuedAt(issuedAt: Date): void {
     this.issuedAt = issuedAt;
   }
 
-  public getExpirationTime(): bigint {
+  public getExpirationTime(): Date {
     return this.expirationTime;
   }
-
-  public setExpirationTime(expirationTime: bigint): void {
+  public setExpirationTime(expirationTime: Date): void {
     this.expirationTime = expirationTime;
+  }
+
+  public getIpAddress(): string | null | undefined {
+    return this.ipAddress;
+  }
+  public setIpAddress(ipAddress?: string | null): void {
+    this.ipAddress = ipAddress;
+  }
+
+  public getUserAgent(): string | null | undefined {
+    return this.userAgent;
+  }
+  public setUserAgent(userAgent?: string | null): void {
+    this.userAgent = userAgent;
+  }
+
+  public isRevoked(): boolean {
+    return this.revoked;
+  }
+  public setRevoked(revoked: boolean): void {
+    this.revoked = revoked;
   }
 
   public getCreatedAt(): Date {
     return this.createdAt;
   }
-
   public setCreatedAt(createdAt: Date): void {
     this.createdAt = createdAt;
   }
@@ -98,7 +150,6 @@ export class AuthTokenStatusEntity extends Entity {
   public getUpdatedAt(): Date {
     return this.updatedAt;
   }
-
   public setUpdatedAt(updatedAt: Date): void {
     this.updatedAt = updatedAt;
   }

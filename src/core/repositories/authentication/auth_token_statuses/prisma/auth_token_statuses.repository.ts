@@ -6,6 +6,7 @@ import { prismaGlobalExceptionFilter } from "../../../../../adapters/api/errors/
 import { AuthTokenStatusEntity } from "../../../../entities/users/auth_token_statuses.entity";
 import {
   AuthTokenStatusesSearchCriteriaInput,
+  LogOutSearchCriteriaInput,
   UpdateAuthTokenStatusesInput,
 } from "../../../../types/users/auth_token_statuses.types";
 import { AuthTokenStatusesRepository } from "../auth_token_statuses_repository.interface";
@@ -17,12 +18,13 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
   ): Promise<AuthTokenStatusEntity | null> {
     try {
       const prismaClient = client as PrismaClient;
-      const { userId, issuedAt } = searchCriteria;
+      const { clientId, email, issuedAt } = searchCriteria;
       const record = await prismaClient.authTokenStatus.findFirst({
         where: {
           // TODO: Add unique constrain userId and issuedAt
-          auth_token_user: userId,
-          auth_token_issued_at: issuedAt,
+          auth_token_email: clientId,
+          auth_token_organization_client_id: email,
+          auth_token_issued_at: issuedAt?.toISOString(),
         },
       });
       // TODO: Add validation taking into account expiration date
@@ -35,8 +37,10 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
   async find(client: unknown, searchCriteria: AuthTokenStatusesSearchCriteriaInput): Promise<AuthTokenStatusEntity[]> {
     try {
       const prismaClient = client as PrismaClient;
-      const { userId } = searchCriteria;
-      const records = await prismaClient.authTokenStatus.findMany({ where: { auth_token_user: userId } });
+      const { clientId, email } = searchCriteria;
+      const records = await prismaClient.authTokenStatus.findMany({
+        where: { auth_token_email: email, auth_token_organization_client_id: clientId },
+      });
       // TODO: Add validation taking into account expiration date
       return records.map(AuthTokenStatusEntity.fromPrisma);
     } catch (error) {
@@ -50,9 +54,12 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
       const record = prismaClient.authTokenStatus.create({
         data: {
           auth_token_id: authTokenStatus.getId(),
-          auth_token_user: authTokenStatus.getUserId(),
+          auth_token_email: authTokenStatus.getEmail(),
+          auth_token_organization_client_id: authTokenStatus.getOrganizationClientId(),
           auth_token_issued_at: authTokenStatus.getIssuedAt(),
           auth_token_expiration_time: authTokenStatus.getExpirationTime(),
+          auth_token_ip_address: authTokenStatus.getIpAddress(),
+          auth_token_user_agent: authTokenStatus.getUserAgent(),
         },
       });
 
@@ -66,12 +73,20 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
   async update(client: unknown, authTokenStatus: UpdateAuthTokenStatusesInput): Promise<AuthTokenStatusEntity> {
     try {
       const prismaClient = client as PrismaClient;
-      const { authTokenStatusId, issuedAt, expirationTime } = authTokenStatus;
+      const { clientId, email, issuedAt, expirationTime, ipAddress, userAgent } = authTokenStatus;
       const record = prismaClient.authTokenStatus.update({
-        where: { auth_token_id: authTokenStatusId },
+        where: {
+          auth_token_email_auth_token_organization_client_id_auth_token_issued_at: {
+            auth_token_email: email,
+            auth_token_organization_client_id: clientId,
+            auth_token_issued_at: issuedAt,
+          },
+        },
         data: {
           auth_token_issued_at: issuedAt,
           auth_token_expiration_time: expirationTime,
+          auth_token_ip_address: ipAddress,
+          auth_token_user_agent: userAgent,
         },
       });
 
@@ -82,12 +97,19 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
       throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
     }
   },
-  async logOut(client: unknown, authTokenStatusId: string): Promise<AuthTokenStatusEntity> {
+  async logOut(client: unknown, searchCriteria: LogOutSearchCriteriaInput): Promise<AuthTokenStatusEntity> {
     try {
       const prismaClient = client as PrismaClient;
+      const { clientId, email, issuedAt } = searchCriteria;
       const record = prismaClient.authTokenStatus.update({
-        where: { auth_token_id: authTokenStatusId },
-        data: { auth_token_expiration_time: 0 },
+        where: {
+          auth_token_email_auth_token_organization_client_id_auth_token_issued_at: {
+            auth_token_email: email,
+            auth_token_organization_client_id: clientId,
+            auth_token_issued_at: issuedAt,
+          },
+        },
+        data: { auth_token_revoked: true },
       });
 
       const [recordDeleted] = await prismaClient.$transaction([record]);

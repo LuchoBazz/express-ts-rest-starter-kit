@@ -182,6 +182,7 @@ model AuthTokenStatus {
 
   user User @relation(fields: [auth_token_email, auth_token_organization_client_id], references: [user_email, user_organization_client_id], name: "auth_token_statuses_users_fk", onDelete: Cascade)
 
+  @@unique([auth_token_email, auth_token_organization_client_id, auth_token_issued_at], map: "unique_auth_token_statuses_email_client_id_issued_at")
   @@map(name: "auth_token_statuses")
   @@schema("users")
 }

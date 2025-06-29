@@ -17,3 +17,6 @@ CREATE TABLE "users"."auth_token_statuses" (
       REFERENCES "users"."users"("user_email", "user_organization_client_id") 
       ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "unique_auth_token_statuses_email_client_id_issued_at" ON "users"."auth_token_statuses"("auth_token_email", "auth_token_organization_client_id", "auth_token_issued_at");

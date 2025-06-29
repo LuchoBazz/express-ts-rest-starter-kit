@@ -113,8 +113,8 @@ export const userLoggedInInteractor = async (clientId: string, token: string): P
   const ats = await onSession(async (client: PrismaClient) => {
     return authTokenStatusRepository.findOne(client, {
       clientId,
-      userId: jwtDecoded.user.id,
-      issuedAt: jwtDecoded.iat,
+      email: jwtDecoded.user.email,
+      issuedAt: new Date(jwtDecoded.iat * 1000),
     });
   });
 
