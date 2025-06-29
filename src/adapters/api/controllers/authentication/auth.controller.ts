@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import {
   deleteAuthUserInteractor,
+  refreshAuthTokenInteractor,
   signInInteractor,
   signUpInteractor,
   userLoggedInInteractor,
@@ -78,12 +79,14 @@ export const signUpController = [
 export const refreshAtuhTokenController = [
   validateSchema(clientIdInHeaderSchema),
   validateSchema(refreshAuthTokenSchema),
-  (request: Request, response: Response, next: NextFunction) => {
+  async (request: Request, response: Response, next: NextFunction) => {
     try {
       const clientId = getClientIdFromHeaders(request.headers);
       const { refresh_token: refreshToken } = request.body;
 
-      response.status(HttpStatusCode.OK).json({ data: { clientId, refreshToken } });
+      const newToken = await refreshAuthTokenInteractor(clientId, refreshToken as string);
+
+      response.status(HttpStatusCode.OK).json({ data: { token: newToken } });
     } catch (error) {
       next(error);
     }

@@ -12,7 +12,10 @@ import { getAuthTokenStatusesRepository } from "../../repositories/authenticatio
 import { getTokenRepository } from "../../repositories/authentication/token";
 import { getUserRepository } from "../../repositories/users/users";
 import { SignUpUser } from "../../types/authentication/user.type";
-import { generateAndSaveAuthTokenStatusUseCase } from "../../use_cases/auth_token_statuses";
+import {
+  disabledAuthTokenStatusUseCase,
+  generateAndSaveAuthTokenStatusUseCase,
+} from "../../use_cases/auth_token_statuses";
 
 // TODO: Add tests
 export const signInInteractor = async (clientId: string, accessToken: string, email: string): Promise<string> => {
@@ -66,6 +69,39 @@ export const signUpInteractor = async (clientId: string, accessToken: string, da
         clientId,
       ),
     );
+    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, commonUser);
+  });
+};
+
+export const refreshAuthTokenInteractor = async (clientId: string, refreshToken: string): Promise<string> => {
+  const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
+  const authRepository = getAuthRepository(authProviderLabel);
+  const authTokenStatusRepository = getAuthTokenStatusesRepository();
+  const tokenRepository = getTokenRepository();
+  const userRepository = getUserRepository();
+
+  return onSession(async (client: PrismaClient) => {
+    const [user, userLoggedIn] = await Promise.all([
+      authRepository.validateToken({ clientId, accessToken: refreshToken }),
+      tokenRepository.decode(clientId, refreshToken),
+    ]);
+    const { jwtDecoded } = userLoggedIn;
+    if (!user || !jwtDecoded) {
+      throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
+    }
+    const tokenInvalidated = await disabledAuthTokenStatusUseCase(
+      authTokenStatusRepository,
+      client,
+      clientId,
+      jwtDecoded,
+    );
+    if (!tokenInvalidated) {
+      throw new UnauthorizedError(ErrorMessage.REFRESH_TOKEN_FAILED);
+    }
+    const commonUser = await userRepository.findOne(client, clientId, jwtDecoded.user.email);
+    if (!commonUser) {
+      throw new UnauthorizedError(ErrorMessage.USER_NOT_FOUND);
+    }
     return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, commonUser);
   });
 };
