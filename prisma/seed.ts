@@ -1,9 +1,11 @@
+import { seedOrganizations } from "./seeders/organizations";
 import { seedPermission } from "./seeders/permission";
 import { seedPermissionOnRoles } from "./seeders/permission_on_roles";
 import { seedRoles } from "./seeders/roles";
 
 const main = async () => {
   try {
+    await seedOrganizations();
     await seedRoles();
     await seedPermission();
     await seedPermissionOnRoles();
