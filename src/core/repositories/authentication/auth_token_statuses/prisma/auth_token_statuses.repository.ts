@@ -21,14 +21,13 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
       const { clientId, email, issuedAt } = searchCriteria;
       const record = await prismaClient.authTokenStatus.findFirst({
         where: {
-          // TODO: Add unique constrain userId and issuedAt
-          auth_token_email: clientId,
-          auth_token_organization_client_id: email,
-          auth_token_issued_at: issuedAt?.toISOString(),
+          auth_token_email: email,
+          auth_token_organization_client_id: clientId,
+          auth_token_issued_at: { equals: issuedAt },
         },
       });
       // TODO: Add validation taking into account expiration date
-      return record ? AuthTokenStatusEntity.fromPrisma(record) : null;
+      return record && !record.auth_token_revoked ? AuthTokenStatusEntity.fromPrisma(record) : null;
     } catch (error) {
       prismaGlobalExceptionFilter(error);
       throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
@@ -42,7 +41,7 @@ export const PrismaAuthTokenStatusesRepository: AuthTokenStatusesRepository = {
         where: { auth_token_email: email, auth_token_organization_client_id: clientId },
       });
       // TODO: Add validation taking into account expiration date
-      return records.map(AuthTokenStatusEntity.fromPrisma);
+      return records.map(AuthTokenStatusEntity.fromPrisma).filter((record) => !record.isRevoked());
     } catch (error) {
       prismaGlobalExceptionFilter(error);
       throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);

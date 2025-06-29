@@ -151,8 +151,8 @@ export const userLoggedInInteractor = async (clientId: string, token: string): P
     });
   });
 
-  const expirationTime = Number(ats?.getExpirationTime() ?? 0);
-  const isTokenExpired = moment().isAfter(moment(expirationTime * 1000));
+  const expirationTime = ats?.getExpirationTime() ?? new Date();
+  const isTokenExpired = moment().isAfter(moment(expirationTime));
 
   if (!ats || isTokenExpired) {
     throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);

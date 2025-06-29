@@ -48,7 +48,6 @@ describe.each([
   }) => {
     it(description, () => {
       const result = encodeJSON(jsonString, defaultValue);
-      console.log(JSON.stringify({ result, expected }, undefined, 2));
       expect(result).toEqual(expected);
     });
   },
