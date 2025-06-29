@@ -4,6 +4,7 @@ import {
   deleteMyAccountController,
   logOutController,
   refreshAuthTokenController,
+  revokeAllTokensByUserController,
   signInController,
   signUpController,
   userLoggedInController,
@@ -18,6 +19,7 @@ organization.post("/sign-up", signUpController);
 organization.post("/refresh-token", refreshAuthTokenController);
 organization.post("/user-logged-in", userLoggedInController);
 organization.post("/logout", logOutController);
+organization.post("/revoke-all", revokeAllTokensByUserController);
 organization.delete("/delete-my-account/:auth_id", permissionChecker([]), deleteMyAccountController);
 
 export default organization;
