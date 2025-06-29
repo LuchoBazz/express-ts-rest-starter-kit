@@ -1,4 +1,4 @@
-import { StandardUserEntity } from "../../../entities/users/standard_user.entity";
+import { StandardUserEntity } from "../../../entities/users/a_standard_user.entity";
 import { UserLoggedInPayload } from "../../../types/authentication/base.types";
 import { TokenEncodedResponse } from "../../../types/authentication/token.types";
 

@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import moment from "moment";
 
+import { StandardUserEntity } from "../../../../entities/users/a_standard_user.entity";
 import { JwtAuthPayload, JwtDecodedPayload, JwtUserPayload } from "../../../../entities/users/jwt_user.entity";
-import { StandardUserEntity } from "../../../../entities/users/standard_user.entity";
 import { decrypt, encrypt } from "../../../../libs/crypto";
 import { UserLoggedInPayload } from "../../../../types/authentication/base.types";
 import { TokenEncodedResponse } from "../../../../types/authentication/token.types";

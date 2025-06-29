@@ -1,4 +1,4 @@
-import { StandardUserEntity, UserResponse } from "../../../core/entities/users/standard_user.entity";
+import { StandardUserEntity, UserResponse } from "../../../core/entities/users/a_standard_user.entity";
 import { presentUserBase } from "./user_base.presenter";
 
 export const presentStandardUser = (standardUser: StandardUserEntity): UserResponse => {

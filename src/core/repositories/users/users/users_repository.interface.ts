@@ -1,4 +1,4 @@
-import { StandardUserEntity } from "../../../entities/users/standard_user.entity";
+import { StandardUserEntity } from "../../../entities/users/a_standard_user.entity";
 import { UpdateUserInput, UserSearchCriteriaInput } from "../../../types/users/user.types";
 
 export interface UserRepository {

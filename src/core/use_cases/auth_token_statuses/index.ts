@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 
+import { StandardUserEntity } from "../../entities/users/a_standard_user.entity";
 import { AuthTokenStatusEntity } from "../../entities/users/auth_token_statuses.entity";
 import { JwtDecodedPayload } from "../../entities/users/jwt_user.entity";
-import { StandardUserEntity } from "../../entities/users/standard_user.entity";
 import { AuthTokenStatusesRepository } from "../../repositories/authentication/auth_token_statuses/auth_token_statuses_repository.interface";
 import { TokenRepository } from "../../repositories/authentication/token/token_repository.interface";
 import { RequestNetworkMetadata } from "../../types/authentication/request_network_metadata.types";

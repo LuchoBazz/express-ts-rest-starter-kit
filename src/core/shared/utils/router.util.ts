@@ -11,6 +11,6 @@ export const getAuthorizationTokenFromHeaders = (headers: any): string => {
 
 export const getNetworkMetadataFromHeaders = (headers: any): RequestNetworkMetadata => {
   const ipAddress = headers["x-forwarded-for"] ?? null;
-  const userAgent = headers["user-agent"];
+  const userAgent = headers["user-agent"] ?? null;
   return { ipAddress, userAgent };
 };
