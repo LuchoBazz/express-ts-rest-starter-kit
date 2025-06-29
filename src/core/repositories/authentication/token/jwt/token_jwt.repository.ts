@@ -19,7 +19,6 @@ export const JwtTokenRepository: TokenRepository = {
     }
     const deserializedUser = decrypt(decoded.serialized_user);
     const user = JSON.parse(deserializedUser) as JwtUserPayload;
-
     const jwtDecoded: JwtDecodedPayload = { ...decoded, user };
 
     if (user.client_id !== clientId) {

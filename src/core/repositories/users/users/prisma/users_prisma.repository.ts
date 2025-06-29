@@ -50,11 +50,7 @@ export const PrismaUserRepository: UserRepository = {
         },
       });
 
-      console.log(JSON.stringify({ record, user }));
-
       const [recordCreated] = await prismaClient.$transaction([record]);
-      console.log(JSON.stringify({ recordCreated }));
-
       return CommonUserEntity.fromPrisma(recordCreated);
     } catch (error) {
       console.log(error);

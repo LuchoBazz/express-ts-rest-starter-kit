@@ -180,22 +180,22 @@ export const deleteAuthUserSchema = checkSchema({
 });
 
 export const userLogguedInSchema = checkSchema({
-  Authentication: {
+  Authorization: {
     in: ["headers"],
     isEmpty: {
       options: { ignore_whitespace: true },
       negated: true,
-      errorMessage: "Missing Authentication.",
+      errorMessage: "Missing Authorization.",
     },
     exists: {
       options: {
         checkFalsy: true,
       },
-      errorMessage: "Authentication cannot be null.",
+      errorMessage: "Authorization cannot be null.",
       bail: true,
     },
     isString: {
-      errorMessage: "Authentication must be a string.",
+      errorMessage: "Authorization must be a string.",
     },
   },
 });

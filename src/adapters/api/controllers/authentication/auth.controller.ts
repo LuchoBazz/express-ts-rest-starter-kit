@@ -7,7 +7,7 @@ import {
   signUpInteractor,
   userLoggedInInteractor,
 } from "../../../../core/interactors/authentication/auth.interactor";
-import { getClientIdFromHeaders } from "../../../../core/shared/utils/router.util";
+import { getAuthorizationTokenFromHeaders, getClientIdFromHeaders } from "../../../../core/shared/utils/router.util";
 import { SignUpUser } from "../../../../core/types/authentication/user.type";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { validateSchema } from "../../validator";
@@ -99,9 +99,7 @@ export const userLoggedInController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const clientId = getClientIdFromHeaders(request.headers);
-      const { Authorization: authorization } = request.headers;
-
-      const token = authorization?.length ? authorization.toString() : "";
+      const token = getAuthorizationTokenFromHeaders(request.headers);
 
       const user = await userLoggedInInteractor(clientId, token);
 

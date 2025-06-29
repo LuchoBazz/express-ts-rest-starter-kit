@@ -3,15 +3,13 @@ import { NextFunction, Request, Response } from "express";
 import { AuthProvider, AuthType, CommonUserEntity } from "../../../core/entities/users/common_user.entity";
 import { GuestUserEntity } from "../../../core/entities/users/guest_user.entity";
 import { getTokenRepository } from "../../../core/repositories/authentication/token";
-import { getClientIdFromHeaders } from "../../../core/shared/utils/router.util";
+import { getAuthorizationTokenFromHeaders, getClientIdFromHeaders } from "../../../core/shared/utils/router.util";
 
 export const addUserToRequestMiddleware = async (request: Request, _response: Response, next: NextFunction) => {
   try {
-    const authorization = (request.headers.Authorization ?? "").toString();
-    const token = authorization.replace("Bearer ", "");
+    const token = getAuthorizationTokenFromHeaders(request.headers);
     const clientId = getClientIdFromHeaders(request.headers);
     const tokenRepository = getTokenRepository();
-    console.log({ clientId, token });
 
     if (!token || !clientId) {
       request.user = new GuestUserEntity(clientId);
