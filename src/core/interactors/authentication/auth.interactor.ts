@@ -6,6 +6,7 @@ import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.err
 import { onSession } from "../../../infrastructure/database/prisma";
 import { AuthType, CommonUserEntity } from "../../entities/users/common_user.entity";
 import { JwtUserPayload } from "../../entities/users/jwt_user.entity";
+import { BaseUserEntity } from "../../entities/users/user_base.entity";
 import { ConfigManager } from "../../libs/config_manager";
 import { getAuthRepository } from "../../repositories/authentication/auth";
 import { getAuthTokenStatusesRepository } from "../../repositories/authentication/auth_token_statuses";
@@ -132,8 +133,21 @@ export const userLoggedInInteractor = async (clientId: string, token: string): P
   return jwtDecoded.user;
 };
 
-export const deleteAuthUserInteractor = async (clientId: string, authId: string): Promise<boolean> => {
+export const deleteAuthUserInteractor = async (
+  clientId: string,
+  user: BaseUserEntity,
+  authId: string,
+): Promise<boolean> => {
+  // TODO: Add validation (authId and user.authId should be equals)
   const authProviderLabel = await ConfigManager.findAuthProvider(clientId);
   const authRepository = getAuthRepository(authProviderLabel);
-  return authRepository.deleteUser({ clientId, authId });
+  const userRepository = getUserRepository();
+
+  const [first, second] = await Promise.all([
+    onSession(async (client: PrismaClient) => {
+      return userRepository.delete(client, { clientId, email: user.getEmail() });
+    }),
+    authRepository.deleteUser({ clientId, authId }),
+  ]);
+  return first && second;
 };

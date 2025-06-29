@@ -120,7 +120,7 @@ export const deleteMyAccountController = [
       const { auth_id: authId } = request.params;
       const clientId = getClientIdFromHeaders(request.headers);
 
-      const isDeleted = await deleteAuthUserInteractor(clientId, authId);
+      const isDeleted = await deleteAuthUserInteractor(clientId, request.user!, authId);
 
       response.status(HttpStatusCode.OK).json({ data: { deleted: isDeleted } });
     } catch (error) {
