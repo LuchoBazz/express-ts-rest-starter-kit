@@ -1,4 +1,4 @@
-import { AuthProvider } from "../../../entities/users/common_user.entity";
+import { AuthProvider } from "../../../entities/users/standard_user.entity";
 import { AuthRepository } from "./auth_repository.interface";
 import { FirebaseAuthRepository } from "./firebase";
 import { SupabaseAuthRepository } from "./supabase";

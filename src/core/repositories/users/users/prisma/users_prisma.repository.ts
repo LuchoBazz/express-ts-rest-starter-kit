@@ -3,12 +3,12 @@ import { PrismaClient } from "@prisma/client";
 import { ErrorMessage } from "../../../../../adapters/api/errors/errors.enum";
 import { InternalServerError } from "../../../../../adapters/api/errors/internal_server.error";
 import { prismaGlobalExceptionFilter } from "../../../../../adapters/api/errors/prisma_global_exception_filter";
-import { CommonUserEntity, UserPrisma } from "../../../../entities/users/common_user.entity";
+import { StandardUserEntity, UserPrisma } from "../../../../entities/users/standard_user.entity";
 import { UpdateUserInput, UserSearchCriteriaInput } from "../../../../types/users/user.types";
 import { UserRepository } from "../users_repository.interface";
 
 export const PrismaUserRepository: UserRepository = {
-  async findOne(client: unknown, clientId: string, email: string): Promise<CommonUserEntity | null> {
+  async findOne(client: unknown, clientId: string, email: string): Promise<StandardUserEntity | null> {
     try {
       const prismaClient = client as PrismaClient;
 
@@ -21,13 +21,13 @@ export const PrismaUserRepository: UserRepository = {
         },
       });
 
-      return record ? CommonUserEntity.fromPrisma(record as UserPrisma) : null;
+      return record ? StandardUserEntity.fromPrisma(record as UserPrisma) : null;
     } catch (error) {
       prismaGlobalExceptionFilter(error);
       throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
     }
   },
-  async create(client: unknown, user: CommonUserEntity): Promise<CommonUserEntity> {
+  async create(client: unknown, user: StandardUserEntity): Promise<StandardUserEntity> {
     try {
       const prismaClient = client as PrismaClient;
       const record = prismaClient.user.create({
@@ -51,14 +51,14 @@ export const PrismaUserRepository: UserRepository = {
       });
 
       const [recordCreated] = await prismaClient.$transaction([record]);
-      return CommonUserEntity.fromPrisma(recordCreated);
+      return StandardUserEntity.fromPrisma(recordCreated);
     } catch (error) {
       console.log(error);
       prismaGlobalExceptionFilter(error);
       throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
     }
   },
-  async update(client: unknown, user: UpdateUserInput): Promise<CommonUserEntity> {
+  async update(client: unknown, user: UpdateUserInput): Promise<StandardUserEntity> {
     try {
       const prismaClient = client as PrismaClient;
       const record = prismaClient.user.update({
@@ -85,13 +85,13 @@ export const PrismaUserRepository: UserRepository = {
       });
 
       const [recordUpdated] = await prismaClient.$transaction([record]);
-      return CommonUserEntity.fromPrisma(recordUpdated);
+      return StandardUserEntity.fromPrisma(recordUpdated);
     } catch (error) {
       prismaGlobalExceptionFilter(error);
       throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);
     }
   },
-  async delete(client: unknown, searchCriteria: UserSearchCriteriaInput): Promise<CommonUserEntity> {
+  async delete(client: unknown, searchCriteria: UserSearchCriteriaInput): Promise<StandardUserEntity> {
     try {
       const prismaClient = client as PrismaClient;
       const { email, clientId } = searchCriteria;
@@ -105,7 +105,7 @@ export const PrismaUserRepository: UserRepository = {
       });
 
       const [recordDeleted] = await prismaClient.$transaction([record]);
-      return CommonUserEntity.fromPrisma(recordDeleted);
+      return StandardUserEntity.fromPrisma(recordDeleted);
     } catch (error) {
       prismaGlobalExceptionFilter(error);
       throw new InternalServerError(ErrorMessage.INTERNAL_SERVER_ERROR);

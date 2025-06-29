@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import moment from "moment";
 
-import { CommonUserEntity } from "../../../../entities/users/common_user.entity";
 import { JwtAuthPayload, JwtDecodedPayload, JwtUserPayload } from "../../../../entities/users/jwt_user.entity";
+import { StandardUserEntity } from "../../../../entities/users/standard_user.entity";
 import { decrypt, encrypt } from "../../../../libs/crypto";
 import { UserLoggedInPayload } from "../../../../types/authentication/base.types";
 import { TokenEncodedResponse } from "../../../../types/authentication/token.types";
@@ -26,7 +26,7 @@ export const JwtTokenRepository: TokenRepository = {
     }
     return Promise.resolve({ clientId, jwtDecoded });
   },
-  encoded(user: CommonUserEntity): Promise<TokenEncodedResponse> {
+  encoded(user: StandardUserEntity): Promise<TokenEncodedResponse> {
     const iatDate = moment();
     const payload: JwtDecodedPayload = {
       user: {

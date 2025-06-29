@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
-import { AuthProvider, AuthType, CommonUserEntity } from "../../../core/entities/users/common_user.entity";
 import { GuestUserEntity } from "../../../core/entities/users/guest_user.entity";
+import { AuthProvider, AuthType, StandardUserEntity } from "../../../core/entities/users/standard_user.entity";
 import { getTokenRepository } from "../../../core/repositories/authentication/token";
 import { getAuthorizationTokenFromHeaders, getClientIdFromHeaders } from "../../../core/shared/utils/router.util";
 
@@ -27,7 +27,7 @@ export const addUserToRequestMiddleware = async (request: Request, _response: Re
     const userDecoded = jwtDecoded.user;
 
     // TODO: Replace placeholder values with actual user information extracted from the token
-    request.user = new CommonUserEntity(
+    request.user = new StandardUserEntity(
       userDecoded.username,
       userDecoded.first_name,
       userDecoded.last_name,

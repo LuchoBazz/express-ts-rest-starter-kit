@@ -4,8 +4,8 @@ import moment from "moment";
 import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
 import { onSession } from "../../../infrastructure/database/prisma";
-import { AuthType, CommonUserEntity } from "../../entities/users/common_user.entity";
 import { JwtUserPayload } from "../../entities/users/jwt_user.entity";
+import { AuthType, StandardUserEntity } from "../../entities/users/standard_user.entity";
 import { BaseUserEntity } from "../../entities/users/user_base.entity";
 import { ConfigManager } from "../../libs/config_manager";
 import { getAuthRepository } from "../../repositories/authentication/auth";
@@ -27,15 +27,15 @@ export const signInInteractor = async (clientId: string, accessToken: string, em
   const userRepository = getUserRepository();
 
   return onSession(async (client: PrismaClient) => {
-    const user = await authRepository.validateToken({ clientId, accessToken, email });
-    if (!user || (user.email && user.email !== email)) {
+    const authUser = await authRepository.validateToken({ clientId, accessToken, email });
+    if (!authUser || (authUser.email && authUser.email !== email)) {
       throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
     }
-    const commonUser = await userRepository.findOne(client, clientId, email);
-    if (!commonUser) {
+    const user = await userRepository.findOne(client, clientId, email);
+    if (!user) {
       throw new UnauthorizedError(ErrorMessage.USER_NOT_FOUND);
     }
-    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, commonUser);
+    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, user);
   });
 };
 
@@ -47,14 +47,14 @@ export const signUpInteractor = async (clientId: string, accessToken: string, da
   const userRepository = getUserRepository();
 
   return onSession(async (client: PrismaClient) => {
-    const user = await authRepository.validateToken({ clientId, accessToken, email: data.email });
-    if (!user) {
+    const authUser = await authRepository.validateToken({ clientId, accessToken, email: data.email });
+    if (!authUser) {
       throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
     }
 
-    const commonUser = await userRepository.create(
+    const user = await userRepository.create(
       client,
-      new CommonUserEntity(
+      new StandardUserEntity(
         data.username,
         data.firstName,
         data.lastName,
@@ -64,13 +64,13 @@ export const signUpInteractor = async (clientId: string, accessToken: string, da
         data.terms,
         data.notifications,
         true,
-        user.authId,
+        authUser.authId,
         authProviderLabel,
         AuthType.EMAIL_AND_PASSWORD,
         clientId,
       ),
     );
-    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, commonUser);
+    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, user);
   });
 };
 
@@ -94,11 +94,11 @@ export const refreshAuthTokenInteractor = async (clientId: string, refreshToken:
     if (!tokenInvalidated) {
       throw new UnauthorizedError(ErrorMessage.REFRESH_TOKEN_FAILED);
     }
-    const commonUser = await userRepository.findOne(client, clientId, jwtDecoded.user.email);
-    if (!commonUser) {
+    const user = await userRepository.findOne(client, clientId, jwtDecoded.user.email);
+    if (!user) {
       throw new UnauthorizedError(ErrorMessage.USER_NOT_FOUND);
     }
-    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, commonUser);
+    return generateAndSaveAuthTokenStatusUseCase(tokenRepository, authTokenStatusRepository, client, user);
   });
 };
 

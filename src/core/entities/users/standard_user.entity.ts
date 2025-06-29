@@ -51,7 +51,7 @@ export interface UserResponse {
   clientId: string;
 }
 
-export class CommonUserEntity extends BaseUserEntity {
+export class StandardUserEntity extends BaseUserEntity {
   protected username: string;
   protected identificationNumber: string | null;
   protected phoneNumber: string | null;
@@ -77,7 +77,7 @@ export class CommonUserEntity extends BaseUserEntity {
     authType: AuthType,
     organizationClientId: string,
   ) {
-    const role = UserRole.COMMON_USER;
+    const role = UserRole.STANDARD_USER;
     super(firstName, lastName, email, role, organizationClientId);
     this.username = username;
     this.firstName = firstName;
@@ -94,8 +94,8 @@ export class CommonUserEntity extends BaseUserEntity {
     this.authType = authType;
   }
 
-  public static fromPrisma(payload: UserPrisma): CommonUserEntity {
-    const commonUser = new CommonUserEntity(
+  public static fromPrisma(payload: UserPrisma): StandardUserEntity {
+    const user = new StandardUserEntity(
       payload.user_username,
       payload.user_first_name,
       payload.user_last_name,
@@ -110,8 +110,8 @@ export class CommonUserEntity extends BaseUserEntity {
       payload.user_auth_type as AuthType,
       payload.user_organization_client_id,
     );
-    commonUser.setId(payload.user_id);
-    return commonUser;
+    user.setId(payload.user_id);
+    return user;
   }
 
   public toResponse(): UserResponse {

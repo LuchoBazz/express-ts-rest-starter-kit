@@ -2,7 +2,7 @@ import { RoleCachePermissions } from "../../../../../src/core/entities/cache/per
 import { UserRole } from "../../../../../src/core/entities/users/role.enum";
 
 describe("Given a RoleCachePermissions instance", () => {
-  const role = UserRole.COMMON_USER;
+  const role = UserRole.STANDARD_USER;
   const cachePermissions = new RoleCachePermissions(role);
 
   it("should generates correct key", () => {

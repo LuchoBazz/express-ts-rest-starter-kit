@@ -3,7 +3,7 @@ import { Entity } from "../entity";
 export enum UserRole {
   INTERNAL_ADMIN = "INTERNAL_ADMIN",
   EXTERNAL_ADMIN = "EXTERNAL_ADMIN",
-  COMMON_USER = "COMMON_USER",
+  STANDARD_USER = "STANDARD_USER",
   GUEST_USER = "GUEST_USER",
 }
 

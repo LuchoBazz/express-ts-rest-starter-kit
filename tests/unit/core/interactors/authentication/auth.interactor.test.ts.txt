@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 
 import { ErrorMessage } from "../../../../../src/adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../../../src/adapters/api/errors/unauthorized.error";
-import { CommonUserEntity } from "../../../../../src/core/entities/users/common_user.entity";
+import { StandardUserEntity } from "../../../../../src/core/entities/users/standard_user.entity";
 import {
   deleteAuthUserInteractor,
   signUpInteractor,
@@ -49,17 +49,17 @@ const clientId: string = "DEMO";
 
 describe("Given a signUpInteractor", () => {
   let userData: SignUpUser;
-  let commonUser: CommonUserEntity;
+  let standardUser: StandardUserEntity;
 
   beforeEach(() => {
-    const commonUserPrisma = genRandomUserPrisma();
-    commonUser = CommonUserEntity.fromPrisma(commonUserPrisma);
+    const standardUserPrisma = genRandomUserPrisma();
+    standardUser = StandardUserEntity.fromPrisma(standardUserPrisma);
 
     userData = {
-      username: commonUserPrisma.user_username,
-      firstName: commonUserPrisma.user_first_name,
-      lastName: commonUserPrisma.user_last_name,
-      email: commonUserPrisma.user_email,
+      username: standardUserPrisma.user_username,
+      firstName: standardUserPrisma.user_first_name,
+      lastName: standardUserPrisma.user_last_name,
+      email: standardUserPrisma.user_email,
       terms: true,
       notifications: false,
       clientId,
@@ -68,13 +68,13 @@ describe("Given a signUpInteractor", () => {
     };
 
     userMock.mockImplementation(() => {
-      return commonUserPrisma;
+      return standardUserPrisma;
     });
     transactionMock.mockImplementation(() => {
-      return [commonUserPrisma];
+      return [standardUserPrisma];
     });
     authServiceMock.mockImplementation(() => {
-      return Promise.resolve(commonUser);
+      return Promise.resolve(standardUser);
     });
   });
 
@@ -88,7 +88,7 @@ describe("Given a signUpInteractor", () => {
   it("should sign up user successfully", async () => {
     const signedUpUser = await signUpInteractor(clientId, "access-token", userData);
 
-    expect(signedUpUser).toEqual(commonUser);
+    expect(signedUpUser).toEqual(standardUser);
     expect(authServiceMock).toHaveBeenCalledTimes(1);
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
