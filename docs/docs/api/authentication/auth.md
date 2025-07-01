@@ -56,7 +56,6 @@ curl -X GET "http://localhost:3000/authentication/tokens" \
 -H "Authorization: Bearer JWT_AUTH_TOKEN"
 ```
 
-
 ```bash
 curl -X POST "http://localhost:3000/authentication/tokens/logout" \
 -H "Content-Type: application/json" \

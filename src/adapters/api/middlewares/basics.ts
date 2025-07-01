@@ -23,6 +23,10 @@ export const notFound = (_: Request, response: Response, __: NextFunction) => {
 export const logError = (error: any, _: Request, res: Response, __: NextFunction) => {
   const httpCode = (error?.status ?? HttpStatusCode.INTERNAL_ERROR) as number;
   const message = error?.message ?? ErrorMessage.INTERNAL_SERVER_ERROR;
-  const errors = error?.errors?.length ? error.errors : undefined;
+  const errors = error?.errors?.length ? error.errors : [buildErrorResponse(message as string)];
   res.status(httpCode).json({ message, errors });
+};
+
+const buildErrorResponse = (message: string) => {
+  return { msg: message, param: "_internal", location: "server", value: null };
 };
