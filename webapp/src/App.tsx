@@ -5,6 +5,7 @@ import SignUp from "./components/SignUp/SignUp";
 import HomePage from "./components/HomePage/HomePage";
 import SessionLimitList from "./components/SessionLimitList/SessionLimitList";
 import NotFound from "./components/NotFound/NotFound";
+import PricingTable from "./components/PricingTable/PricingTable";
 
 const App: React.FC = () => (
   <Routes>
@@ -12,6 +13,7 @@ const App: React.FC = () => (
     <Route path="/log-in" element={<SignIn />} />
     <Route path="/home" element={<HomePage />} />
     <Route path="/session-limit" element={<SessionLimitList />} />
+    <Route path="/pricing" element={<PricingTable />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
