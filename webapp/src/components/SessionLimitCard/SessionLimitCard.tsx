@@ -1,6 +1,6 @@
 const SessionLimitCard = () => {
   return (
-    <div className="max-w-xl mt-3 mx-auto bg-gray-900 shadow-md rounded-xl">
+    <div className="max-w-xl mt-3 mx-auto bg-gray-700 shadow-md rounded-xl">
       <div className="px-4 py-3">
         <div className="flex items-start">
           <div className="flex-grow truncate">
