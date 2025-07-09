@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 
 import { httpBackendRequest } from "../../infrastructure/rest/backend/api";
+import { getClientId } from "../utils";
 
 interface User {
   user_name: string;
@@ -21,7 +22,7 @@ interface PropsToolsResponse {
   user: User | null;
 }
 
-const clientId = "DEMO";
+const clientId = getClientId();
 
 export const useCustomerLoggedIn = (): PropsToolsResponse => {
   const [loading, setLoading] = React.useState(false);

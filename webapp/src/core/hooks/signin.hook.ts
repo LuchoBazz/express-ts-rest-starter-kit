@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 
 import { httpBackendRequest } from "../../infrastructure/rest/backend/api";
+import { getClientId } from "../utils";
 
 interface PropsSignIn {
   email: string;
@@ -19,7 +20,7 @@ interface PropsResponse {
   error?: Error;
 }
 
-const clientId = "DEMO";
+const clientId = getClientId();
 
 export const useSignIn = (): PropsResponse => {
   const [data, setData] = React.useState<AuthSignUpResponse | null>(null);
