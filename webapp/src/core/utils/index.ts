@@ -1,9 +1,16 @@
+import { v4 as uuidv4 } from "uuid";
+
 export const getClientId = (): string => {
-  const clientId = process.env.REACT_APP_ORGANIZATION_CLIENT_ID;
+  const clientId = import.meta.env.VITE_ORGANIZATION_CLIENT_ID;
 
   if (!clientId || typeof clientId !== "string" || clientId.trim() === "") {
-    throw new Error("Expected REACT_APP_ORGANIZATION_CLIENT_ID to be a non-empty string.");
+    throw new Error("Expected VITE_ORGANIZATION_CLIENT_ID to be a non-empty string.");
   }
 
   return clientId;
+};
+
+export const getusernameFromEmail = (email: string): string => {
+  const username = email.split("@")?.[0];
+  return username ? username : uuidv4();
 };
