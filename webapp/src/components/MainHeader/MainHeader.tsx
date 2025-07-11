@@ -1,6 +1,11 @@
 // Reference: https://tailwindflex.com/@ameth1208/sidebar-3
 
 const MainHeader = () => {
+  const LogOutHandler = () => {
+    localStorage.removeItem("refresh-token-firebase");
+    localStorage.removeItem("token");
+  };
+
   return (
     <div className="w-dvw h-dvh bg-gray-200 grid grid-cols-7">
       <div className="col-span-1 bg-white">
@@ -191,7 +196,9 @@ const MainHeader = () => {
                   ></path>
                 </svg>
               </span>
-              <span className="ml-2 text-sm tracking-wide truncate capitalize hidden lg:block">Logout</span>
+              <span onClick={LogOutHandler} className="ml-2 text-sm tracking-wide truncate capitalize hidden lg:block">
+                Logout
+              </span>
             </div>
           </div>
         </div>
