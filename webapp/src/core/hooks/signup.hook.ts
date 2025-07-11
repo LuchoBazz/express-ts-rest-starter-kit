@@ -36,7 +36,7 @@ export const useSignUp = (): PropsToolsResponse => {
     setError(undefined);
 
     try {
-      const response = await httpBackendRequest<AuthSignUpResponse>("POST", `authentication/sign-up`, body);
+      const response = await httpBackendRequest<AuthSignUpResponse>("POST", `/authentication/sign-up`, body);
       return response;
     } catch (err) {
       if (axios.isAxiosError(err)) {

@@ -29,7 +29,7 @@ export const useSignIn = (): PropsResponse => {
     setError(undefined);
 
     try {
-      const response = await httpBackendRequest<AuthSignUpResponse>("POST", `authentication/sign-in`, {
+      const response = await httpBackendRequest<AuthSignUpResponse>("POST", `/authentication/sign-in`, {
         email,
         access_token: accessToken,
       });
