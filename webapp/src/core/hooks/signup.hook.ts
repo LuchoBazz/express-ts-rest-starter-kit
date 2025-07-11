@@ -4,9 +4,16 @@ import React from "react";
 import { httpBackendRequest } from "../../infrastructure/rest/backend/api";
 import { getClientId } from "../utils";
 
-interface PropsSignUp {
+interface PropsSignUpBody {
+  access_token: string;
   email: string;
-  accessToken: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  identification_number: string | null;
+  phone_number: string | null;
+  terms: boolean;
+  notifications: boolean;
 }
 
 interface AuthSignUpResponse {
@@ -14,7 +21,7 @@ interface AuthSignUpResponse {
 }
 
 interface PropsToolsResponse {
-  signUp: (props: PropsSignUp) => Promise<void>;
+  signUp: (props: PropsSignUpBody) => Promise<void>;
   loading: boolean;
   error?: Error;
   data: AuthSignUpResponse | null;
@@ -27,15 +34,12 @@ export const useSignUp = (): PropsToolsResponse => {
   const [error, setError] = React.useState<Error | undefined>();
   const [data, setData] = React.useState<AuthSignUpResponse | null>(null);
 
-  const signUp = async ({ email, accessToken }: PropsSignUp) => {
+  const signUp = async (body: PropsSignUpBody) => {
     setLoading(true);
     setError(undefined);
 
     try {
-      const response = await httpBackendRequest<AuthSignUpResponse>("POST", `organizations/${clientId}/sign-up`, {
-        email,
-        access_token: accessToken,
-      });
+      const response = await httpBackendRequest<AuthSignUpResponse>("POST", `organizations/${clientId}/sign-up`, body);
       setData(response);
     } catch (err) {
       if (axios.isAxiosError(err)) {
