@@ -11,13 +11,13 @@ interface Props {
 }
 
 export const GoogleButtom = ({ type }: Props) => {
-  const { signUp, data: signUpResponse } = useSignUp();
+  const { signUp } = useSignUp();
   const { signIn, data: signInResponse } = useSignIn();
 
   const auth = useAuth();
 
   if (localStorage.getItem("token")) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/home" replace />;
   }
 
   const handleGoogle = async (e: any) => {
@@ -37,7 +37,7 @@ export const GoogleButtom = ({ type }: Props) => {
       const username = getusernameFromEmail(email);
       // const photoURL = user?.photoURL; // TODO: Add Optional Photo Upload When Registering a New User
 
-      await signUp({
+      const signUpResponse = await signUp({
         access_token: accessToken,
         email,
         username,
@@ -49,13 +49,13 @@ export const GoogleButtom = ({ type }: Props) => {
         notifications: false, // TODO: Add Placeholder for Dynamically Setting a Variable
       });
 
-      token = signUpResponse?.token ?? null;
+      token = signUpResponse?.data?.token ?? null;
     } else if (type === AuthType.SIGN_IN) {
       await signIn({ email, accessToken });
       token = signInResponse?.token ?? null;
     }
     if (token) {
-      localStorage.setItem("refresh-token-firebse", refreshToken);
+      localStorage.setItem("refresh-token-firebase", refreshToken);
       localStorage.setItem("token", token);
     }
   };

@@ -2,7 +2,6 @@ import axios from "axios";
 import React from "react";
 
 import { httpBackendRequest } from "../../infrastructure/rest/backend/api";
-import { getClientId } from "../utils";
 
 interface PropsSignUpBody {
   access_token: string;
@@ -16,44 +15,42 @@ interface PropsSignUpBody {
   notifications: boolean;
 }
 
-interface AuthSignUpResponse {
-  token: string;
+export interface AuthSignUpResponse {
+  data: {
+    token: string;
+  };
 }
 
 interface PropsToolsResponse {
-  signUp: (props: PropsSignUpBody) => Promise<void>;
+  signUp: (props: PropsSignUpBody) => Promise<AuthSignUpResponse | null>;
   loading: boolean;
   error?: Error;
-  data: AuthSignUpResponse | null;
 }
-
-const clientId = getClientId();
 
 export const useSignUp = (): PropsToolsResponse => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<Error | undefined>();
-  const [data, setData] = React.useState<AuthSignUpResponse | null>(null);
 
   const signUp = async (body: PropsSignUpBody) => {
     setLoading(true);
     setError(undefined);
 
     try {
-      const response = await httpBackendRequest<AuthSignUpResponse>("POST", `organizations/${clientId}/sign-up`, body);
-      setData(response);
+      const response = await httpBackendRequest<AuthSignUpResponse>("POST", `authentication/sign-up`, body);
+      return response;
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(err);
       } else {
         setError(new Error("An unknown error occurred"));
       }
-      setData(null);
+      return null;
     } finally {
       setLoading(false);
     }
   };
 
-  return { signUp, loading, error, data };
+  return { signUp, loading, error };
 };
 
 export default useSignUp;

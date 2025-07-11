@@ -2,6 +2,9 @@ import type { Method } from "axios";
 
 import { getTokenWithOutRedirect } from "../../../core/hooks/token.hook";
 import { backendApiInstance } from ".";
+import { getClientId } from "../../../core/utils";
+
+const clientId = getClientId();
 
 export const httpBackendRequest = async <T>(method: Method, url: string, body: {} = {}, query: {} = {}): Promise<T> => {
   try {
@@ -11,7 +14,7 @@ export const httpBackendRequest = async <T>(method: Method, url: string, body: {
       url,
       data: body,
       params: query,
-      headers: { ...authentication },
+      headers: { ...authentication, "client-id": clientId },
     });
     return data;
   } catch (error: any) {
