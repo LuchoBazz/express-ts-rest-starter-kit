@@ -12,7 +12,7 @@ interface Props {
 
 export const GoogleButtom = ({ type }: Props) => {
   const { signUp } = useSignUp();
-  const { signIn, data: signInResponse } = useSignIn();
+  const { signIn } = useSignIn();
 
   const auth = useAuth();
 
@@ -51,9 +51,17 @@ export const GoogleButtom = ({ type }: Props) => {
 
       token = signUpResponse?.data?.token ?? null;
     } else if (type === AuthType.SIGN_IN) {
-      await signIn({ email, accessToken });
-      token = signInResponse?.token ?? null;
+      const signInResponse = await signIn({ email, accessToken });
+      console.log({ signInResponse, email, accessToken });
+      token = signInResponse?.data?.token ?? null;
+      if (!token && response._tokenResponse.isNewUser) {
+        await user.delete();
+      }
     }
+
+    console.log({ user });
+    console.log({ token });
+
     if (token) {
       localStorage.setItem("refresh-token-firebase", refreshToken);
       localStorage.setItem("token", token);
@@ -85,7 +93,7 @@ export const GoogleButtom = ({ type }: Props) => {
           />
         </svg>
       </div>
-      <span className="ml-4">Sign Up with Google</span>
+      <span className="ml-4">{type === AuthType.SIGN_UP ? "Sign Up" : "Sign In"} with Google</span>
     </button>
   );
 };
