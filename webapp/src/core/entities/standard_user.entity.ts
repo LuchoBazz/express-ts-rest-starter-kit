@@ -1,6 +1,13 @@
 export interface StandardUser {
-  user_name: string;
+  id: string;
+  auth_id: string;
+  auth_provider: string;
+  auth_token_status_id: string;
+  auth_type: string;
+  client_id: string;
+  email: string;
   first_name: string;
   last_name: string;
-  email: string;
+  role: string;
+  username: string;
 }

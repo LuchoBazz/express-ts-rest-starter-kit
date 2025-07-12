@@ -16,7 +16,7 @@ interface PropsToolsResponse {
   error?: Error;
 }
 
-export const useCustomerLoggedIn = (): PropsToolsResponse => {
+export const useUserLoggedIn = (): PropsToolsResponse => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<Error | undefined>();
 
@@ -46,4 +46,4 @@ export const useCustomerLoggedIn = (): PropsToolsResponse => {
   return { fetchUser, loading, error };
 };
 
-export default useCustomerLoggedIn;
+export default useUserLoggedIn;

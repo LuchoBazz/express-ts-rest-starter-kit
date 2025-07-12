@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { useAuth } from "../../../context/AuthContext";
 import useSignUp from "../../../hooks/signup.hook";
 import { AuthType } from "../../../entities/auth.entity";
@@ -11,6 +13,8 @@ interface Props {
 export const GoogleButtom = ({ type }: Props) => {
   const { signUp } = useSignUp();
   const { signIn } = useSignIn();
+
+  const navigate = useNavigate();
 
   const auth = useAuth();
 
@@ -55,6 +59,7 @@ export const GoogleButtom = ({ type }: Props) => {
     if (token) {
       localStorage.setItem("refresh-token-firebase", refreshToken);
       localStorage.setItem("token", token);
+      navigate("/home");
     }
   };
 

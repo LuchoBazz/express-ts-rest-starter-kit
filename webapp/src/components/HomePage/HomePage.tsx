@@ -1,17 +1,19 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import useCustomerLoggedIn from "../../core/hooks/customer-loggued-in.hook";
+import useUserLoggedIn from "../../core/hooks/user-loggued-in.hook";
 import { removeAuthStorage } from "../../core/utils";
 import type { StandardUser } from "../../core/entities/standard_user.entity";
 import MainHeader from "../MainHeader/MainHeader";
 
 const HomePage = () => {
-  const { fetchUser, error } = useCustomerLoggedIn();
+  const { fetchUser, error } = useUserLoggedIn();
   const [user, setUser] = useState<StandardUser | null>(null);
   const [hasUserBeenValidated, setHasUserBeenValidated] = useState<boolean>(false);
   const token = localStorage.getItem("token");
 
   if (!token || error) {
+    removeAuthStorage();
+
     return <Navigate to="/log-in" replace />;
   }
 
@@ -33,7 +35,7 @@ const HomePage = () => {
 
   if (hasUserBeenValidated && !user) {
     removeAuthStorage();
-    // redirect to log-in
+    return <Navigate to="/log-in" replace />;
   }
 
   return (

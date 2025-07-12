@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { AuthType } from "../../core/entities/auth.entity";
 import { GoogleButtom } from "../../core/pages/authentication/providers/google";
 import { useAuth } from "../../core/context/AuthContext";
@@ -11,6 +13,7 @@ const SignIn = () => {
   }
 
   const { signIn } = useSignIn();
+  const navigate = useNavigate();
 
   const auth = useAuth();
 
@@ -32,6 +35,7 @@ const SignIn = () => {
     if (token) {
       localStorage.setItem("refresh-token-firebase", refreshToken);
       localStorage.setItem("token", token);
+      navigate("/home");
     }
   };
 
