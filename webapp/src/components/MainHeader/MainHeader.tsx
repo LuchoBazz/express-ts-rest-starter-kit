@@ -1,10 +1,14 @@
-// Reference: https://tailwindflex.com/@ameth1208/sidebar-3
+import { useNavigate } from "react-router-dom";
 
 import { removeAuthStorage } from "../../core/utils";
 
+// Reference: https://tailwindflex.com/@ameth1208/sidebar-3
 const MainHeader = () => {
+  const navigate = useNavigate();
+
   const LogOutHandler = () => {
     removeAuthStorage();
+    navigate("/log-in");
   };
 
   return (
