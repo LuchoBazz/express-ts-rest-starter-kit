@@ -3,8 +3,13 @@ import { AuthType } from "../../core/entities/auth.entity";
 import { GoogleButtom } from "../../core/pages/authentication/providers/google";
 import { useAuth } from "../../core/context/AuthContext";
 import { useSignIn } from "../../core/hooks/signin.hook";
+import { Navigate } from "react-router-dom";
 
 const SignIn = () => {
+  if (localStorage.getItem("token")) {
+    return <Navigate to="/home" replace />;
+  }
+
   const { signIn } = useSignIn();
 
   const auth = useAuth();

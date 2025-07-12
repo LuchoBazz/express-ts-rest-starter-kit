@@ -4,8 +4,13 @@ import { AuthType } from "../../core/entities/auth.entity";
 import { GoogleButtom } from "../../core/pages/authentication/providers/google";
 import useSignUp from "../../core/hooks/signup.hook";
 import { getusernameFromEmail } from "../../core/utils";
+import { Navigate } from "react-router-dom";
 
 const SignUp = () => {
+  if (localStorage.getItem("token")) {
+    return <Navigate to="/home" replace />;
+  }
+
   const { signUp } = useSignUp();
 
   const auth = useAuth();

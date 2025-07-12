@@ -1,5 +1,3 @@
-import { Navigate } from "react-router-dom";
-
 import { useAuth } from "../../../context/AuthContext";
 import useSignUp from "../../../hooks/signup.hook";
 import { AuthType } from "../../../entities/auth.entity";
@@ -15,10 +13,6 @@ export const GoogleButtom = ({ type }: Props) => {
   const { signIn } = useSignIn();
 
   const auth = useAuth();
-
-  if (localStorage.getItem("token")) {
-    return <Navigate to="/home" replace />;
-  }
 
   const handleGoogle = async (e: any) => {
     e.preventDefault();
