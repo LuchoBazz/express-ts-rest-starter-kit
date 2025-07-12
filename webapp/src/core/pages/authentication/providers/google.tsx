@@ -52,7 +52,6 @@ export const GoogleButtom = ({ type }: Props) => {
       token = signUpResponse?.data?.token ?? null;
     } else if (type === AuthType.SIGN_IN) {
       const signInResponse = await signIn({ email, accessToken });
-      console.log({ signInResponse, email, accessToken });
       token = signInResponse?.data?.token ?? null;
       if (!token && response._tokenResponse.isNewUser) {
         await user?.delete();
