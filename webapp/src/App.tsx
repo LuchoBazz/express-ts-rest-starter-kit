@@ -1,16 +1,16 @@
 import { Route, Routes } from "react-router-dom";
 
-import SignIn from "./components/SignIn/SignIn";
 import HomePage from "./components/HomePage/HomePage";
 import SessionLimitList from "./components/SessionLimitList/SessionLimitList";
 import NotFound from "./components/NotFound/NotFound";
 import PricingTable from "./components/PricingTable/PricingTable";
 import SignUpPage from "./core/pages/authentication/sign-up/signUp";
+import SignInPage from "./core/pages/authentication/sign-in/signIn";
 
 const App: React.FC = () => (
   <Routes>
     <Route path="/" element={<SignUpPage />} />
-    <Route path="/log-in" element={<SignIn />} />
+    <Route path="/log-in" element={<SignInPage />} />
     <Route path="/home" element={<HomePage />} />
     <Route path="/session-limit" element={<SessionLimitList />} />
     <Route path="/pricing" element={<PricingTable />} />
