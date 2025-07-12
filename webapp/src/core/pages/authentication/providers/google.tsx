@@ -59,9 +59,6 @@ export const GoogleButtom = ({ type }: Props) => {
       }
     }
 
-    console.log({ user });
-    console.log({ token });
-
     if (token) {
       localStorage.setItem("refresh-token-firebase", refreshToken);
       localStorage.setItem("token", token);
