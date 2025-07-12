@@ -1,9 +1,10 @@
 // Reference: https://tailwindflex.com/@ameth1208/sidebar-3
 
+import { removeAuthStorage } from "../../core/utils";
+
 const MainHeader = () => {
   const LogOutHandler = () => {
-    localStorage.removeItem("refresh-token-firebase");
-    localStorage.removeItem("token");
+    removeAuthStorage();
   };
 
   return (

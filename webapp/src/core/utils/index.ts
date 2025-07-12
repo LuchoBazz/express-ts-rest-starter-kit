@@ -14,3 +14,8 @@ export const getusernameFromEmail = (email: string): string => {
   const username = email.split("@")?.[0];
   return username ? username : uuidv4();
 };
+
+export const removeAuthStorage = (): void => {
+  localStorage.removeItem("refresh-token-firebase");
+  localStorage.removeItem("token");
+};

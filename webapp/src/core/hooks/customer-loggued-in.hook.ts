@@ -2,32 +2,23 @@ import axios from "axios";
 import React from "react";
 
 import { httpBackendRequest } from "../../infrastructure/rest/backend/api";
-import { getClientId } from "../utils";
-
-interface User {
-  user_name: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-}
+import type { StandardUser } from "../entities/standard_user.entity";
 
 interface PropsCustomerLoggedInResponse {
-  user: User;
+  data: {
+    user: StandardUser;
+  };
 }
 
 interface PropsToolsResponse {
-  fetchUser: (token: string) => Promise<void>;
+  fetchUser: (token: string) => Promise<StandardUser | null>;
   loading: boolean;
   error?: Error;
-  user: User | null;
 }
-
-const clientId = getClientId();
 
 export const useCustomerLoggedIn = (): PropsToolsResponse => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<Error | undefined>();
-  const [user, setUser] = React.useState<User | null>(null);
 
   const fetchUser = async () => {
     setLoading(true);
@@ -35,24 +26,24 @@ export const useCustomerLoggedIn = (): PropsToolsResponse => {
 
     try {
       const response = await httpBackendRequest<PropsCustomerLoggedInResponse>(
-        "GET",
-        `/organizations/${clientId}/customer-logged-in`,
-        {},
+        "POST",
+        `/authentication/user-logged-in`,
       );
-      setUser(response.user);
+      return response.data.user;
     } catch (err) {
+      console.log(err);
       if (axios.isAxiosError(err)) {
         setError(err);
       } else {
         setError(new Error("An unknown error occurred"));
       }
-      setUser(null);
+      return null;
     } finally {
       setLoading(false);
     }
   };
 
-  return { fetchUser, loading, error, user };
+  return { fetchUser, loading, error };
 };
 
 export default useCustomerLoggedIn;
