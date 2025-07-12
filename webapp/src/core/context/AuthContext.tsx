@@ -10,8 +10,9 @@ import {
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { auth } from "../../infrastructure/authentication/firebase/firebase.config";
+import type { AuthContextType } from "../entities/auth.context.entity";
 
-export const authContext = createContext<any>(null);
+export const authContext = createContext<AuthContextType | null>(null);
 
 export const useAuth = () => {
   const context = useContext(authContext);

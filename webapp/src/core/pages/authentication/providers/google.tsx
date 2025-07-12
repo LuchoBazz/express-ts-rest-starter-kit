@@ -23,9 +23,9 @@ export const GoogleButtom = ({ type }: Props) => {
   const handleGoogle = async (e: any) => {
     e.preventDefault();
 
-    const response = await auth.loginWithGoogle();
-    const user = response.user;
-    const email = user?.email;
+    const response: any = await auth?.loginWithGoogle();
+    const user: any = response?.user;
+    const email = user?.email ?? "";
     const accessToken = user?.stsTokenManager?.accessToken;
     const refreshToken = user?.stsTokenManager?.refreshToken;
     let token: string | null = null;
@@ -55,7 +55,7 @@ export const GoogleButtom = ({ type }: Props) => {
       console.log({ signInResponse, email, accessToken });
       token = signInResponse?.data?.token ?? null;
       if (!token && response._tokenResponse.isNewUser) {
-        await user.delete();
+        await user?.delete();
       }
     }
 
