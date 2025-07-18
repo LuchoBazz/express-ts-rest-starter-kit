@@ -158,7 +158,7 @@ const MainHeader = () => {
             <div className="flex flex-col  space-y-1 mx-1 lg:mt-1 ">
               <a
                 className="flex flex-row items-center  justify-center lg:justify-start rounded-md h-12 focus:outline-none pr-3.5  lg:pr-6 font-semibold text-gray-500 hover:text-primary-400 cursor-pointer "
-                href="/app/settings"
+                href="/settings"
               >
                 <span className="inline-flex justify-center items-center ml-3.5">
                   <svg xmlns="http://www.w3.org/2000/svg" width="1.25rem" height="1.25rem" viewBox="0 0 24 24">
