@@ -31,8 +31,6 @@ const HomePage = () => {
     getUser();
   }, []);
 
-  console.log({ hasUserBeenValidated, user });
-
   if (hasUserBeenValidated && !user) {
     removeAuthStorage();
     return <Navigate to="/log-in" replace />;

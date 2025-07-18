@@ -115,7 +115,6 @@ export const updateUserSchema = checkSchema({
     isEmail: {
       errorMessage: "email is not valid.",
     },
-    normalizeEmail: true,
   },
   username: {
     in: ["body"],
