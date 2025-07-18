@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import MainHeader from "../../../../components/MainHeader/MainHeader";
 import useUpdateUser from "../../../hooks/update-user.hook";
 import useUserLoggedIn from "../../../hooks/user-loggued-in.hook";
+import useRefreshToken from "../../../hooks/refresh-token.hook";
 
 // Refence: https://tailwindcss.com/plus/ui-blocks/application-ui/forms/form-layouts
 
 const SettingsPage = () => {
   const { updateUser } = useUpdateUser();
+  const { refreshToken } = useRefreshToken();
   const navigate = useNavigate();
 
   const { fetchUser } = useUserLoggedIn();
@@ -29,7 +31,8 @@ const SettingsPage = () => {
 
   const handleSave = async () => {
     await updateUser({ email, first_name: firstName, last_name: lastName });
-    // TODO: Refresh Token
+    const newToken = await refreshToken(token!);
+    localStorage.setItem("token", newToken ?? token ?? "");
   };
 
   const handleCancel = () => {
