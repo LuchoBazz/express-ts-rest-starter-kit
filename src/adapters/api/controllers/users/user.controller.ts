@@ -4,6 +4,8 @@ import { updateUsersInteractor } from "../../../../core/interactors/users/users.
 import { getClientIdFromHeaders } from "../../../../core/shared/utils/router.util";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
 import { presentStandardUser } from "../../../presenters/users/standard_user.presenter";
+import { ErrorMessage } from "../../errors/errors.enum";
+import { UnauthorizedError } from "../../errors/unauthorized.error";
 import { validateSchema } from "../../validator";
 import { updateUserSchema } from "./schemas";
 
@@ -12,6 +14,7 @@ export const updateUserController = [
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const clientId = getClientIdFromHeaders(request.headers);
+      const { user } = request;
 
       const {
         email,
@@ -22,12 +25,11 @@ export const updateUserController = [
         phone_number: phoneNumber,
         terms,
         notifications,
-        is_active: isActive,
-        uid,
-        role,
-        auth_provider: authProvider,
-        auth_type: authType,
       } = request.body;
+
+      if (!user || email !== user.getEmail() || clientId !== user.getClientId()) {
+        throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
+      }
 
       const userFound = await updateUsersInteractor({
         clientId,
@@ -39,11 +41,6 @@ export const updateUserController = [
         phoneNumber,
         terms,
         notifications,
-        isActive,
-        uid,
-        role,
-        authProvider,
-        authType,
       });
 
       const responseUser = presentStandardUser(userFound);

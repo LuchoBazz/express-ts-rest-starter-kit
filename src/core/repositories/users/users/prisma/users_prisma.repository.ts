@@ -76,11 +76,6 @@ export const PrismaUserRepository: UserRepository = {
           user_phone_number: user.phoneNumber,
           user_terms: user.terms,
           user_notifications: user.notifications,
-          user_is_active: user.isActive,
-          user_uid: user.uid,
-          user_role: user.role,
-          user_auth_provider: user.authProvider,
-          user_auth_type: user.authType,
         },
       });
 

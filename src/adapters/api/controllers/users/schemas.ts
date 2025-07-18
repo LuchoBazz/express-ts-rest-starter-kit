@@ -172,40 +172,4 @@ export const updateUserSchema = checkSchema({
     },
     toBoolean: true,
   },
-  is_active: {
-    in: ["body"],
-    optional: true,
-    isBoolean: {
-      errorMessage: "is_active must be a boolean value.",
-    },
-    toBoolean: true,
-  },
-  uid: {
-    in: ["body"],
-    optional: true,
-    isString: {
-      errorMessage: "uid must be a string.",
-    },
-  },
-  role: {
-    in: ["body"],
-    optional: true,
-    isString: {
-      errorMessage: "role must be a string.",
-    },
-  },
-  auth_provider: {
-    in: ["body"],
-    optional: true,
-    isString: {
-      errorMessage: "auth_provider must be a string.",
-    },
-  },
-  auth_type: {
-    in: ["body"],
-    optional: true,
-    isString: {
-      errorMessage: "auth_type must be a string.",
-    },
-  },
 });
