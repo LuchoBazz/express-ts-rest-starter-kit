@@ -41,8 +41,6 @@ export const GoogleButtom = ({ type }: Props) => {
         username,
         first_name: firstName,
         last_name: lastName,
-        identification_number: null,
-        phone_number: null,
         terms: true, // TODO: Add Placeholder for Dynamically Setting a Variable
         notifications: false, // TODO: Add Placeholder for Dynamically Setting a Variable
       });

@@ -9,8 +9,6 @@ interface PropsSignUpBody {
   username: string;
   first_name: string;
   last_name: string;
-  identification_number: string | null;
-  phone_number: string | null;
   terms: boolean;
   notifications: boolean;
 }
