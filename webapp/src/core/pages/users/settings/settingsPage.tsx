@@ -1,14 +1,18 @@
 import MainHeader from "../../../../components/MainHeader/MainHeader";
 
+// Refence: https://tailwindcss.com/plus/ui-blocks/application-ui/forms/form-layouts
+
 const SettingsPage = () => {
   return (
-    <div className="flex gap-8">
+    <div className="flex gap-8 h-screen overflow-hidden">
       <div className="w-1/4">
         <MainHeader />
       </div>
 
-      <div className="w-3/4 m-[30px]">
-        <form className="m-2">
+      <div className="w-3/4 m-[30px] overflow-y-auto h-full">
+        <div className="m-2 mb-20">
+          {" "}
+          {/*form*/}
           <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
               <h2 className="text-base/7 font-semibold text-gray-900">Profile</h2>
@@ -29,6 +33,7 @@ const SettingsPage = () => {
                         name="username"
                         value="dostoevsky"
                         type="text"
+                        disabled
                         placeholder="username"
                         className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                       />
@@ -245,7 +250,6 @@ const SettingsPage = () => {
                   <div className="mt-6 space-y-6">
                     <div className="flex items-center gap-x-3">
                       <input
-                        defaultChecked
                         id="push-everything"
                         name="push-notifications"
                         type="radio"
@@ -268,6 +272,7 @@ const SettingsPage = () => {
                     </div>
                     <div className="flex items-center gap-x-3">
                       <input
+                        defaultChecked
                         id="push-nothing"
                         name="push-notifications"
                         type="radio"
@@ -282,7 +287,6 @@ const SettingsPage = () => {
               </div>
             </div>
           </div>
-
           <div className="mt-6 flex items-center justify-end gap-x-6">
             <button type="button" className="text-sm/6 font-semibold text-gray-900">
               Cancel
@@ -294,7 +298,7 @@ const SettingsPage = () => {
               Save
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
