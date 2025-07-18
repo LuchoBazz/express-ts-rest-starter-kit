@@ -108,20 +108,6 @@ export const signUpSchema = checkSchema({
       errorMessage: "last_name must be a string.",
     },
   },
-  identification_number: {
-    in: ["body"],
-    optional: { options: { nullable: true } },
-    isString: {
-      errorMessage: "identification_number must be a string.",
-    },
-  },
-  phone_number: {
-    in: ["body"],
-    optional: { options: { nullable: true } },
-    isString: {
-      errorMessage: "phone_number must be a string.",
-    },
-  },
   terms: {
     in: ["body"],
     isBoolean: {

@@ -59,8 +59,6 @@ export const signUpController = [
         first_name: firstName,
         last_name: lastName,
         email,
-        identification_number: identificationNumber,
-        phone_number: phoneNumber,
         terms,
         notifications,
       } = request.body;
@@ -70,8 +68,6 @@ export const signUpController = [
         firstName,
         lastName,
         email,
-        identificationNumber: identificationNumber ?? null,
-        phoneNumber: phoneNumber ?? null,
         terms,
         notifications,
         clientId,
