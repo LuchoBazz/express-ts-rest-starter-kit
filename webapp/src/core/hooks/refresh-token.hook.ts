@@ -24,11 +24,9 @@ export const useRefreshToken = (): PropsToolsResponse => {
     setError(undefined);
 
     try {
-      const response = await httpBackendRequest<PropsRefreshTokenResponse>(
-        "POST",
-        `/authentication/refresh-token`,
-        { refresh_token: token },
-      );
+      const response = await httpBackendRequest<PropsRefreshTokenResponse>("POST", `/authentication/refresh-token`, {
+        refresh_token: token,
+      });
       return response.data.token;
     } catch (err) {
       console.log(err);

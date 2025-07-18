@@ -16,10 +16,10 @@ const SettingsPage = () => {
   const { fetchUser } = useUserLoggedIn();
   const token = localStorage.getItem("token");
 
-  const [email, setEmail] = useState<string>("username");
-  const [firstName, setFirstName] = useState<string>("firstName");
-  const [lastName, setLastName] = useState<string>("lastName");
-  const [username, setUserName] = useState<string>("username");
+  const [email, setEmail] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [username, setUserName] = useState<string>("");
 
   const handleChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setFirstName(e.target.value);
@@ -41,10 +41,10 @@ const SettingsPage = () => {
 
   const getUser = async (): Promise<void> => {
     const fetchedUser = await fetchUser(token!);
-    setEmail(fetchedUser?.email ?? "username");
-    setFirstName(fetchedUser?.first_name ?? "firstName");
-    setLastName(fetchedUser?.last_name ?? "lastName");
-    setUserName(fetchedUser?.username ?? "username");
+    setEmail(fetchedUser?.email ?? "");
+    setFirstName(fetchedUser?.first_name ?? "");
+    setLastName(fetchedUser?.last_name ?? "");
+    setUserName(fetchedUser?.username ?? "");
   };
 
   useEffect(() => {
@@ -65,7 +65,8 @@ const SettingsPage = () => {
             <div className="border-b border-gray-900/10 pb-12">
               <h2 className="text-base/7 font-semibold text-gray-900">Profile</h2>
               <p className="mt-1 text-sm/6 text-gray-600">
-                This information will be displayed publicly so be careful what you share.
+                Welcome to your profile. Here you can view and manage your personal information, settings, and
+                preferences.
               </p>
 
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -253,7 +254,6 @@ const SettingsPage = () => {
                       <div className="flex h-6 shrink-0 items-center">
                         <div className="group grid size-4 grid-cols-1">
                           <input
-                            defaultChecked
                             id="comments"
                             name="comments"
                             type="checkbox"
