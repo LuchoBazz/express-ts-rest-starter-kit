@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import MainHeader from "../../../../components/MainHeader/MainHeader";
 import useUpdateUser from "../../../hooks/update-user.hook";
 import useUserLoggedIn from "../../../hooks/user-loggued-in.hook";
-import type { StandardUser } from "../../../entities/standard_user.entity";
 
 // Refence: https://tailwindcss.com/plus/ui-blocks/application-ui/forms/form-layouts
 
@@ -15,10 +14,10 @@ const SettingsPage = () => {
   const { fetchUser } = useUserLoggedIn();
   const token = localStorage.getItem("token");
 
-  const [email, setEmail] = useState<string>("N/A");
-  const [firstName, setFirstName] = useState<string>("N/A");
-  const [lastName, setLastName] = useState<string>("N/A");
-  const [username, setUserName] = useState<string>("N/A");
+  const [email, setEmail] = useState<string>("username");
+  const [firstName, setFirstName] = useState<string>("firstName");
+  const [lastName, setLastName] = useState<string>("lastName");
+  const [username, setUserName] = useState<string>("username");
 
   const handleChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setFirstName(e.target.value);
@@ -39,10 +38,10 @@ const SettingsPage = () => {
 
   const getUser = async (): Promise<void> => {
     const fetchedUser = await fetchUser(token!);
-    setEmail(fetchedUser?.email ?? "N/A");
-    setFirstName(fetchedUser?.first_name ?? "N/A");
-    setLastName(fetchedUser?.last_name ?? "N/A");
-    setUserName(fetchedUser?.username ?? "N/A");
+    setEmail(fetchedUser?.email ?? "username");
+    setFirstName(fetchedUser?.first_name ?? "firstName");
+    setLastName(fetchedUser?.last_name ?? "lastName");
+    setUserName(fetchedUser?.username ?? "username");
   };
 
   useEffect(() => {
@@ -73,7 +72,9 @@ const SettingsPage = () => {
                   </label>
                   <div className="mt-2">
                     <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                      <div className="shrink-0 text-base text-gray-500 select-none sm:text-sm/6">localhost:5173/</div>
+                      <div className="shrink-0 text-base text-gray-500 select-none sm:text-sm/6">
+                        localhost:5173/profile/
+                      </div>
                       <input
                         id="username"
                         name="username"
