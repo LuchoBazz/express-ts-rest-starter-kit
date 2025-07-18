@@ -17,10 +17,6 @@ curl -X PUT http://localhost:3000/users \
     "phone_number": "+441234567890",
     "terms": true,
     "notifications": false,
-    "is_active": true,
-    "uid": "user-uid-001",
-    "role": "ADMIN",
-    "auth_provider": "google",
-    "auth_type": "oauth"
+    "is_active": true
   }'
 ```
