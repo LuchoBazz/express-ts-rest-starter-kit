@@ -184,6 +184,30 @@ export const logOutInteractor = async (clientId: string, token: string): Promise
   return true;
 };
 
+export const revokeTokenByIdInteractor = async (clientId: string, id: string, token: string): Promise<boolean> => {
+  const tokenRepository = getTokenRepository();
+  const jwtDecoded = await getAuthorizedTokenPayload(tokenRepository, clientId, token);
+  const authTokenStatusRepository = getAuthTokenStatusesRepository();
+  await onSession(async (client: PrismaClient) => {
+    const ats = await authTokenStatusRepository.findOne(client, id);
+    if (!ats) {
+      throw new UnauthorizedError(ErrorMessage.AUTH_TOKEN_STATUSES_NOT_FOUND);
+    }
+    console.log(JSON.stringify({ ats, user: jwtDecoded.user }, undefined, 2));
+
+    if (ats.getEmail() !== jwtDecoded.user.email || ats.getOrganizationClientId() !== clientId) {
+      throw new UnauthorizedError(ErrorMessage.UNAUTHORIZED);
+    }
+
+    return authTokenStatusRepository.revokeBySession(client, {
+      id: ats.getId(),
+      clientId,
+      email: jwtDecoded.user.email,
+    });
+  });
+  return true;
+};
+
 export const revokeAllTokensByUserInteractor = async (clientId: string, token: string): Promise<boolean> => {
   const tokenRepository = getTokenRepository();
   const jwtDecoded = await getAuthorizedTokenPayload(tokenRepository, clientId, token);

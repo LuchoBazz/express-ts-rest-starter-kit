@@ -212,3 +212,24 @@ export const refreshAuthTokenSchema = checkSchema({
     },
   },
 });
+
+export const authTokenStatusesIdSchema = checkSchema({
+  ats_id: {
+    in: ["params"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing id.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "id can not be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "id is not a string.",
+    },
+  },
+});

@@ -7,6 +7,7 @@ import {
   refreshAuthTokenController,
   revokeAllTokensByUserController,
   revokeAllTokensExceptCurrentController,
+  revokeTokenByIdController,
   signInController,
   signUpController,
   userLoggedInController,
@@ -23,6 +24,7 @@ organization.post("/user-logged-in", userLoggedInController);
 
 organization.get("/tokens", getActiveTokensController);
 organization.post("/tokens/logout", logOutController);
+organization.post("/tokens/revoke/:ats_id", revokeTokenByIdController);
 organization.post("/tokens/revoke-all", revokeAllTokensByUserController);
 organization.post("/tokens/revoke-all-except-current", revokeAllTokensExceptCurrentController);
 

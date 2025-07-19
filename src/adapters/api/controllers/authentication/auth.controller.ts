@@ -7,6 +7,7 @@ import {
   refreshAuthTokenInteractor,
   revokeAllTokensByUserInteractor,
   revokeAllTokensExceptCurrentInteractor,
+  revokeTokenByIdInteractor,
   signInInteractor,
   signUpInteractor,
   userLoggedInInteractor,
@@ -22,6 +23,7 @@ import { presentAuthTokenStatuses } from "../../../presenters/users/auth_token_s
 import { validateSchema } from "../../validator";
 import { clientIdInHeaderSchema } from "../organizations/schemas";
 import {
+  authTokenStatusesIdSchema,
   authTypeSchema,
   deleteAuthUserSchema,
   refreshAuthTokenSchema,
@@ -148,6 +150,25 @@ export const logOutController = [
       const token = getAuthorizationTokenFromHeaders(request.headers);
 
       const success = await logOutInteractor(clientId, token);
+
+      response.status(HttpStatusCode.OK).json({ data: { success } });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
+
+export const revokeTokenByIdController = [
+  validateSchema(clientIdInHeaderSchema),
+  validateSchema(userAuthorizationInSchema),
+  validateSchema(authTokenStatusesIdSchema),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const { ats_id } = request.params;
+      const clientId = getClientIdFromHeaders(request.headers);
+      const token = getAuthorizationTokenFromHeaders(request.headers);
+
+      const success = await revokeTokenByIdInteractor(clientId, ats_id, token);
 
       response.status(HttpStatusCode.OK).json({ data: { success } });
     } catch (error) {

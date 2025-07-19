@@ -70,6 +70,13 @@ curl -X POST "http://localhost:3000/authentication/tokens/logout" \
 ```
 
 ```bash
+curl -X POST "http://localhost:3000/authentication/tokens/rekove/{ats_id}" \
+-H "Content-Type: application/json" \
+-H "client-id: DEMO" \
+-H "Authorization: Bearer JWT_AUTH_TOKEN"
+```
+
+```bash
 curl -X POST "http://localhost:3000/authentication/tokens/revoke-all" \
 -H "Content-Type: application/json" \
 -H "client-id: DEMO" \
