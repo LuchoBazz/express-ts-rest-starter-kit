@@ -242,5 +242,5 @@ export const getActiveTokensInteractor = async (clientId: string, token: string)
       email: jwtDecoded.user.email,
     });
   });
-  return authTokenStatuses;
+  return authTokenStatuses.filter((ats) => ats.getId() !== jwtDecoded.user.auth_token_status_id);
 };

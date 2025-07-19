@@ -223,8 +223,9 @@ export const getActiveTokensController = [
       const token = getAuthorizationTokenFromHeaders(request.headers);
 
       const tokens = await getActiveTokensInteractor(clientId, token);
-      const shouldRevokeTokens = tokens.length > MAX_ALLOWED_TOKENS;
-      const numberOfTokensToRevoke = Math.max(0, tokens.length - MAX_ALLOWED_TOKENS);
+      const numberOfTokens = tokens.length + 1;
+      const shouldRevokeTokens = numberOfTokens > MAX_ALLOWED_TOKENS;
+      const numberOfTokensToRevoke = Math.max(0, numberOfTokens - MAX_ALLOWED_TOKENS);
 
       response.status(HttpStatusCode.OK).json({
         data: {

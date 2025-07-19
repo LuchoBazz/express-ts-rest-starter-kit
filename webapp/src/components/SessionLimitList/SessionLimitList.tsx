@@ -10,6 +10,16 @@ const SessionLimitList = () => {
 
   const [atss, setAts] = useState<AuthTokenStatusResponse[]>([]);
 
+  const handleSignOutAll = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    console.log("Signing out from all sessions...");
+  };
+
+  const handleSignOutOthers = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    console.log("Signing out from all other sessions...");
+  };
+
   const authTokenStatusesHandle = async (): Promise<void> => {
     const response = await getAuthTokenStatuses();
     setAts(response?.tokens ?? []);
@@ -37,8 +47,22 @@ const SessionLimitList = () => {
           </div>
 
           <div className="mt-4 text-center">
-            <a href="#" className="inline-flex items-center gap-2 text-lg font-medium text-indigo-600 hover:underline">
-              📌 Sign out from all sessions
+            <a
+              href="#"
+              className="inline-flex items-center gap-2 text-lg font-medium text-indigo-600 hover:underline"
+              onClick={handleSignOutAll}
+            >
+              🔒 Sign out from all sessions
+            </a>
+          </div>
+
+          <div className="mt-4 text-center">
+            <a
+              href="#"
+              className="inline-flex items-center gap-2 text-lg font-medium text-indigo-600 hover:underline"
+              onClick={handleSignOutOthers}
+            >
+              🚪 Sign out from all other sessions
             </a>
           </div>
         </div>
