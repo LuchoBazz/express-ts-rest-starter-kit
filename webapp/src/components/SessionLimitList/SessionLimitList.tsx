@@ -1,8 +1,26 @@
+import { useEffect, useState } from "react";
+import useGetAuthTokenStatuses from "../../core/hooks/auth-token-statuses.hook";
 import SessionLimitCard from "../SessionLimitCard/SessionLimitCard";
+import type { AuthTokenStatusResponse } from "../../core/entities/auth_token_statuses.entity";
 
 // Reference: https://tailwindflex.com/@livia-flores/contact-information-section
 
 const SessionLimitList = () => {
+  const { getAuthTokenStatuses } = useGetAuthTokenStatuses();
+
+  const [atss, setAts] = useState<AuthTokenStatusResponse[]>([]);
+
+  const authTokenStatusesHandle = async (): Promise<void> => {
+    const response = await getAuthTokenStatuses();
+    setAts(response?.tokens ?? []);
+  };
+
+  useEffect(() => {
+    authTokenStatusesHandle();
+  }, []);
+
+  console.log(atss);
+
   return (
     <div>
       <div className="bg-gray-100 py-12">
@@ -25,9 +43,10 @@ const SessionLimitList = () => {
           </div>
         </div>
       </div>
-      <SessionLimitCard />
-      <SessionLimitCard />
-      <SessionLimitCard />
+
+      {atss.map((ats) => {
+        return <SessionLimitCard {...ats} />;
+      })}
     </div>
   );
 };

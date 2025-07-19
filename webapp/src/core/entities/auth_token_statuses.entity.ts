@@ -2,11 +2,11 @@ export interface AuthTokenStatusResponse {
   id: string;
   email: string;
   organization_client_id: string;
-  issued_at: Date;
-  expiration_time: Date;
+  issued_at: string;
+  expiration_time: string;
   ip_address?: string | null;
   user_agent?: string | null;
   revoked: boolean;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 }
