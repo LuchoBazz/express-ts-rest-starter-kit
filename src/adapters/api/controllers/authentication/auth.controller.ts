@@ -18,6 +18,7 @@ import {
 } from "../../../../core/shared/utils/router.util";
 import { SignUpUser } from "../../../../core/types/authentication/user.type";
 import { HttpStatusCode } from "../../../../infrastructure/http/basics";
+import { presentAuthTokenStatuses } from "../../../presenters/users/auth_token_statuses.presenter";
 import { validateSchema } from "../../validator";
 import { clientIdInHeaderSchema } from "../organizations/schemas";
 import {
@@ -186,7 +187,7 @@ export const revokeAllTokensExceptCurrentController = [
 ];
 
 // TODO: should be dynamic (taking into account subscription type)
-const MAX_ALLOWED_TOKENS = 4;
+const MAX_ALLOWED_TOKENS = 3;
 
 export const getActiveTokensController = [
   validateSchema(clientIdInHeaderSchema),
@@ -202,7 +203,7 @@ export const getActiveTokensController = [
 
       response.status(HttpStatusCode.OK).json({
         data: {
-          tokens,
+          tokens: presentAuthTokenStatuses(tokens),
           should_revoke_tokens: shouldRevokeTokens,
           number_of_tokens_to_revoke: numberOfTokensToRevoke,
         },
