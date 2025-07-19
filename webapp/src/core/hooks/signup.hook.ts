@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 
 import { httpBackendRequest } from "../../infrastructure/rest/backend/api";
+import type { AuthTypeProvider } from "../entities/auth.entity";
 
 interface PropsSignUpBody {
   access_token: string;
@@ -11,6 +12,7 @@ interface PropsSignUpBody {
   last_name: string;
   terms: boolean;
   notifications: boolean;
+  auth_type: AuthTypeProvider;
 }
 
 export interface AuthSignUpResponse {

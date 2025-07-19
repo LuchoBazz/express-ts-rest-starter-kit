@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../../context/AuthContext";
 import useSignUp from "../../../hooks/signup.hook";
-import { AuthType } from "../../../entities/auth.entity";
+import { AuthType, AuthTypeProvider } from "../../../entities/auth.entity";
 import { getusernameFromEmail } from "../../../utils";
 import { useSignIn } from "../../../hooks/signin.hook";
 
@@ -43,6 +43,7 @@ export const GoogleButtom = ({ type }: Props) => {
         last_name: lastName,
         terms: true, // TODO: Add Placeholder for Dynamically Setting a Variable
         notifications: false, // TODO: Add Placeholder for Dynamically Setting a Variable
+        auth_type: AuthTypeProvider.GOOGLE_AUTH,
       });
 
       token = signUpResponse?.data?.token ?? null;

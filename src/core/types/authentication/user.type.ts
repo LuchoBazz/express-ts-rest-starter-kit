@@ -1,3 +1,5 @@
+import { AuthType } from "../../entities/users/a_standard_user.entity";
+
 export interface SignUpUser {
   username: string;
   firstName: string;
@@ -6,4 +8,5 @@ export interface SignUpUser {
   terms: boolean;
   notifications: boolean;
   clientId: string;
+  authType: AuthType;
 }

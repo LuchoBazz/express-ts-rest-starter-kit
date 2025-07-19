@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../core/context/AuthContext";
-import { AuthType } from "../../core/entities/auth.entity";
+import { AuthType, AuthTypeProvider } from "../../core/entities/auth.entity";
 import { GoogleButtom } from "../../core/pages/authentication/providers/google";
 import useSignUp from "../../core/hooks/signup.hook";
 import { getusernameFromEmail } from "../../core/utils";
@@ -42,6 +42,7 @@ const SignUp = () => {
       last_name: lastName,
       terms: true, // TODO: Add Placeholder for Dynamically Setting a Variable
       notifications: false, // TODO: Add Placeholder for Dynamically Setting a Variable
+      auth_type: AuthTypeProvider.EMAIL_AND_PASSWORD,
     });
 
     const token = signUpResponse?.data?.token ?? null;

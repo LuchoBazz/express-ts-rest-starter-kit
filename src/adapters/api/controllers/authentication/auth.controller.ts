@@ -22,6 +22,7 @@ import { presentAuthTokenStatuses } from "../../../presenters/users/auth_token_s
 import { validateSchema } from "../../validator";
 import { clientIdInHeaderSchema } from "../organizations/schemas";
 import {
+  authTypeSchema,
   deleteAuthUserSchema,
   refreshAuthTokenSchema,
   signInSchema,
@@ -50,6 +51,7 @@ export const signInController = [
 export const signUpController = [
   validateSchema(clientIdInHeaderSchema),
   validateSchema(signUpSchema),
+  validateSchema(authTypeSchema),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const clientId = getClientIdFromHeaders(request.headers);
@@ -62,6 +64,7 @@ export const signUpController = [
         email,
         terms,
         notifications,
+        auth_type: authType,
       } = request.body;
 
       const data: SignUpUser = {
@@ -72,6 +75,7 @@ export const signUpController = [
         terms,
         notifications,
         clientId,
+        authType,
       };
 
       const token = await signUpInteractor(clientId, accessToken as string, data, networkMetadata);

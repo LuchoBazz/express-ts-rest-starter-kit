@@ -4,7 +4,7 @@ import moment from "moment";
 import { ErrorMessage } from "../../../adapters/api/errors/errors.enum";
 import { UnauthorizedError } from "../../../adapters/api/errors/unauthorized.error";
 import { onSession } from "../../../infrastructure/database/prisma";
-import { AuthType, StandardUserEntity } from "../../entities/users/a_standard_user.entity";
+import { StandardUserEntity } from "../../entities/users/a_standard_user.entity";
 import { AuthTokenStatusEntity } from "../../entities/users/auth_token_statuses.entity";
 import { JwtUserPayload } from "../../entities/users/jwt_user.entity";
 import { BaseUserEntity } from "../../entities/users/user_base.entity";
@@ -85,7 +85,7 @@ export const signUpInteractor = async (
         true,
         authUser.authId,
         authProviderLabel,
-        AuthType.EMAIL_AND_PASSWORD,
+        data.authType,
         clientId,
       ),
     );

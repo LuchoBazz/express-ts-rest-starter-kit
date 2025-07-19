@@ -1,5 +1,29 @@
 import { checkSchema } from "express-validator";
 
+import { AuthType } from "../../../../core/entities/users/a_standard_user.entity";
+
+export const authTypeSchema = checkSchema({
+  auth_type: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing auth_type.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "auth_type can not be null.",
+      bail: true,
+    },
+    isIn: {
+      options: [Object.values(AuthType)],
+      errorMessage: `auth_type must be one of: ${Object.values(AuthType).join(", ")}.`,
+    },
+  },
+});
+
 export const signInSchema = checkSchema({
   access_token: {
     in: ["body"],
