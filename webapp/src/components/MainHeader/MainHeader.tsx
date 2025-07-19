@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
 
 import { removeAuthStorage } from "../../core/utils";
+import useLogOut from "../../core/hooks/logout.hook";
 
 // Reference: https://tailwindflex.com/@ameth1208/sidebar-3
 const MainHeader = () => {
   const navigate = useNavigate();
+  const { logOut } = useLogOut();
 
-  const LogOutHandler = () => {
+  const LogOutHandler = async () => {
+    await logOut();
     removeAuthStorage();
     navigate("/log-in");
   };

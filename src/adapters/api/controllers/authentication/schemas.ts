@@ -148,7 +148,7 @@ export const deleteAuthUserSchema = checkSchema({
 });
 
 export const userAuthorizationInSchema = checkSchema({
-  Authorization: {
+  authorization: {
     in: ["headers"],
     isEmpty: {
       options: { ignore_whitespace: true },
