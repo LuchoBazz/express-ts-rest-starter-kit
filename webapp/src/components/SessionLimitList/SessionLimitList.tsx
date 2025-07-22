@@ -4,6 +4,7 @@ import SessionLimitCard from "../SessionLimitCard/SessionLimitCard";
 import type { AuthTokenStatusResponse } from "../../core/entities/auth_token_statuses.entity";
 import useRevokeAllTokens from "../../core/hooks/revoke-all-tokens.hook";
 import useRevokeAllTokensExceptCurrent from "../../core/hooks/revoke-all-tokens-except-current.hook";
+import { reloadWindow } from "../../core/utils";
 
 // Reference: https://tailwindflex.com/@livia-flores/contact-information-section
 
@@ -17,11 +18,15 @@ const SessionLimitList = () => {
   const handleSignOutAll = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     await revokeAllTokens();
+
+    reloadWindow();
   };
 
   const handleSignOutOthers = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     await revokeAllTokensExceptCurrent();
+
+    reloadWindow();
   };
 
   const authTokenStatusesHandle = async (): Promise<void> => {

@@ -1,6 +1,6 @@
 import type { AuthTokenStatusResponse } from "../../core/entities/auth_token_statuses.entity";
 import useRevokeTokenById from "../../core/hooks/revoke-token-by-id.hook";
-import { formatDate } from "../../core/utils";
+import { formatDate, reloadWindow } from "../../core/utils";
 
 const SessionLimitCard = (params: AuthTokenStatusResponse) => {
   const { revokeTokenById } = useRevokeTokenById();
@@ -9,7 +9,7 @@ const SessionLimitCard = (params: AuthTokenStatusResponse) => {
     const id = e.currentTarget.id;
     const success = await revokeTokenById(id);
     if (success) {
-      window.location.reload();
+      reloadWindow();
     }
   };
 
