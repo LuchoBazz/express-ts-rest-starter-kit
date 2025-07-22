@@ -13,7 +13,8 @@ const ProtectedSessionLimit: React.FC<ProtectedRouteProps> = ({ element }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const response = await getAuthTokenStatuses();
-      setIsAllowed(response?.should_revoke_tokens ?? false);
+      const shouldRevokeTokens = response?.should_revoke_tokens ?? false;
+      setIsAllowed(!shouldRevokeTokens);
     };
 
     checkAuth();
@@ -23,7 +24,10 @@ const ProtectedSessionLimit: React.FC<ProtectedRouteProps> = ({ element }) => {
     return <div>Loading...</div>;
   }
 
-  return isAllowed ? element : <Navigate to="/log-in" />;
+  if (!isAllowed) {
+    return <Navigate to="/session-limit" replace />;
+  }
+  return element;
 };
 
 export default ProtectedSessionLimit;
