@@ -2,22 +2,26 @@ import { useEffect, useState } from "react";
 import useGetAuthTokenStatuses from "../../core/hooks/auth-token-statuses.hook";
 import SessionLimitCard from "../SessionLimitCard/SessionLimitCard";
 import type { AuthTokenStatusResponse } from "../../core/entities/auth_token_statuses.entity";
+import useRevokeAllTokens from "../../core/hooks/revoke-all-tokens.hook";
+import useRevokeAllTokensExceptCurrent from "../../core/hooks/revoke-all-tokens-except-current.hook";
 
 // Reference: https://tailwindflex.com/@livia-flores/contact-information-section
 
 const SessionLimitList = () => {
   const { getAuthTokenStatuses } = useGetAuthTokenStatuses();
+  const { revokeAllTokens } = useRevokeAllTokens();
+  const { revokeAllTokensExceptCurrent } = useRevokeAllTokensExceptCurrent();
 
   const [atss, setAts] = useState<AuthTokenStatusResponse[]>([]);
 
-  const handleSignOutAll = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleSignOutAll = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    console.log("Signing out from all sessions...");
+    await revokeAllTokens();
   };
 
-  const handleSignOutOthers = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleSignOutOthers = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    console.log("Signing out from all other sessions...");
+    await revokeAllTokensExceptCurrent();
   };
 
   const authTokenStatusesHandle = async (): Promise<void> => {
