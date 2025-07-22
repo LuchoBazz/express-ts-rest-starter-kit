@@ -30,3 +30,7 @@ export const formatDate = (date: Date): string => {
 
   return `${date.getFullYear()} ${months[date.getMonth()]} ${pad(date.getDate())}, ${pad(hours)}:${pad(date.getMinutes())} ${ampm}`;
 };
+
+export const reloadWindow = (): void => {
+  window.location.reload();
+};
