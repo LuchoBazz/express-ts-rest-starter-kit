@@ -68,7 +68,7 @@ const MainHeader = () => {
               </div>
               <a
                 className="flex flex-row items-center  justify-center lg:justify-start rounded-md h-12 focus:outline-none pr-3.5  lg:pr-6 font-semibold text-gray-500 hover:text-primary-400 cursor-pointer "
-                href="/app"
+                href="/home"
               >
                 <span className="inline-flex justify-center items-center ml-3.5">
                   <svg xmlns="http://www.w3.org/2000/svg" width="1.25rem" height="1.25rem" viewBox="0 0 24 24">
@@ -83,7 +83,7 @@ const MainHeader = () => {
                     ></path>
                   </svg>
                 </span>
-                <span className="ml-0 lg:ml-2 text-sm tracking-wide truncate capitalize hidden lg:block">App</span>
+                <span className="ml-0 lg:ml-2 text-sm tracking-wide truncate capitalize hidden lg:block">Home</span>
               </a>
               <a
                 className="flex flex-row items-center  justify-center lg:justify-start rounded-md h-12 focus:outline-none pr-3.5  lg:pr-6 font-semibold text-gray-500 hover:text-primary-400 cursor-pointer "
