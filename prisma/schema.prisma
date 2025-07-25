@@ -195,11 +195,14 @@ model SubscriptionPlan {
   subscription_plan_variants               String[] @db.VarChar
   subscription_plan_slug                   String   @unique @db.VarChar(63)
   subscription_plan_price                  Float    @default(0.0)
+  subscription_plan_final_price            Float    @default(0.0)
+  subscription_plan_currency               String   @db.VarChar(5) // e.g., 'USD', 'EUR'
+  subscription_plan_currency_symbol        String   @db.VarChar(5) // e.g., '$', '€'
   subscription_plan_href                   String?  @db.VarChar(255)
   subscription_plan_billing_cycle          String   @unique @db.VarChar(63) // 'monthly', 'yearly'
   subscription_plan_description            String   @db.VarChar(255)
   subscription_plan_node_quota             Int      @default(100)
-  subscription_plan_features               Json     @default("[]")
+  subscription_plan_features               Json     @default("{}")
   subscription_plan_most_popular           Boolean  @default(false)
   subscription_plan_tier                   Int      @default(0)
   subscription_plan_is_active              Boolean  @default(true)
