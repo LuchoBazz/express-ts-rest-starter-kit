@@ -61,6 +61,8 @@ export const PrismaSubscriptionPlanRepository: SubscriptionPlanRepository = {
           subscription_plan_variants: subscriptionPlan.getVariants(),
           subscription_plan_slug: subscriptionPlan.getSlug(),
           subscription_plan_price: subscriptionPlan.getPrice(),
+          subscription_plan_currency: subscriptionPlan.getCurrency(),
+          subscription_plan_currency_symbol: subscriptionPlan.getCurrencySymbol(),
           subscription_plan_href: subscriptionPlan.getHref(),
           subscription_plan_billing_cycle: subscriptionPlan.getBillingCycle(),
           subscription_plan_description: subscriptionPlan.getDescription(),

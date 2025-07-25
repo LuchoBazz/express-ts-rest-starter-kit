@@ -250,6 +250,49 @@ export const createSubscriptionPlanSchema = checkSchema({
     },
     toFloat: true,
   },
+  final_price: {
+    in: ["body"],
+    isFloat: {
+      errorMessage: "final_price is not a valid number.",
+    },
+    toFloat: true,
+  },
+  currency: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing currency.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "currency cannot be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "currency is not a string.",
+    },
+  },
+  currency_symbol: {
+    in: ["body"],
+    isEmpty: {
+      options: { ignore_whitespace: true },
+      negated: true,
+      errorMessage: "Missing currency_symbol.",
+    },
+    exists: {
+      options: {
+        checkFalsy: true,
+      },
+      errorMessage: "currency_symbol cannot be null.",
+      bail: true,
+    },
+    isString: {
+      errorMessage: "currency_symbol is not a string.",
+    },
+  },
   billing_cycle: {
     in: ["body"],
     isEmpty: {

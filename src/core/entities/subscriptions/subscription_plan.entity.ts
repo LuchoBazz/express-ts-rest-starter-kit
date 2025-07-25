@@ -7,6 +7,9 @@ export interface SubscriptionPlanPrisma {
   subscription_plan_variants: string[];
   subscription_plan_slug: string;
   subscription_plan_price: number;
+  subscription_plan_final_price: number;
+  subscription_plan_currency: string;
+  subscription_plan_currency_symbol: string;
   subscription_plan_href: string | null;
   subscription_plan_billing_cycle: string;
   subscription_plan_description: string;
@@ -27,6 +30,9 @@ export interface SubscriptionPlanResponse {
   variants: string[];
   slug: string;
   price: number;
+  final_price: number;
+  currency: string;
+  currency_symbol: string;
   href: string | null;
   billing_cycle: string;
   description: string;
@@ -46,6 +52,9 @@ export class SubscriptionPlanEntity extends Entity {
   protected variants: string[];
   protected slug: string;
   protected price: number;
+  protected finalPrice: number;
+  protected currency: string;
+  protected currencySymbol: string;
   protected href: string | null;
   protected billingCycle: string;
   protected description: string;
@@ -64,6 +73,9 @@ export class SubscriptionPlanEntity extends Entity {
     variants: string[],
     slug: string,
     price: number,
+    finalPrice: number,
+    currency: string,
+    currencySymbol: string,
     href: string | null,
     billingCycle: string,
     description: string,
@@ -82,6 +94,9 @@ export class SubscriptionPlanEntity extends Entity {
     this.variants = variants;
     this.slug = slug;
     this.price = price;
+    this.finalPrice = finalPrice;
+    this.currency = currency;
+    this.currencySymbol = currencySymbol;
     this.href = href;
     this.billingCycle = billingCycle;
     this.description = description;
@@ -102,6 +117,9 @@ export class SubscriptionPlanEntity extends Entity {
       payload.subscription_plan_variants,
       payload.subscription_plan_slug,
       payload.subscription_plan_price,
+      payload.subscription_plan_final_price,
+      payload.subscription_plan_currency,
+      payload.subscription_plan_currency_symbol,
       payload.subscription_plan_href,
       payload.subscription_plan_billing_cycle,
       payload.subscription_plan_description,
@@ -156,6 +174,30 @@ export class SubscriptionPlanEntity extends Entity {
 
   public setPrice(price: number): void {
     this.price = price;
+  }
+
+  public getFinalPrice(): number {
+    return this.finalPrice;
+  }
+
+  public setFinalPrice(finalPrice: number): void {
+    this.finalPrice = finalPrice;
+  }
+
+  public getCurrency(): string {
+    return this.currency;
+  }
+
+  public setCurrency(currency: string): void {
+    this.currency = currency;
+  }
+
+  public getCurrencySymbol(): string {
+    return this.currencySymbol;
+  }
+
+  public setCurrencySymbol(symbol: string): void {
+    this.currencySymbol = symbol;
   }
 
   public getHref(): string | null {
