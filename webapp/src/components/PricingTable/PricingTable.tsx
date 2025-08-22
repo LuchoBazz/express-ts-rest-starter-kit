@@ -46,6 +46,10 @@ const PricingTable = () => {
                     <h1 className="font-semibold text-[clamp(20px,2.5vw,27px)]">{subscriptionPlan.name}</h1>
                     <p className="text-gray-500 text-[clamp(12px,2.5vw,15px)]">{subscriptionPlan.description}</p>
                   </div>
+                  <span className="bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-700 ...">
+                    {subscriptionPlan.billing_cycle}
+                  </span>
+
                   <ul className="space-y-2.5">
                     {subscriptionPlan.features.offerings.included.map((item: OfferingItemBackend) => {
                       return (

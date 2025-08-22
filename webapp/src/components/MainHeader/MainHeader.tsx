@@ -134,9 +134,9 @@ const MainHeader = () => {
               </a>
               <a
                 className="flex flex-row items-center  justify-center lg:justify-start rounded-md h-12 focus:outline-none pr-3.5  lg:pr-6 font-semibold bg-primary-50 shadow-sm text-primary-400 font-bold "
-                href="/app/projects"
+                href="/pricing"
               >
-                {/* <span className="inline-flex justify-center items-center ml-3.5">
+                <span className="inline-flex justify-center items-center ml-3.5">
                   <svg xmlns="http://www.w3.org/2000/svg" width="1.25rem" height="1.25rem" viewBox="0 0 24 24">
                     <path
                       fill="currentColor"
@@ -154,8 +154,8 @@ const MainHeader = () => {
                       d="M5.5 13a1 1 0 1 0 0-2a1 1 0 0 0 0 2M12 4.5a1 1 0 1 1 0 2a1 1 0 0 1 0-2m1 14a1 1 0 1 0-2 0a1 1 0 0 0 2 0m5.5-5.5a1 1 0 1 0 0-2a1 1 0 0 0 0 2"
                     ></path>
                   </svg>
-                </span> */}
-                <span className="ml-0 lg:ml-2 text-sm tracking-wide truncate capitalize hidden lg:block">projects</span>
+                </span>
+                <span className="ml-0 lg:ml-2 text-sm tracking-wide truncate capitalize hidden lg:block">pricing</span>
               </a>
             </div>
             <div className="flex flex-col  space-y-1 mx-1 lg:mt-1 ">
