@@ -21,7 +21,7 @@ const PricingTable = () => {
   console.log(JSON.stringify(subscriptionPlans));
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen m-[55px]">
       <div className="flex">
         {subscriptionPlans.map((subscriptionPlan: SubscriptionPlanBackend) => {
           return (
@@ -60,7 +60,7 @@ const PricingTable = () => {
                   </ul>
 
                   {subscriptionPlan.features.offerings.not_included.length > 0 ? (
-                    <div className="bg-orange-500 text-white rounded-full flex items-center justify-center py-1 px-4 w-min text-sm font-medium">
+                    <div className="bg-gray-500 text-white rounded-full flex items-center justify-center py-1 px-4 w-min text-sm font-medium">
                       Without
                     </div>
                   ) : (
@@ -70,7 +70,7 @@ const PricingTable = () => {
                   {subscriptionPlan.features.offerings.not_included.map((item: OfferingItemBackend) => {
                     return (
                       <div className="flex items-center gap-2.5">
-                        <div className="rounded-full w-[18px] h-[18px] bg-orange-500 flex items-center justify-center text-white text-xs font-bold">
+                        <div className="rounded-full w-[18px] h-[18px] bg-gray-500 flex items-center justify-center text-white text-xs font-bold">
                           ✖️
                         </div>
                         <span className="text-gray-600 text-base">{item.name}</span>
@@ -80,7 +80,7 @@ const PricingTable = () => {
                 </div>
               </div>
               <button className="mt-5 w-full py-3 bg-green-600 text-white text-lg font-medium rounded-full flex items-center justify-center gap-2 hover:bg-green-700 transition">
-                <span className="text-white">🛒</span> Purchase Now
+                <span className="text-white">{subscriptionPlan.features.call_to_action.emoji}</span> {subscriptionPlan.features.call_to_action.text}
               </button>
             </div>
           );
