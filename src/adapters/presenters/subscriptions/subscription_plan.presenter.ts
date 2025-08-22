@@ -16,7 +16,6 @@ export const presentFeatureSubscriptionPlan = (feature: any): FeatureSubscriptio
       not_included: notIncluded.map((item: OfferingItem) => ({ name: item.name || "" })),
     },
     call_to_action: {
-      url: callToAction?.url || "",
       text: callToAction?.text || "",
       emoji: callToAction?.emoji || "",
       color: callToAction?.color || "green",

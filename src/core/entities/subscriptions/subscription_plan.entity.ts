@@ -10,7 +10,6 @@ export interface Offerings {
 }
 
 export interface CallToAction {
-  url: string;
   text: string;
   emoji: string;
   color: string;
