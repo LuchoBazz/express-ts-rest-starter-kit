@@ -15,7 +15,7 @@ const { GUEST_MODE } = PermissionsValues;
 const subscriptionPlanRouter = Router();
 
 // Subscription Plan
-subscriptionPlanRouter.get("/", permissionChecker([GUEST_MODE]), findSubscriptionPlanByOrganizationController);
+subscriptionPlanRouter.get("/", findSubscriptionPlanByOrganizationController);
 subscriptionPlanRouter.get("/:slug", permissionChecker([GUEST_MODE]), findSubscriptionPlanController);
 subscriptionPlanRouter.post("/", permissionChecker([GUEST_MODE]), createSubscriptionPlanController);
 subscriptionPlanRouter.put("/:slug", permissionChecker([GUEST_MODE]), updateSubscriptionPlanController);
