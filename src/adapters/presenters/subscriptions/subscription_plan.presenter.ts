@@ -1,7 +1,26 @@
 import {
+  FeatureSubscriptionPlan,
   SubscriptionPlanEntity,
   SubscriptionPlanResponse,
 } from "../../../core/entities/subscriptions/subscription_plan.entity";
+
+export const presentFeatureSubscriptionPlan = (feature: any): FeatureSubscriptionPlan => {
+  const included = feature.offerings?.included || [];
+  const notIncluded = feature.offerings?.not_included || [];
+  const callToAction = feature.call_to_action;
+
+  return {
+    offerings: {
+      included: included.map((item: any) => ({ name: item.name || "" })),
+      not_included: notIncluded.map((item: any) => ({ name: item.name || "" })),
+    },
+    call_to_action: {
+      url: callToAction?.url || "",
+      text: callToAction?.text || "",
+      emoji: callToAction?.emoji || "",
+    },
+  };
+};
 
 export const presentSubscriptionPlan = (entity: SubscriptionPlanEntity): SubscriptionPlanResponse => {
   return {
@@ -18,7 +37,7 @@ export const presentSubscriptionPlan = (entity: SubscriptionPlanEntity): Subscri
     billing_cycle: entity.getBillingCycle(),
     description: entity.getDescription(),
     node_quota: entity.getNodeQuota(),
-    features: entity.getFeatures(),
+    features: presentFeatureSubscriptionPlan(entity.getFeatures()),
     most_popular: entity.getMostPopular(),
     tier: entity.getTier(),
     is_active: entity.getIsActive(),

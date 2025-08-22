@@ -1,5 +1,25 @@
 import { Entity } from "../entity";
 
+interface OfferingItem {
+  name: string;
+}
+
+interface Offerings {
+  included: OfferingItem[];
+  not_included: OfferingItem[];
+}
+
+interface CallToAction {
+  url: string;
+  text: string;
+  emoji: string;
+}
+
+export interface FeatureSubscriptionPlan {
+  offerings: Offerings;
+  call_to_action: CallToAction;
+}
+
 export interface SubscriptionPlanPrisma {
   subscription_plan_id: string;
   subscription_plan_name: string;
@@ -37,7 +57,7 @@ export interface SubscriptionPlanResponse {
   billing_cycle: string;
   description: string;
   node_quota: number;
-  features: any;
+  features: FeatureSubscriptionPlan;
   most_popular: boolean;
   tier: number;
   is_active: boolean;
