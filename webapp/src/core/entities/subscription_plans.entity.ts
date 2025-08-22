@@ -11,6 +11,7 @@ export interface CallToActionBackend {
   url: string;
   text: string;
   emoji: string;
+  color: string;
 }
 
 export interface FeatureSubscriptionPlan {

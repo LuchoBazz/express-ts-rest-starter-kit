@@ -17,7 +17,9 @@ export const findSubscriptionPlanByOrganizationInteractor = async (
   const subscriptionPlansFound = await onSession(async (client: PrismaClient) => {
     return subscriptionPlanRepository.find(client, clientId);
   });
-  subscriptionPlansFound.sort((left: SubscriptionPlanEntity, right: SubscriptionPlanEntity) => left.getTier() - right.getTier());
+  subscriptionPlansFound.sort(
+    (left: SubscriptionPlanEntity, right: SubscriptionPlanEntity) => left.getTier() - right.getTier(),
+  );
 
   return subscriptionPlansFound;
 };

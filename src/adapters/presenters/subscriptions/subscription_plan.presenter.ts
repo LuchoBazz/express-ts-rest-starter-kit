@@ -19,6 +19,7 @@ export const presentFeatureSubscriptionPlan = (feature: any): FeatureSubscriptio
       url: callToAction?.url || "",
       text: callToAction?.text || "",
       emoji: callToAction?.emoji || "",
+      color: callToAction?.color || "green",
     },
   };
 };

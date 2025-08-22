@@ -13,6 +13,7 @@ export interface CallToAction {
   url: string;
   text: string;
   emoji: string;
+  color: string;
 }
 
 export interface FeatureSubscriptionPlan {

@@ -67,20 +67,26 @@ const PricingTable = () => {
                     <></>
                   )}
 
-                  {subscriptionPlan.features.offerings.not_included.map((item: OfferingItemBackend) => {
-                    return (
-                      <div className="flex items-center gap-2.5">
-                        <div className="rounded-full w-[18px] h-[18px] bg-gray-500 flex items-center justify-center text-white text-xs font-bold">
-                          ✖️
-                        </div>
-                        <span className="text-gray-600 text-base">{item.name}</span>
-                      </div>
-                    );
-                  })}
+                  <ul className="space-y-2.5">
+                    {subscriptionPlan.features.offerings.not_included.map((item: OfferingItemBackend) => {
+                      return (
+                        <li className="flex items-center gap-2.5">
+                          <div className="rounded-full w-[18px] h-[18px] bg-gray-500 flex items-center justify-center text-white text-xs font-bold">
+                            ✖️
+                          </div>
+                          <span className="text-gray-600 text-base">{item.name}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               </div>
-              <button className="mt-5 w-full py-3 bg-green-600 text-white text-lg font-medium rounded-full flex items-center justify-center gap-2 hover:bg-green-700 transition">
-                <span className="text-white">{subscriptionPlan.features.call_to_action.emoji}</span> {subscriptionPlan.features.call_to_action.text}
+              <button
+                onClick={() => (window.location.href = subscriptionPlan.href || "#")}
+                className={`mt-5 w-full py-3 bg-${subscriptionPlan.features.call_to_action.color}-600 text-white text-lg font-medium rounded-full flex items-center justify-center gap-2 hover:bg-${subscriptionPlan.features.call_to_action.color}-700 transition`}
+              >
+                <span className="text-white">{subscriptionPlan.features.call_to_action.emoji}</span>{" "}
+                {subscriptionPlan.features.call_to_action.text}
               </button>
             </div>
           );
