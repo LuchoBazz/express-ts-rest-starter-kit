@@ -1,15 +1,15 @@
 import { Entity } from "../entity";
 
-interface OfferingItem {
+export interface OfferingItem {
   name: string;
 }
 
-interface Offerings {
+export interface Offerings {
   included: OfferingItem[];
   not_included: OfferingItem[];
 }
 
-interface CallToAction {
+export interface CallToAction {
   url: string;
   text: string;
   emoji: string;

@@ -1,5 +1,6 @@
 import {
   FeatureSubscriptionPlan,
+  OfferingItem,
   SubscriptionPlanEntity,
   SubscriptionPlanResponse,
 } from "../../../core/entities/subscriptions/subscription_plan.entity";
@@ -11,8 +12,8 @@ export const presentFeatureSubscriptionPlan = (feature: any): FeatureSubscriptio
 
   return {
     offerings: {
-      included: included.map((item: any) => ({ name: item.name || "" })),
-      not_included: notIncluded.map((item: any) => ({ name: item.name || "" })),
+      included: included.map((item: OfferingItem) => ({ name: item.name || "" })),
+      not_included: notIncluded.map((item: OfferingItem) => ({ name: item.name || "" })),
     },
     call_to_action: {
       url: callToAction?.url || "",
