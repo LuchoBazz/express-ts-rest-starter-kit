@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useGetAuthTokenStatuses from "../../core/hooks/auth-token-statuses.hook";
 import SessionLimitCard from "../SessionLimitCard/SessionLimitCard";
-import type { AuthTokenStatusResponse } from "../../core/entities/auth_token_statuses.entity";
+import type { AuthTokenStatusBackend } from "../../core/entities/auth_token_statuses.entity";
 import useRevokeAllTokens from "../../core/hooks/revoke-all-tokens.hook";
 import useRevokeAllTokensExceptCurrent from "../../core/hooks/revoke-all-tokens-except-current.hook";
 import { reloadWindow } from "../../core/utils";
@@ -13,7 +13,7 @@ const SessionLimitList = () => {
   const { revokeAllTokens } = useRevokeAllTokens();
   const { revokeAllTokensExceptCurrent } = useRevokeAllTokensExceptCurrent();
 
-  const [atss, setAts] = useState<AuthTokenStatusResponse[]>([]);
+  const [atss, setAts] = useState<AuthTokenStatusBackend[]>([]);
 
   const handleSignOutAll = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

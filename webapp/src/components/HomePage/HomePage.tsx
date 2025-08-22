@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import useUserLoggedIn from "../../core/hooks/user-loggued-in.hook";
 import { removeAuthStorage } from "../../core/utils";
-import type { StandardUser } from "../../core/entities/standard_user.entity";
+import type { StandardUserBackend } from "../../core/entities/standard_user.entity";
 import MainHeader from "../MainHeader/MainHeader";
 
 const HomePage = () => {
   const { fetchUser, error } = useUserLoggedIn();
-  const [user, setUser] = useState<StandardUser | null>(null);
+  const [user, setUser] = useState<StandardUserBackend | null>(null);
   const [hasUserBeenValidated, setHasUserBeenValidated] = useState<boolean>(false);
   const token = localStorage.getItem("token");
 

@@ -1,4 +1,4 @@
-export interface AuthTokenStatusResponse {
+export interface AuthTokenStatusBackend {
   id: string;
   email: string;
   organization_client_id: string;

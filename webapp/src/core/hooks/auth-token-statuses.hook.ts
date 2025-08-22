@@ -2,10 +2,10 @@ import axios from "axios";
 import React from "react";
 
 import { httpBackendRequest } from "../../infrastructure/rest/backend/api";
-import type { AuthTokenStatusResponse } from "../entities/auth_token_statuses.entity";
+import type { AuthTokenStatusBackend } from "../entities/auth_token_statuses.entity";
 
 interface GetAuthTokenStatusesResponse {
-  tokens: AuthTokenStatusResponse[];
+  tokens: AuthTokenStatusBackend[];
   should_revoke_tokens: boolean;
   number_of_tokens_to_revoke: boolean;
 }

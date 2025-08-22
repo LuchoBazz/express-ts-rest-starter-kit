@@ -1,4 +1,4 @@
-export interface StandardUser {
+export interface StandardUserBackend {
   id: string;
   auth_id: string;
   auth_provider: string;

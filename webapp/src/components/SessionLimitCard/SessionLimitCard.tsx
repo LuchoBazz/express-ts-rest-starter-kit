@@ -1,8 +1,8 @@
-import type { AuthTokenStatusResponse } from "../../core/entities/auth_token_statuses.entity";
+import type { AuthTokenStatusBackend } from "../../core/entities/auth_token_statuses.entity";
 import useRevokeTokenById from "../../core/hooks/revoke-token-by-id.hook";
 import { formatDate, reloadWindow } from "../../core/utils";
 
-const SessionLimitCard = (params: AuthTokenStatusResponse) => {
+const SessionLimitCard = (params: AuthTokenStatusBackend) => {
   const { revokeTokenById } = useRevokeTokenById();
 
   const deletionHandle = async (e: React.MouseEvent<HTMLButtonElement>) => {

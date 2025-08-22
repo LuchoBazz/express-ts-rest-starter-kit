@@ -2,16 +2,16 @@ import axios from "axios";
 import React from "react";
 
 import { httpBackendRequest } from "../../infrastructure/rest/backend/api";
-import type { StandardUser } from "../entities/standard_user.entity";
+import type { StandardUserBackend } from "../entities/standard_user.entity";
 
 interface PropsCustomerLoggedInResponse {
   data: {
-    user: StandardUser;
+    user: StandardUserBackend;
   };
 }
 
 interface PropsToolsResponse {
-  fetchUser: (token: string) => Promise<StandardUser | null>;
+  fetchUser: (token: string) => Promise<StandardUserBackend | null>;
   loading: boolean;
   error?: Error;
 }
