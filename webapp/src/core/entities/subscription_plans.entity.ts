@@ -1,3 +1,22 @@
+export interface OfferingItemBackend {
+  name: string;
+}
+
+export interface OfferingsBackend {
+  included: OfferingItemBackend[];
+  not_included: OfferingItemBackend[];
+}
+
+export interface CallToActionBackend {
+  url: string;
+  text: string;
+  emoji: string;
+}
+
+export interface FeatureSubscriptionPlan {
+  offerings: OfferingsBackend;
+  call_to_action: CallToActionBackend;
+}
 export interface SubscriptionPlanBackend {
   id: string;
   name: string;
@@ -12,7 +31,7 @@ export interface SubscriptionPlanBackend {
   billing_cycle: string;
   description: string;
   node_quota: number;
-  features: any;
+  features: FeatureSubscriptionPlan;
   most_popular: boolean;
   tier: number;
   is_active: boolean;

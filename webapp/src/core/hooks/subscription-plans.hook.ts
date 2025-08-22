@@ -9,7 +9,7 @@ interface PropsSubscriptionPlansResponse {
 }
 
 interface PropsToolsResponse {
-  fetchSubscriptionPlan: (token: string) => Promise<SubscriptionPlanBackend[]>;
+  fetchSubscriptionPlan: () => Promise<SubscriptionPlanBackend[]>;
   loading: boolean;
   error?: Error;
 }
