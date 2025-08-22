@@ -85,33 +85,7 @@ const MainHeader = () => {
                 </span>
                 <span className="ml-0 lg:ml-2 text-sm tracking-wide truncate capitalize hidden lg:block">Home</span>
               </a>
-              <a
-                className="flex flex-row items-center  justify-center lg:justify-start rounded-md h-12 focus:outline-none pr-3.5  lg:pr-6 font-semibold text-gray-500 hover:text-primary-400 cursor-pointer "
-                href="/app/blogs"
-              >
-                <span className="inline-flex justify-center items-center ml-3.5">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="1.25rem"
-                    height="1.25rem"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <g opacity="0.50">
-                      <path
-                        d="M21 8H13C12.7348 8 12.4804 7.89464 12.2929 7.70711C12.1054 7.51957 12 7.26522 12 7C12 6.73478 12.1054 6.48043 12.2929 6.29289C12.4804 6.10536 12.7348 6 13 6H21C21.2652 6 21.5196 6.10536 21.7071 6.29289C21.8946 6.48043 22 6.73478 22 7C22 7.26522 21.8946 7.51957 21.7071 7.70711C21.5196 7.89464 21.2652 8 21 8ZM21 12H13C12.7348 12 12.4804 11.8946 12.2929 11.7071C12.1054 11.5196 12 11.2652 12 11C12 10.7348 12.1054 10.4804 12.2929 10.2929C12.4804 10.1054 12.7348 10 13 10H21C21.2652 10 21.5196 10.1054 21.7071 10.2929C21.8946 10.4804 22 10.7348 22 11C22 11.2652 21.8946 11.5196 21.7071 11.7071C21.5196 11.8946 21.2652 12 21 12Z"
-                        fill="currentColor"
-                      ></path>
-                      <path
-                        d="M21 16H3C2.73478 16 2.48043 15.8946 2.29289 15.7071C2.10536 15.5196 2 15.2652 2 15C2 14.7348 2.10536 14.4804 2.29289 14.2929C2.48043 14.1054 2.73478 14 3 14H21C21.2652 14 21.5196 14.1054 21.7071 14.2929C21.8946 14.4804 22 14.7348 22 15C22 15.2652 21.8946 15.5196 21.7071 15.7071C21.5196 15.8946 21.2652 16 21 16ZM13 20H3C2.73478 20 2.48043 19.8946 2.29289 19.7071C2.10536 19.5196 2 19.2652 2 19C2 18.7348 2.10536 18.4804 2.29289 18.2929C2.48043 18.1054 2.73478 18 3 18H13C13.2652 18 13.5196 18.1054 13.7071 18.2929C13.8946 18.4804 14 18.7348 14 19C14 19.2652 13.8946 19.5196 13.7071 19.7071C13.5196 19.8946 13.2652 20 13 20Z"
-                        fill="currentColor"
-                      ></path>
-                    </g>
-                    <rect x="2" y="4" width="8" height="8" rx="2" fill="currentColor"></rect>
-                  </svg>
-                </span>
-                <span className="ml-0 lg:ml-2 text-sm tracking-wide truncate capitalize hidden lg:block">Blogs</span>
-              </a>
+
               <a
                 className="flex flex-row items-center  justify-center lg:justify-start rounded-md h-12 focus:outline-none pr-3.5  lg:pr-6 font-semibold text-gray-500 hover:text-primary-400 cursor-pointer "
                 href="/app/clients"
@@ -132,6 +106,7 @@ const MainHeader = () => {
                 </span>
                 <span className="ml-0 lg:ml-2 text-sm tracking-wide truncate capitalize hidden lg:block">Mail</span>
               </a>
+
               <a
                 className="flex flex-row items-center  justify-center lg:justify-start rounded-md h-12 focus:outline-none pr-3.5  lg:pr-6 font-semibold bg-primary-50 shadow-sm text-primary-400 font-bold "
                 href="/pricing"
@@ -156,6 +131,34 @@ const MainHeader = () => {
                   </svg>
                 </span>
                 <span className="ml-0 lg:ml-2 text-sm tracking-wide truncate capitalize hidden lg:block">pricing</span>
+              </a>
+
+              <a
+                className="flex flex-row items-center  justify-center lg:justify-start rounded-md h-12 focus:outline-none pr-3.5  lg:pr-6 font-semibold text-gray-500 hover:text-primary-400 cursor-pointer "
+                href="/session"
+              >
+                <span className="inline-flex justify-center items-center ml-3.5">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1.25rem"
+                    height="1.25rem"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <g opacity="0.50">
+                      <path
+                        d="M21 8H13C12.7348 8 12.4804 7.89464 12.2929 7.70711C12.1054 7.51957 12 7.26522 12 7C12 6.73478 12.1054 6.48043 12.2929 6.29289C12.4804 6.10536 12.7348 6 13 6H21C21.2652 6 21.5196 6.10536 21.7071 6.29289C21.8946 6.48043 22 6.73478 22 7C22 7.26522 21.8946 7.51957 21.7071 7.70711C21.5196 7.89464 21.2652 8 21 8ZM21 12H13C12.7348 12 12.4804 11.8946 12.2929 11.7071C12.1054 11.5196 12 11.2652 12 11C12 10.7348 12.1054 10.4804 12.2929 10.2929C12.4804 10.1054 12.7348 10 13 10H21C21.2652 10 21.5196 10.1054 21.7071 10.2929C21.8946 10.4804 22 10.7348 22 11C22 11.2652 21.8946 11.5196 21.7071 11.7071C21.5196 11.8946 21.2652 12 21 12Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M21 16H3C2.73478 16 2.48043 15.8946 2.29289 15.7071C2.10536 15.5196 2 15.2652 2 15C2 14.7348 2.10536 14.4804 2.29289 14.2929C2.48043 14.1054 2.73478 14 3 14H21C21.2652 14 21.5196 14.1054 21.7071 14.2929C21.8946 14.4804 22 14.7348 22 15C22 15.2652 21.8946 15.5196 21.7071 15.7071C21.5196 15.8946 21.2652 16 21 16ZM13 20H3C2.73478 20 2.48043 19.8946 2.29289 19.7071C2.10536 19.5196 2 19.2652 2 19C2 18.7348 2.10536 18.4804 2.29289 18.2929C2.48043 18.1054 2.73478 18 3 18H13C13.2652 18 13.5196 18.1054 13.7071 18.2929C13.8946 18.4804 14 18.7348 14 19C14 19.2652 13.8946 19.5196 13.7071 19.7071C13.5196 19.8946 13.2652 20 13 20Z"
+                        fill="currentColor"
+                      ></path>
+                    </g>
+                    <rect x="2" y="4" width="8" height="8" rx="2" fill="currentColor"></rect>
+                  </svg>
+                </span>
+                <span className="ml-0 lg:ml-2 text-sm tracking-wide truncate capitalize hidden lg:block">Sessions</span>
               </a>
             </div>
             <div className="flex flex-col  space-y-1 mx-1 lg:mt-1 ">

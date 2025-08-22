@@ -5,6 +5,7 @@ import MainHeader from "../../../../components/MainHeader/MainHeader";
 import useUpdateUser from "../../../hooks/update-user.hook";
 import useUserLoggedIn from "../../../hooks/user-loggued-in.hook";
 import useRefreshToken from "../../../hooks/refresh-token.hook";
+import SessionLimitList from "../../../../components/SessionLimitList/SessionLimitList";
 
 // Refence: https://tailwindcss.com/plus/ui-blocks/application-ui/forms/form-layouts
 
@@ -352,6 +353,7 @@ const SettingsPage = () => {
             </button>
           </div>
         </div>
+        <SessionLimitList />
       </div>
     </div>
   );

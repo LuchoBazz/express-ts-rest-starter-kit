@@ -8,6 +8,7 @@ import SignUpPage from "./core/pages/authentication/sign-up/signUp";
 import SignInPage from "./core/pages/authentication/sign-in/signIn";
 import SettingsPage from "./core/pages/users/settings/settingsPage";
 import ProtectedSessionLimit from "./components/ProtectedRoute/ProtectedSessionLimit";
+import SessionManagerPage from "./core/pages/users/sessions/SessionManagerPage";
 
 const App: React.FC = () => (
   <Routes>
@@ -15,7 +16,8 @@ const App: React.FC = () => (
     <Route path="/log-in" element={<SignInPage />} />
     <Route path="/home" element={<ProtectedSessionLimit element={<HomePage />} />} />
     <Route path="/session-limit" element={<SessionLimitList />} />
-    <Route path="/pricing" element={<PricingTable />} />
+    <Route path="/session" element={<ProtectedSessionLimit element={<SessionManagerPage />} />} />
+    <Route path="/pricing" element={<ProtectedSessionLimit element={<PricingTable />} />} />
     <Route path="/settings" element={<ProtectedSessionLimit element={<SettingsPage />} />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
