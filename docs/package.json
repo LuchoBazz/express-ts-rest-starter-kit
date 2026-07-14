@@ -27,6 +27,7 @@
     "@docusaurus/module-type-aliases": "3.5.2",
     "@docusaurus/tsconfig": "3.5.2",
     "@docusaurus/types": "3.5.2",
+    "@easyops-cn/docusaurus-search-local": "^0.44.4",
     "typescript": "~5.5.2"
   },
   "browserslist": {
@@ -42,6 +43,14 @@
     ]
   },
   "engines": {
-    "node": ">=18.0"
+    "bun": ">=1.0.0"
+  },
+  "trustedDependencies": [
+    "@swc/core",
+    "core-js",
+    "core-js-pure"
+  ],
+  "overrides": {
+    "webpackbar": "7.0.0"
   }
 }
